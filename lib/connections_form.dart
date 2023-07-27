@@ -78,7 +78,7 @@ class ConnectionsFormState extends State<ConnectionsForm> {
     }
     _formKey.currentState!.save();
     TransportApi api = const TransportApi();
-    Future<Connections> connections = api.connections(from: from!, to: to!);
+    Future<Connections> connections = api.connections(from: from!, to: to!, limit: 10);
 
     Navigator.of(context)
         .pushNamed(Routes.connections.string, arguments: connections);

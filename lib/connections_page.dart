@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sbb/connection_sneak_peek.dart';
 import 'package:sbb/custom_page.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
@@ -27,7 +28,7 @@ class ConnectionsPage extends StatelessWidget {
     return ListView(
       children: [
         for (Connection connection in connections.connections!)
-          Text(connection.toString())
+          ConnectionSneakPeek(connection: connection)
       ],
     );
   }
