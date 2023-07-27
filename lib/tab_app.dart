@@ -19,26 +19,26 @@ class TabApp extends StatelessWidget {
           ),
         ),
         body:
-       // Navigator(
-       //   onGenerateRoute: (settings) {
-       //     late Widget page;
-       //     for (Routes route in Routes.values) {
-       //       if (settings.name == route.string) {
-       //         page = route.page;
-       //       }
-       //     }
-       //
-       //     return MaterialPageRoute<dynamic>(
-       //       builder: (context) {
-       //         return page;
-       //       },
-       //       settings: settings,
-       //     );
-       //   },
-       // ),
-        TabBarView(
-         children: tabs
+        Navigator(
+          onGenerateRoute: (settings) {
+            late Widget page;
+            for (Routes route in Routes.values) {
+              if (settings.name == route.string) {
+                page = route.page;
+              }
+            }
+
+            return MaterialPageRoute<dynamic>(
+              builder: (context) {
+                return page;
+              },
+              settings: settings,
+            );
+          },
         ),
+        //TabBarView(
+        // children: tabs
+        //),
       ),
     );
   }

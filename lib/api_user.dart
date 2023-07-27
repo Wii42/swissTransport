@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ApiUser<T extends Object> extends StatefulWidget {
-  final Future<T> apiCall;
+  final Future<T> Function() apiCall;
   final Widget Function(T data) displayResponse;
   const ApiUser(
       {super.key, required this.apiCall, required this.displayResponse});
@@ -16,7 +16,7 @@ class _ApiUserState<T extends Object> extends State<ApiUser<T>> {
   Widget build(BuildContext context) {
     if (response == null) {
       return FutureBuilder<T>(
-        future: widget.apiCall,
+        future: widget.apiCall(),
         builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
           if (snapshot.hasData) {
             response = snapshot.data as T;

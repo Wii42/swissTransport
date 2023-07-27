@@ -17,7 +17,7 @@ class DepartureTable extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: ApiUser<StationBoard>(
-          apiCall: api.stationBoard(station: station, limit: 5),
+          apiCall: () => api.stationBoard(station: station, limit: 5),
           displayResponse: (board) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

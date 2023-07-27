@@ -90,14 +90,19 @@ class MyCustomFormState extends State<MyCustomForm> {
                     // Validate returns true if the form is valid, or false otherwise.
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      TransportApi api =  const TransportApi();
-                      //Future<Connections> connections = api.connections(from: from!, to: to!);
+                      TransportApi api = const TransportApi();
+                      Future<Connections> connections =
+                          api.connections(from: from!, to: to!);
 
-                      //Navigator.of(context).push(
-                       // MaterialPageRoute(
-                       //   builder: (context) => ApiUser<Connections>(apiCall: connections,displayResponse: (connections) => Text(connections.toString()),),
-                       // ),
-                      //);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ApiUser<Connections>(
+                            apiCall: () => connections,
+                            displayResponse: (connections) =>
+                                Text(connections.toString()),
+                          ),
+                        ),
+                      );
 
                       // If the form is valid, display a snackbar. In the real world,
                       // you'd often call a server or save the information in a database.
