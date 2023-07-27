@@ -1,6 +1,5 @@
 import 'package:sbb/transport_api/requests/connections.dart';
 import 'package:sbb/transport_api/requests/station_board.dart';
-import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
 import 'package:sbb/transport_api/transport_objects/coordinates.dart';
 import 'package:sbb/transport_api/requests/locations.dart';

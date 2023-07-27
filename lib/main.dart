@@ -51,7 +51,7 @@ class TestWidget extends StatelessWidget {
           title: 'API Testing',
           icon: Icons.api_outlined,
           body: ApiUser<Connections>(
-            apiCall: () => api.connections(from: "Wengen", to: "Lauterbrunnen"),
+            apiCall: api.connections(from: "Wengen", to: "Lauterbrunnen"),
             displayResponse: (data) {
               return ListView(
                 //crossAxisAlignment: CrossAxisAlignment.stretch,

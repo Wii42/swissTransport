@@ -1,4 +1,3 @@
-import 'package:sbb/transport_api/requests/locations.dart';
 import 'package:sbb/transport_api/transport_objects/location.dart';
 
 import 'connection.dart';

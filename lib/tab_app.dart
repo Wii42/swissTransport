@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:sbb/routes.dart';
 import 'package:sbb/widget_with_title.dart';
@@ -18,13 +16,12 @@ class TabApp extends StatelessWidget {
             tabs: WidgetWithTitle.titleTabs(tabs),
           ),
         ),
-        body:
-        Navigator(
+        body: Navigator(
           onGenerateRoute: (settings) {
             late Widget page;
             for (Routes route in Routes.values) {
               if (settings.name == route.string) {
-                page = route.page;
+                page = route.page(settings.arguments);
               }
             }
 
