@@ -1,7 +1,7 @@
-import 'package:intl/intl.dart';
+import 'package:sbb/transport_api/helper/interfaces.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 
-class Journey {
+class Journey extends DepartureArrival {
   ///The name of the transportation
   String? name;
 
@@ -81,15 +81,12 @@ class Journey {
     return "Name: $name, Category: $category, Category Code: $categoryCode, Number: $number, Operator: $operator, To: $to, Pass List: $passList, Capacity 1st class: $capacity1st, Capacity 2nd class: $capacity2nd";
   }
 
-  DateTime? get departureTime => passList?.first.departure?.toLocal();
+  @override
+  DateTime? get departureTime => passList?.firstOrNull?.departure?.toLocal();
 
-  String? get departureTimeString {
-    DateTime? departure = departureTime;
-    if (departure == null) {
-      return null;
-    }
-    return DateFormat("HH:mm").format(departure);
-  }
+  @override
+  String? get departurePlatform => passList?.firstOrNull?.platform;
 
-  String? get departurePlatform => passList?.first.platform;
+  @override
+  DateTime? get arrivalTime => passList?.lastOrNull?.arrival?.toLocal();
 }

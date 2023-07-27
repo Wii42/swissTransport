@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:sbb/transport_api/bool_to_int.dart';
+import 'package:sbb/transport_api/helper/bool_to_int.dart';
 import 'package:sbb/transport_api/accessibility.dart';
 import 'package:sbb/transport_api/requests/api_request.dart';
 

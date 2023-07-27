@@ -1,9 +1,10 @@
+import 'package:sbb/transport_api/helper/interfaces.dart';
 import 'package:sbb/transport_api/transport_objects/section.dart';
 import 'package:sbb/transport_api/transport_objects/service.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 
 ///A connection represents a possible journey between two locations.
-class Connection {
+class Connection extends DepartureArrival{
   ///The departure checkpoint of the connection
   Stop? from;
 
@@ -102,4 +103,29 @@ class Connection {
     return Duration(
         days: days, hours: hours, minutes: minutes, seconds: seconds);
   }
+
+  String? get transportProduct {
+    List<String>? products = this.products;
+    if (products == null) {
+      return null;
+    }
+    return products.firstOrNull;
+  }
+
+  String? get direction {
+    List<Section>? sections = this.sections;
+    if (sections == null) {
+      return null;
+    }
+    return sections.firstOrNull?.journey?.to;
+  }
+
+  @override
+  DateTime? get departureTime => from?.departure;
+
+  @override
+  String? get departurePlatform => from?.platform;
+
+  @override
+  DateTime? get arrivalTime => to?.arrival;
 }
