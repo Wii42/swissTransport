@@ -1,4 +1,5 @@
 import 'package:sbb/transport_api/transport_objects/stop.dart';
+import 'package:sbb/transport_api/transport_objects/walk.dart';
 
 import 'journey.dart';
 
@@ -7,7 +8,7 @@ class Section {
   Journey? journey;
 
   ///Information about walking distance, if available
-  String? walk;
+  Walk? walk;
 
   ///The departure checkpoint of the connection
   Stop? departure;
@@ -20,7 +21,7 @@ class Section {
   factory Section.fromJson(Map<String, dynamic> map) {
     return Section(
       journey: Journey.maybeFromJson(map['journey']),
-      walk: map['walk'],
+      walk: Walk.maybeFromJson(map['walk']),
       departure: Stop.maybeFromJson(map['departure']),
       arrival: Stop.maybeFromJson(map['arrival']),
     );
