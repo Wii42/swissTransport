@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sbb/padded_card.dart';
 import 'package:sbb/routes.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
@@ -26,49 +27,46 @@ class ConnectionsFormState extends State<ConnectionsForm> {
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                // The validator receives the text that the user has entered.
-                decoration: const InputDecoration(labelText: "From"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a location';
-                  }
-                  return null;
-                },
-                onSaved: (input) {
-                  from = input;
-                },
+    return PaddedCard(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextFormField(
+              // The validator receives the text that the user has entered.
+              decoration: const InputDecoration(labelText: "From"),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a location';
+                }
+                return null;
+              },
+              onSaved: (input) {
+                from = input;
+              },
+            ),
+            TextFormField(
+              // The validator receives the text that the user has entered.
+              decoration: const InputDecoration(labelText: "To"),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a location';
+                }
+                return null;
+              },
+              onSaved: (input) {
+                to = input;
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: ElevatedButton(
+                onPressed: _sendRequest,
+                child: const Text('Show connections'),
               ),
-              TextFormField(
-                // The validator receives the text that the user has entered.
-                decoration: const InputDecoration(labelText: "To"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a location';
-                  }
-                  return null;
-                },
-                onSaved: (input) {
-                  to = input;
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: ElevatedButton(
-                  onPressed: _sendRequest,
-                  child: const Text('Show connections'),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

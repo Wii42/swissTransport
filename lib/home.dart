@@ -18,13 +18,10 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBarView(
       children: [
-        CustomTabsPage(
+        const CustomTabsPage(
           title: 'Planen',
           icon: Icons.travel_explore,
-          tabs: [
-            FahrplanPage(),
-            TabBody(title: 'Karte', body: Text('Karte'))
-          ],
+          tabs: [FahrplanPage(), TabBody(title: 'Karte', body: Text('Karte'))],
         ),
         CustomPage(
           title: 'API Testing',
@@ -39,7 +36,6 @@ class Home extends StatelessWidget {
   }
 
   static Widget inRoute([dynamic params]) => const Home();
-
 
   static Widget _response(Connections data) {
     return ListView(
