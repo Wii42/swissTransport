@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sbb/padded_card.dart';
 import 'package:sbb/tab_body.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
@@ -21,7 +22,14 @@ class Home extends StatelessWidget {
         const CustomTabsPage(
           title: 'Planen',
           icon: Icons.travel_explore,
-          tabs: [FahrplanPage(), TabBody(title: 'Karte', body: Text('Karte'))],
+          tabs: [
+            FahrplanPage(),
+            TabBody(
+              title: 'Touch-Fahrplan',
+              body: Center(child: Text('Touch-Fahrplan')),
+            ),
+            TabBody(title: 'Karte', body: Center(child: Text('Karte'))),
+          ],
         ),
         CustomPage(
           title: 'API Testing',
@@ -42,7 +50,7 @@ class Home extends StatelessWidget {
       //crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (Connection connection in data.connections!)
-          Text(connection.toString()),
+          PaddedCard(child: Text(connection.toString())),
         //for (Location station in snapshot.data!.stations)
         //LocationTab(location: station),
       ],

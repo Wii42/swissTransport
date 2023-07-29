@@ -35,10 +35,10 @@ class ConnectionsFormState extends State<ConnectionsForm> {
           children: [
             TextFormField(
               // The validator receives the text that the user has entered.
-              decoration: const InputDecoration(labelText: "From"),
+              decoration: const InputDecoration(labelText: "Von"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter a location';
+                  return 'Bitte eine Station eingeben';
                 }
                 return null;
               },
@@ -48,10 +48,10 @@ class ConnectionsFormState extends State<ConnectionsForm> {
             ),
             TextFormField(
               // The validator receives the text that the user has entered.
-              decoration: const InputDecoration(labelText: "To"),
+              decoration: const InputDecoration(labelText: "Nach"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter a location';
+                  return 'Bitte eine Station eingeben';
                 }
                 return null;
               },
@@ -63,7 +63,7 @@ class ConnectionsFormState extends State<ConnectionsForm> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: ElevatedButton(
                 onPressed: _sendRequest,
-                child: const Text('Show connections'),
+                child: const Text('Verbindungen anzeigen'),
               ),
             ),
           ],
