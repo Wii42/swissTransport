@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sbb/connections_page.dart';
 
+import 'connections_page/connections_page.dart';
 import 'home.dart';
 
 enum Routes {

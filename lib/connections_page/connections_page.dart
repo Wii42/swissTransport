@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sbb/connectioons_list.dart';
+
 import 'package:sbb/custom_page.dart';
-import 'package:sbb/from_to_info.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
 
-import 'api_user.dart';
+import '../api_user.dart';
+import 'connections_list.dart';
+import 'from_to_info.dart';
+
+
 
 class ConnectionsPage extends StatelessWidget {
   final Future<Connections> connectionsRequest;

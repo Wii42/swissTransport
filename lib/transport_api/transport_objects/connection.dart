@@ -4,7 +4,7 @@ import 'package:sbb/transport_api/transport_objects/service.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 
 ///A connection represents a possible journey between two locations.
-class Connection extends DepartureArrival{
+class Connection extends DepartureArrival {
   ///The departure checkpoint of the connection
   Stop? from;
 
@@ -128,4 +128,19 @@ class Connection extends DepartureArrival{
 
   @override
   DateTime? get arrivalTime => to?.arrival;
+
+  int? get totalWalkingSecs {
+    if (sections == null) {
+      return null;
+    }
+    int walkingSecs = 0;
+    for (Section section in sections!) {
+      if (section.walk?.duration != null) {
+        walkingSecs += section.walk!.duration!;
+      }
+    }
+    return walkingSecs;
+  }
+
+  bool get hasWalkingTime => totalWalkingSecs != null && totalWalkingSecs != 0;
 }
