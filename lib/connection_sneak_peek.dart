@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sbb/transport_api/helper/date_time_to_string_extension.dart';
 import 'package:sbb/padded_card.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
-import 'package:sbb/transport_api/transport_objects/section.dart';
 
 class ConnectionSneakPeek extends StatelessWidget {
   final Connection connection;
@@ -27,7 +25,7 @@ class ConnectionSneakPeek extends StatelessWidget {
           Row(
             children: [
               Text(connection.departureTimeString ?? ""),
-              const Expanded(child: Divider()),
+              const Expanded(child: Divider(thickness: 2)),
               Text(connection.arrivalTimeString ?? "")
             ],
           ),
@@ -37,11 +35,27 @@ class ConnectionSneakPeek extends StatelessWidget {
             children: [
               Text("Gl. ${connection.departurePlatform}"),
               //const Spacer(),
-              Text("${connection.duration!.inMinutes.toString()} min")
+              Text(durationString(connection.duration))
             ],
           )
         ],
       ),
     );
+  }
+
+  String durationString(Duration? duration) {
+    if (duration == null) {
+      return "? min";
+    }
+    int hours = duration.inHours;
+    int mins = duration.inMinutes.remainder(60);
+
+    String string = '';
+    if (hours != 0) {
+      string += "$hours h ";
+    }
+    string += "$mins min";
+
+    return string;
   }
 }

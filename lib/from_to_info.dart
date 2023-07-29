@@ -12,6 +12,7 @@ class FromToInfo extends StatelessWidget {
     return PaddedCard(
       child: Wrap(
         alignment: WrapAlignment.start,
+       crossAxisAlignment: WrapCrossAlignment.center,
         spacing: 5,
         children: [
           Text(connections.from?.name ?? "?",
