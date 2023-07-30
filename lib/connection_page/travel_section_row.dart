@@ -1,0 +1,122 @@
+import 'package:flutter/material.dart';
+import 'package:sbb/connections_page/stops_indicator.dart';
+import 'package:sbb/generic_ui_elements/padded_card.dart';
+
+import '../transport_api/transport_objects/section.dart';
+import '../transport_api/transport_objects/stop.dart';
+
+class TravelSectionRow extends StatelessWidget {
+  final Section section;
+  final bool isStartOfConnection;
+  final bool isEndOfConnection;
+  const TravelSectionRow(
+      {super.key,
+      required this.section,
+      this.isStartOfConnection = false,
+      this.isEndOfConnection = false});
+
+  @override
+  Widget build(BuildContext context) {
+    if (section.hasWalk) {
+      return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+          child: walkingIndicator());
+    }
+    return PaddedCard(
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            times(),
+            verticalStopsIndicator(context),
+            stationNames(),
+            const Spacer(),
+            tracks(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Stop? get start => section.departure;
+  Stop? get end => section.arrival;
+
+  Column times() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          start?.departureTimeString ?? "",
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(end?.arrivalTimeString ?? ""),
+      ],
+    );
+  }
+
+  Widget verticalStopsIndicator(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.5, horizontal: 3),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          (isStartOfConnection)? StopsIndicator.endStopIcon : StopsIndicator.inBetweenStopIcon,
+          Expanded(
+            child: StopsIndicator.verticalLine(context),
+          ),
+          (isEndOfConnection)? StopsIndicator.endStopIcon : StopsIndicator.inBetweenStopIcon,
+        ],
+      ),
+    );
+  }
+
+  Column stationNames() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(start?.station?.name ?? '?',
+            style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text(section.journey?.category ?? ''),
+        const Text('Richtung'),
+        Text(end?.station?.name ?? '?'),
+      ],
+    );
+  }
+
+  Column tracks() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          (start?.platform != null && start!.platform!.isNotEmpty)
+              ? "Gl. ${start?.platform}"
+              : "",
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text((end?.platform != null && end!.platform!.isNotEmpty)
+            ? "Gl. ${end?.platform}"
+            : ""),
+      ],
+    );
+  }
+
+  Widget walkingIndicator() {
+    int walkingMins = section.walk!.duration! ~/ 60;
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 5,
+      children: [
+        Text("$walkingMins'"),
+        const Icon(
+          Icons.directions_walk,
+          size: 13,
+        ),
+        const Text("Fussweg"),
+      ],
+    );
+  }
+}

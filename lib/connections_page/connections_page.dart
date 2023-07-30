@@ -5,10 +5,8 @@ import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
 
 import '../api_user.dart';
+import 'from_to_widget.dart';
 import 'connections_list.dart';
-import 'from_to_info.dart';
-
-
 
 class ConnectionsPage extends StatelessWidget {
   final Future<Connections> connectionsRequest;

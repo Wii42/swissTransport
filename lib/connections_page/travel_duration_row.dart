@@ -13,14 +13,14 @@ class TravelDurationRow extends StatelessWidget{
       spacing: 5,
       children: [
         (connection.departurePlatform != null && connection.departurePlatform != '')?
-          Text("Gl. ${connection.departurePlatform}"): Text(''),
+          Text("Gl. ${connection.departurePlatform}"): const Text(''),
         //const Spacer(),
         Text(durationString(connection.duration))
       ],
     );
   }
 
-  String durationString(Duration? duration) {
+  static String durationString(Duration? duration) {
     if (duration == null) {
       return "? min";
     }

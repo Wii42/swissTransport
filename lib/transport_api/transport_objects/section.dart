@@ -49,4 +49,6 @@ class Section {
   String toString() {
     return "Journey: $journey, Walk: $walk, Departure: $departure, Arrival: $arrival";
   }
+
+  bool get hasWalk => (walk?.duration != null && walk!.duration! > 0);
 }

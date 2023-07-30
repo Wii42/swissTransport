@@ -5,8 +5,8 @@ import '../transport_api/transport_objects/connection.dart';
 import '../transport_api/transport_objects/section.dart';
 
 class StopsIndicator extends StatelessWidget {
-  final Widget endStopIcon = const Icon(Icons.circle, size: 9);
-  final Widget inBetweenStopIcon = const Icon(Icons.circle_outlined, size: 8);
+  static const Widget endStopIcon = Icon(Icons.circle, size: 9);
+  static const Widget inBetweenStopIcon = Icon(Icons.circle_outlined, size: 8);
 
   final Connection connection;
 
@@ -24,15 +24,17 @@ class StopsIndicator extends StatelessWidget {
     if (connection.sections != null) {
       for (int i = 0; i < connection.sections!.length; i++) {
         Section section = connection.sections![i];
-        list.add(
-          lineSegment(
-            context,
-            relativeLength: calculateLength(section),
-          ),
-        );
-        list.add(i == connection.sections!.length - 1
-            ? endStopIcon
-            : inBetweenStopIcon);
+        if (!section.hasWalk) {
+          list.add(
+            lineSegment(
+              context,
+              relativeLength: calculateLength(section),
+            ),
+          );
+          list.add(i == connection.sections!.length - 1
+              ? endStopIcon
+              : inBetweenStopIcon);
+        }
       }
     } else {
       list.add(lineSegment(context));
@@ -56,8 +58,16 @@ class StopsIndicator extends StatelessWidget {
     return FillableSpacer(flex: relativeLength, child: line(context));
   }
 
-  Widget line(BuildContext context) {
+  static Widget line(BuildContext context) {
     return Divider(
+        thickness: 1,
+        indent: 2,
+        endIndent: 1.5,
+        color: Theme.of(context).textTheme.bodyMedium?.color);
+  }
+
+  static Widget verticalLine(BuildContext context) {
+    return VerticalDivider(
         thickness: 1,
         indent: 2,
         endIndent: 1.5,

@@ -1,8 +1,9 @@
+import 'package:sbb/transport_api/helper/interfaces.dart';
 import 'package:sbb/transport_api/transport_objects/location.dart';
 import 'package:sbb/transport_api/transport_objects/prognosis.dart';
 
 ///A checkpoint represents an arrival or a departure point (in time and space) of a connection.
-class Stop {
+class Stop extends DepartureArrival{
   ///A location object showing this line's stop at the requested station.
   Location? station;
 
@@ -68,4 +69,13 @@ class Stop {
   String toString() {
     return "Station: $station, Arrival: $arrival, Departure: $departure, Delay: $delay, Plattform: $platform, Prognosis: $prognosis";
   }
+
+  @override
+  DateTime? get arrivalTime => arrival;
+
+  @override
+  String? get departurePlatform => platform;
+
+  @override
+  DateTime? get departureTime => departure;
 }

@@ -135,7 +135,7 @@ class Connection extends DepartureArrival {
     }
     int walkingSecs = 0;
     for (Section section in sections!) {
-      if (section.walk?.duration != null) {
+      if (section.hasWalk) {
         walkingSecs += section.walk!.duration!;
       }
     }
@@ -143,4 +143,11 @@ class Connection extends DepartureArrival {
   }
 
   bool get hasWalkingTime => totalWalkingSecs != null && totalWalkingSecs != 0;
+
+  bool get isStartingWithWalk{
+    if(sections?.firstOrNull == null){
+      return false;
+    }
+    return sections!.first.hasWalk;
+  }
 }

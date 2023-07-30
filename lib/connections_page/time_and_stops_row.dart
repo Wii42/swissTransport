@@ -11,11 +11,13 @@ class TimeAndStopsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        if (connection.hasWalkingTime) walkingIndicator(),
+        if (connection.isStartingWithWalk) walkingIndicator(),
         Text(connection.departureTimeString ?? "",
             style: const TextStyle(fontWeight: FontWeight.bold)),
-        Expanded(child: Padding(padding: EdgeInsetsDirectional.symmetric(horizontal: 10),
-        child: StopsIndicator(connection: connection))),
+        Expanded(
+            child: Padding(
+                padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
+                child: StopsIndicator(connection: connection))),
         Text(connection.arrivalTimeString ?? "",
             style: const TextStyle(fontWeight: FontWeight.bold))
       ],

@@ -9,6 +9,42 @@ class ConnectionsList extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _ConnectionsListState();
+
+  static String connectionDateString(Connection connection) {
+    String text = '?';
+    DateTime? departure = connection.from?.departure;
+    if (departure != null) {
+      String weekday;
+      switch (departure.weekday) {
+        case 1:
+          weekday = "Montag";
+          break;
+        case 2:
+          weekday = "Dienstag";
+          break;
+        case 3:
+          weekday = "Mittwoch";
+          break;
+        case 4:
+          weekday = "Donnerstag";
+          break;
+        case 5:
+          weekday = "Freitag";
+          break;
+        case 6:
+          weekday = "Samstag";
+          break;
+        case 7:
+          weekday = "Sonntag";
+          break;
+        default:
+          weekday = "?";
+          break;
+      }
+      text = "$weekday ${departure.day}.${departure.month}.${departure.year}";
+    }
+    return text;
+  }
 }
 
 class _ConnectionsListState extends State<ConnectionsList> {
@@ -59,38 +95,7 @@ class _ConnectionsListState extends State<ConnectionsList> {
   }
 
   Widget connectionDate(Connection connection) {
-    String text = '?';
-    DateTime? departure = connection.from?.departure;
-    if (departure != null) {
-      String weekday;
-      switch (departure.weekday) {
-        case 1:
-          weekday = "Montag";
-          break;
-        case 2:
-          weekday = "Dienstag";
-          break;
-        case 3:
-          weekday = "Mittwoch";
-          break;
-        case 4:
-          weekday = "Donnerstag";
-          break;
-        case 5:
-          weekday = "Freitag";
-          break;
-        case 6:
-          weekday = "Samstag";
-          break;
-        case 7:
-          weekday = "Sonntag";
-          break;
-        default:
-          weekday = "?";
-          break;
-      }
-      text = "$weekday ${departure.day}.${departure.month}.${departure.year}";
-    }
+    String text = ConnectionsList.connectionDateString(connection);
     return Padding(
         padding:
             const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),
