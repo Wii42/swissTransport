@@ -54,6 +54,7 @@ class TestWidget extends StatelessWidget {
             apiCall: api.connections(from: "Wengen", to: "Lauterbrunnen"),
             displayResponse: (data) {
               return ListView(
+                physics: const BouncingScrollPhysics(),
                 //crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   for (Connection connection in data.connections!)

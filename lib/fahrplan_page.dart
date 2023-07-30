@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sbb/widget_with_title.dart';
+import 'package:sbb/generic_ui_elements/widget_with_title.dart';
 
 import 'connections_form.dart';
 import 'departure_table.dart';
@@ -16,6 +16,7 @@ class FahrplanPage extends WidgetWithTitle {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      physics: const BouncingScrollPhysics(),
       children: const [ConnectionsForm(), DepartureTable(station: "Wengwald")],
     );
   }

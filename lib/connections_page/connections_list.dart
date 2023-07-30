@@ -22,7 +22,10 @@ class _ConnectionsListState extends State<ConnectionsList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: listElements());
+    return ListView(
+      physics: const BouncingScrollPhysics(),
+      children: listElements(),
+    );
   }
 
   List<Widget> listElements() {

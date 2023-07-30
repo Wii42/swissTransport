@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sbb/connections_page/stops_indicator.dart';
 
 import '../transport_api/transport_objects/connection.dart';
 
@@ -13,7 +14,8 @@ class TimeAndStopsRow extends StatelessWidget {
         if (connection.hasWalkingTime) walkingIndicator(),
         Text(connection.departureTimeString ?? "",
             style: const TextStyle(fontWeight: FontWeight.bold)),
-        const Expanded(child: Divider(thickness: 2)),
+        Expanded(child: Padding(padding: EdgeInsetsDirectional.symmetric(horizontal: 10),
+        child: StopsIndicator(connection: connection))),
         Text(connection.arrivalTimeString ?? "",
             style: const TextStyle(fontWeight: FontWeight.bold))
       ],
@@ -29,7 +31,7 @@ class TimeAndStopsRow extends StatelessWidget {
           size: 13,
         ),
         Text("$walkingMins'"),
-        SizedBox(width:10)
+        const SizedBox(width: 10)
       ],
     );
   }

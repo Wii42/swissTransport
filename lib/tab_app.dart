@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/routes.dart';
-import 'package:sbb/widget_with_title.dart';
+import 'package:sbb/generic_ui_elements/widget_with_title.dart';
 
 class TabApp extends StatelessWidget {
   final List<WidgetWithTitle> tabs;
