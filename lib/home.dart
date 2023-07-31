@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/generic_ui_elements/padded_card.dart';
+import 'package:sbb/saved_connections_page.dart';
 import 'package:sbb/tab_body.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
@@ -53,7 +54,7 @@ class Home extends StatelessWidget {
       ),
       const CustomPage(
         title: 'Reisen',
-        body: Center(child: Text('Reisen')),
+        body: SavedConnectionsPage(),
         icon: Icons.label_important,
       ),
       CustomPage(

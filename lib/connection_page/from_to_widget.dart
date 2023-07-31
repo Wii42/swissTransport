@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/connections_page/time_and_stops_row.dart';
 import 'package:sbb/connections_page/travel_duration_row.dart';
+import 'package:sbb/saved_connections.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
 import '../connections_page/connections_list.dart';
 import '../from_to_text.dart';
 import '../generic_ui_elements/expandable_padded_card.dart';
+import 'add_to_saved_connections_button.dart';
 
 class FromToWidget extends StatelessWidget {
   final Connection connection;
@@ -21,7 +23,14 @@ class FromToWidget extends StatelessWidget {
       hideableChildren: [
         Text(
             "${ConnectionsList.connectionDateString(connection)}, ${TravelDurationRow.durationString(connection.duration)}"),
-        TimeAndStopsRow(connection: connection)
+        TimeAndStopsRow(connection: connection),
+        if (SavedConnections.of(context) != null) ...[
+          const SizedBox(height: 5,),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: AddToSavedConnectionsButton(connection: connection),
+          ),
+        ]
       ],
     );
 
@@ -56,5 +65,27 @@ class FromToWidget extends StatelessWidget {
     //     ],
     //   ),
     // );
+  }
+
+  void Function()? onPressed(BuildContext context) {
+    List<Connection>? savedConnections = SavedConnections.of(context);
+    if (savedConnections == null ||
+        savedConnections.stringContains(connection)) {
+      return null;
+    }
+    ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
+    return () {
+      if (savedConnections.stringContains(connection)) {
+        messenger.showSnackBar(
+          const SnackBar(content: Text('Verbindung bereits gemerkt')),
+        );
+      } else {
+        savedConnections.add(connection);
+        messenger.showSnackBar(
+          const SnackBar(
+              content: Text('Verbindung zu gemerkten Reisen hinzugefügt')),
+        );
+      }
+    };
   }
 }

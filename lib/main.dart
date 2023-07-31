@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sbb/saved_connections.dart';
 import 'package:sbb/tab_app.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.red, brightness: Brightness.light),
       darkTheme:
           ThemeData(primarySwatch: Colors.blue, brightness: Brightness.dark),
-      builder: (context, widget) => const TestWidget(),
+      builder: (context, widget) => SavedConnections(child: const TestWidget()),
     );
   }
 }

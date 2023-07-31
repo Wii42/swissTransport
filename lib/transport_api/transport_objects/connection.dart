@@ -169,4 +169,19 @@ class Connection extends DepartureArrival {
     }
     return TransportVehicles.fromProduct(products.firstOrNull);
   }
+
+  bool stringCompare(Connection other) {
+    return (toString() == other.toString());
+  }
+}
+
+extension StringContains on List<Connection> {
+  bool stringContains(Connection other) {
+    for (Connection connection in this) {
+      if (connection.stringCompare(other)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
