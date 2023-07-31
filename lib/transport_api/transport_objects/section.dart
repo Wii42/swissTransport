@@ -1,5 +1,6 @@
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 import 'package:sbb/transport_api/transport_objects/walk.dart';
+import 'package:sbb/transport_api/transportation_vehicles.dart';
 
 import 'journey.dart';
 
@@ -51,4 +52,20 @@ class Section {
   }
 
   bool get hasWalk => (walk?.duration != null && walk!.duration! > 0);
+
+  String? get direction => journey?.to ?? arrival?.station?.name;
+
+  String? get transportProduct {
+    if (hasWalk) {
+      return null;
+    }
+    if (journey?.category != null || journey?.number != null) {
+      return "${journey?.category} ${journey?.number}";
+    }
+    return null;
+  }
+
+  TransportVehicles? get transportVehicle{
+    return TransportVehicles.fromProduct(journey?.category);
+  }
 }

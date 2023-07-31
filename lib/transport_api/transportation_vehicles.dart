@@ -1,25 +1,42 @@
 import 'package:flutter/material.dart';
 
-enum TransportationVehicles {
-  bus(apiName: "bus", icon: Icons.directions_bus),
-  train(apiName: "train", icon: Icons.directions_train),
-  tram(apiName: "tram", icon: Icons.tram),
+enum TransportVehicles {
+  bus(apiName: "bus", icon: Icons.directions_bus, productAbbreviations: ['B']),
+  train(
+      apiName: "train",
+      icon: Icons.directions_train,
+      productAbbreviations: ['S', 'IC', 'ICE', 'R', 'RE', 'IR', 'CC']),
+  tram(apiName: "tram", icon: Icons.tram, productAbbreviations: ['T']),
   ship(apiName: "ship", icon: Icons.directions_boat),
-  cableWay(apiName: "cableway", icon: Icons.cable),
+  cableWay(
+      apiName: "cableway", icon: Icons.cable, productAbbreviations: ['GB', 'PB']),
   none(apiName: "none", icon: Icons.question_mark);
 
   final IconData icon;
   final String apiName;
+  final List<String> productAbbreviations;
 
-  const TransportationVehicles({required this.apiName, required this.icon});
+  const TransportVehicles(
+      {required this.apiName,
+      required this.icon,
+      this.productAbbreviations = const []});
 
-  factory TransportationVehicles.fromJson(String string) {
-    for (TransportationVehicles icon in values) {
+  factory TransportVehicles.fromJson(String string) {
+    for (TransportVehicles icon in values) {
       if (icon.apiName == string) {
         return icon;
       }
     }
     print("$string does not match any TransportIcon");
-    return TransportationVehicles.none;
+    return TransportVehicles.none;
+  }
+
+  static TransportVehicles? fromProduct(String? product) {
+    for (TransportVehicles vehicle in values) {
+      if (vehicle.productAbbreviations.contains(product)) {
+        return vehicle;
+      }
+    }
+    return null;
   }
 }

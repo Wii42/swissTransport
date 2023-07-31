@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
-class TravelDurationRow extends StatelessWidget{
+class TravelDurationRow extends StatelessWidget {
   final Connection connection;
 
   const TravelDurationRow({super.key, required this.connection});
@@ -12,9 +12,11 @@ class TravelDurationRow extends StatelessWidget{
       alignment: WrapAlignment.spaceBetween,
       spacing: 5,
       children: [
-        (connection.departurePlatform != null && connection.departurePlatform != '')?
-          Text("Gl. ${connection.departurePlatform}"): const Text(''),
-        //const Spacer(),
+        (connection.departurePlatform != null &&
+                connection.departurePlatform != '')
+            ? Text("Gl. ${connection.departurePlatform}")
+            : const Text(''),
+
         Text(durationString(connection.duration))
       ],
     );
@@ -35,5 +37,4 @@ class TravelDurationRow extends StatelessWidget{
 
     return string;
   }
-
 }

@@ -12,14 +12,12 @@ class TimeAndStopsRow extends StatelessWidget {
     return Row(
       children: [
         if (connection.isStartingWithWalk) walkingIndicator(),
-        Text(connection.departureTimeString ?? "",
-            style: const TextStyle(fontWeight: FontWeight.bold)),
+        departureTimeText(connection),
         Expanded(
             child: Padding(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
                 child: StopsIndicator(connection: connection))),
-        Text(connection.arrivalTimeString ?? "",
-            style: const TextStyle(fontWeight: FontWeight.bold))
+        arrivalTimeText(connection)
       ],
     );
   }
@@ -36,5 +34,15 @@ class TimeAndStopsRow extends StatelessWidget {
         const SizedBox(width: 10)
       ],
     );
+  }
+
+  static Widget departureTimeText(Connection connection) {
+    return Text(connection.departureTimeString ?? "",
+        style: const TextStyle(fontWeight: FontWeight.bold));
+  }
+
+  static Widget arrivalTimeText(Connection connection) {
+    return Text(connection.arrivalTimeString ?? "",
+        style: const TextStyle(fontWeight: FontWeight.bold));
   }
 }

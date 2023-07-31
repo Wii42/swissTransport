@@ -31,7 +31,7 @@ class ConnectionsRequest extends TransportApiRequest {
   bool? isArrivalTime;
 
   ///Transportation means; one or more of train, tram, ship, bus, cable way
-  List<TransportationVehicles>? transportations;
+  List<TransportVehicles>? transportations;
 
   ///1 - 16. Specifies the number of connections to return.
   ///If several connections depart at the same time they are counted as 1.
@@ -94,7 +94,7 @@ class ConnectionsRequest extends TransportApiRequest {
       parametersList.add("isArrivalTime=${isArrivalTime!.toInt()}");
     }
     if (transportations != null) {
-      for (TransportationVehicles vehicle in transportations!) {
+      for (TransportVehicles vehicle in transportations!) {
         parametersList.add("transportations[]=${vehicle.name}");
       }
     }

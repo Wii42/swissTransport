@@ -31,7 +31,7 @@ class StationBoardRequest extends TransportApiRequest {
   int? limit;
 
   ///Transportation means; one or more of train, tram, ship, bus, cable way
-  List<TransportationVehicles>? transportations;
+  List<TransportVehicles>? transportations;
 
   ///Date and time of departing connections
   DateTime? datetime;
@@ -63,7 +63,7 @@ class StationBoardRequest extends TransportApiRequest {
       parametersList.add("limit=$limit");
     }
     if (transportations != null) {
-      for (TransportationVehicles vehicle in transportations!) {
+      for (TransportVehicles vehicle in transportations!) {
         parametersList.add("transportations[]=$vehicle");
       }
     }

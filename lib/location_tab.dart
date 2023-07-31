@@ -27,7 +27,7 @@ class LocationTab extends StatelessWidget {
               Text(location.toString()),
             ],
           ),
-          if (location.icon != TransportationVehicles.none)
+          if (location.icon != TransportVehicles.none)
             Icon(
               location.icon.icon,
               size: 50,

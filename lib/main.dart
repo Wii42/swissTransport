@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sbb/api_user.dart';
-import 'package:sbb/custom_page.dart';
-import 'package:sbb/custom_tabs_page.dart';
-import 'package:sbb/fahrplan_page.dart';
 import 'package:sbb/tab_app.dart';
-import 'package:sbb/tab_body.dart';
-import 'package:sbb/transport_api/transport_objects/connection.dart';
-import 'package:sbb/transport_api/transport_objects/connections.dart';
 import 'package:sbb/transport_api/transport_api.dart';
+
+import 'home.dart';
 
 void main() {
   //TransportApi api = const TransportApi();
@@ -28,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.red, brightness: Brightness.light),
       darkTheme:
           ThemeData(primarySwatch: Colors.blue, brightness: Brightness.dark),
-      builder:  (context, widget)=> const TestWidget(),
+      builder: (context, widget) => const TestWidget(),
     );
   }
 }
@@ -41,32 +36,7 @@ class TestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TabApp(
-      tabs: [
-        const CustomTabsPage(
-          title: 'Planen',
-          icon: Icons.travel_explore,
-          tabs: [FahrplanPage(), TabBody(title: 'Karte', body: Text('Karte'))],
-        ),
-        CustomPage(
-          title: 'API Testing',
-          icon: Icons.api_outlined,
-          body: ApiUser<Connections>(
-            apiCall: api.connections(from: "Wengen", to: "Lauterbrunnen"),
-            displayResponse: (data) {
-              return ListView(
-                physics: const BouncingScrollPhysics(),
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  for (Connection connection in data.connections!)
-                    Text(connection.toString()),
-                  //for (Location station in snapshot.data!.stations)
-                  //LocationTab(location: station),
-                ],
-              );
-            },
-          ),
-        )
-      ],
+      tabs: Home.bottomTabs(),
     );
   }
 }

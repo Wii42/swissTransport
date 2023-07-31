@@ -29,7 +29,7 @@ class TransportApi {
       DateTime? date,
       DateTime? time,
       bool? isArrivalTime,
-      List<TransportationVehicles>? transportations,
+      List<TransportVehicles>? transportations,
       int? limit,
       int? page,
       bool? direct,
@@ -61,7 +61,7 @@ class TransportApi {
     String? station,
     String? id,
     int? limit,
-    List<TransportationVehicles>? transportations,
+    List<TransportVehicles>? transportations,
     DateTime? datetime,
     StationBoardType? type,
   }) {

@@ -29,7 +29,7 @@ class TravelSectionRow extends StatelessWidget {
           children: [
             times(),
             verticalStopsIndicator(context),
-            stationNames(),
+            stationNames(context),
             const Spacer(),
             tracks(),
           ],
@@ -62,26 +62,53 @@ class TravelSectionRow extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          (isStartOfConnection)? StopsIndicator.endStopIcon : StopsIndicator.inBetweenStopIcon,
+          (isStartOfConnection)
+              ? StopsIndicator.endStopIcon
+              : StopsIndicator.inBetweenStopIcon,
           Expanded(
             child: StopsIndicator.verticalLine(context),
           ),
-          (isEndOfConnection)? StopsIndicator.endStopIcon : StopsIndicator.inBetweenStopIcon,
+          (isEndOfConnection)
+              ? StopsIndicator.endStopIcon
+              : StopsIndicator.inBetweenStopIcon,
         ],
       ),
     );
   }
 
-  Column stationNames() {
+  Column stationNames(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(start?.station?.name ?? '?',
             style: const TextStyle(fontWeight: FontWeight.bold)),
-        Text(section.journey?.category ?? ''),
-        const Text('Richtung'),
+        Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: additionalInfos(context)),
         Text(end?.station?.name ?? '?'),
+      ],
+    );
+  }
+
+  Widget additionalInfos(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 2,
+          children: [
+            if (section.transportVehicle != null)
+              Icon(section.transportVehicle?.icon, size: 11),
+            Text(section.transportProduct ?? '',
+                style: Theme.of(context).textTheme.bodySmall)
+          ],
+        ),
+        Text(
+          'Richtung ${section.direction}',
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
       ],
     );
   }

@@ -2,6 +2,7 @@ import 'package:sbb/transport_api/helper/interfaces.dart';
 import 'package:sbb/transport_api/transport_objects/section.dart';
 import 'package:sbb/transport_api/transport_objects/service.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
+import 'package:sbb/transport_api/transportation_vehicles.dart';
 
 ///A connection represents a possible journey between two locations.
 class Connection extends DepartureArrival {
@@ -105,6 +106,14 @@ class Connection extends DepartureArrival {
   }
 
   String? get transportProduct {
+    Section? firstSection = sections?.firstOrNull;
+    if (firstSection != null) {
+      String? product = firstSection.transportProduct;
+      if (product != null) {
+        return product;
+      }
+    }
+
     List<String>? products = this.products;
     if (products == null) {
       return null;
@@ -112,13 +121,7 @@ class Connection extends DepartureArrival {
     return products.firstOrNull;
   }
 
-  String? get direction {
-    List<Section>? sections = this.sections;
-    if (sections == null) {
-      return null;
-    }
-    return sections.firstOrNull?.journey?.to;
-  }
+  String? get direction => sections?.firstOrNull?.direction;
 
   @override
   DateTime? get departureTime => from?.departure;
@@ -144,10 +147,26 @@ class Connection extends DepartureArrival {
 
   bool get hasWalkingTime => totalWalkingSecs != null && totalWalkingSecs != 0;
 
-  bool get isStartingWithWalk{
-    if(sections?.firstOrNull == null){
+  bool get isStartingWithWalk {
+    if (sections?.firstOrNull == null) {
       return false;
     }
     return sections!.first.hasWalk;
+  }
+
+  TransportVehicles? get transportVehicle {
+    Section? firstSection = sections?.firstOrNull;
+    if (firstSection != null) {
+      TransportVehicles? vehicle = firstSection.transportVehicle;
+      if (vehicle != null) {
+        return vehicle;
+      }
+    }
+
+    List<String>? products = this.products;
+    if (products == null) {
+      return null;
+    }
+    return TransportVehicles.fromProduct(products.firstOrNull);
   }
 }

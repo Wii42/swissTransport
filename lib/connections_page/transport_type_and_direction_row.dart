@@ -9,8 +9,11 @@ class TransportTypeAndDurationRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
       spacing: 5,
       children: [
+        if(connection.transportVehicle != null)
+          Icon(connection.transportVehicle?.icon, size: 14),
         Text(
           connection.transportProduct ?? "",
           style: const TextStyle(fontWeight: FontWeight.bold),

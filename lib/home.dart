@@ -9,37 +9,17 @@ import 'api_user.dart';
 import 'custom_page.dart';
 import 'custom_tabs_page.dart';
 import 'fahrplan_page.dart';
+import 'generic_ui_elements/widget_with_title.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
 
-  final TransportApi api = const TransportApi();
+  static const TransportApi api = TransportApi();
 
   @override
   Widget build(BuildContext context) {
     return TabBarView(
-      children: [
-        const CustomTabsPage(
-          title: 'Planen',
-          icon: Icons.travel_explore,
-          tabs: [
-            FahrplanPage(),
-            TabBody(
-              title: 'Touch-Fahrplan',
-              body: Center(child: Text('Touch-Fahrplan')),
-            ),
-            TabBody(title: 'Karte', body: Center(child: Text('Karte'))),
-          ],
-        ),
-        CustomPage(
-          title: 'API Testing',
-          icon: Icons.api_outlined,
-          body: ApiUser<Connections>(
-            apiCall: api.connections(from: "Wengen", to: "Lauterbrunnen"),
-            displayResponse: _response,
-          ),
-        )
-      ],
+      children: bottomTabs(),
     );
   }
 
@@ -55,5 +35,35 @@ class Home extends StatelessWidget {
         //LocationTab(location: station),
       ],
     );
+  }
+
+  static List<WidgetWithTitle> bottomTabs() {
+    return [
+      const CustomTabsPage(
+        title: 'Planen',
+        icon: Icons.travel_explore,
+        tabs: [
+          FahrplanPage(),
+          TabBody(
+            title: 'Touch-Fahrplan',
+            body: Center(child: Text('Touch-Fahrplan')),
+          ),
+          TabBody(title: 'Karte', body: Center(child: Text('Karte'))),
+        ],
+      ),
+      const CustomPage(
+        title: 'Reisen',
+        body: Center(child: Text('Reisen')),
+        icon: Icons.label_important,
+      ),
+      CustomPage(
+        title: 'API Testing',
+        icon: Icons.api_outlined,
+        body: ApiUser<Connections>(
+          apiCall: api.connections(from: "Wengen", to: "Lauterbrunnen"),
+          displayResponse: _response,
+        ),
+      )
+    ];
   }
 }

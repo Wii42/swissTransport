@@ -25,7 +25,7 @@ class Location {
 
   ///If search has been with coordinates, distance to original point in meters
   int? distance;
-  TransportationVehicles icon;
+  TransportVehicles icon;
 
   Location({
     this.id,
@@ -34,7 +34,7 @@ class Location {
     this.score,
     this.coordinates,
     this.distance,
-    this.icon = TransportationVehicles.none,
+    this.icon = TransportVehicles.none,
   });
 
   factory Location.fromJson(Map<String, dynamic> map) {
@@ -50,8 +50,8 @@ class Location {
           : null,
       distance: map['distance'],
       icon: map['icon'] != null
-          ? TransportationVehicles.fromJson(map['icon'])
-          : TransportationVehicles.none,
+          ? TransportVehicles.fromJson(map['icon'])
+          : TransportVehicles.none,
     );
   }
 
