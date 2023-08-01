@@ -25,8 +25,7 @@ class _SavedConnectionsPageState extends State<SavedConnectionsPage> {
         children: [
           for (Connection connection in savedConnections)
             PaddedClickableCard(
-              onTap: () => Navigator.of(context)
-                  .pushNamed(Routes.connection.string, arguments: connection),
+              onTap: () => Routes.connection.push(context, params: connection),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

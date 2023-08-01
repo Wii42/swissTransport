@@ -79,9 +79,10 @@ class ConnectionsFormState extends State<ConnectionsForm> {
     _formKey.currentState!.save();
     TransportApi api = const TransportApi();
     Future<Connections> connections = api.connections(from: from!, to: to!, limit: 10);
-
-    Navigator.of(context)
-        .pushNamed(Routes.connections.string, arguments: connections);
+    //context.push(Routes.connections.string, extra: connections);
+    Routes.connections.push(context, params: connections);
+    //Navigator.of(context)
+      //  .pushNamed(Routes.connections.string, arguments: connections);
 
     // If the form is valid, display a snackbar. In the real world,
     // you'd often call a server or save the information in a database.
