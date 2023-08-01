@@ -6,10 +6,6 @@ import 'package:sbb/transport_api/transport_api.dart';
 import 'home.dart';
 
 void main() {
-  //TransportApi api = const TransportApi();
-  //api.connections(from: 'Wengen', to: "Lauterbrunnen");
-  //api.locations(query: 'Wengen');
-  //api.stationBoard(station: "Wengen");
   runApp(const MyApp());
 }
 
@@ -20,10 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'OpenTransport',
       theme: ThemeData(primarySwatch: Colors.red, brightness: Brightness.light),
       darkTheme:
-          ThemeData(primarySwatch: Colors.blue, brightness: Brightness.dark),
+          ThemeData(primarySwatch: Colors.red, brightness: Brightness.dark),
       builder: (context, widget) => SavedConnections(child: const TestWidget()),
     );
   }

@@ -14,6 +14,7 @@ class TabApp extends StatelessWidget {
         bottomNavigationBar: BottomAppBar(
           child: TabBar(
             tabs: WidgetWithTitle.titleTabs(tabs),
+            labelColor: Theme.of(context).textTheme.bodyMedium?.color,
           ),
         ),
         body: Navigator(

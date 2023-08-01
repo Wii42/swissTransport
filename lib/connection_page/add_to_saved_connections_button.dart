@@ -37,22 +37,21 @@ class _AddToSavedConnectionsButtonState
       setState(() {
         isActive = false;
       });
-      ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
+
       if (savedConnections.stringContains(widget.connection)) {
+        ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
         messenger.showSnackBar(
-          SnackBar(content: Text('Bereits Gemerkt')),
+          const SnackBar(content: Text('Bereits Gemerkt')),
         );
       } else {
         savedConnections.add(widget.connection);
-        messenger.showSnackBar(
-          SnackBar(content: Text('Merke Verbindung')),
-        );
+        ;
       }
     };
   }
 
   String get buttonText {
-    return isActive ? 'Merke Verbindung' : 'Verbindung bereits gemerkt';
+    return isActive ? 'Merke Verbindung' : 'Verbindung gemerkt';
   }
 
   bool setIsActive(BuildContext context) {

@@ -25,7 +25,9 @@ class FromToWidget extends StatelessWidget {
             "${ConnectionsList.connectionDateString(connection)}, ${TravelDurationRow.durationString(connection.duration)}"),
         TimeAndStopsRow(connection: connection),
         if (SavedConnections.of(context) != null) ...[
-          const SizedBox(height: 5,),
+          const SizedBox(
+            height: 5,
+          ),
           Align(
             alignment: Alignment.bottomRight,
             child: AddToSavedConnectionsButton(connection: connection),
