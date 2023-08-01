@@ -7,32 +7,12 @@ import 'package:sbb/tab_app.dart';
 import 'home.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
-  final _router = GoRouter(
-    routes: [
-      GoRoute(
-        path: Routes.home.string,
-        builder: (context, state) => Routes.home.pageWrappedInScaffold(),
-      ),
-      GoRoute(
-        path: Routes.connections.string,
-        builder: (context, state) =>
-            Routes.connections.pageWrappedInScaffold(state.extra),
-      ),
-      GoRoute(
-        path: Routes.connection.string,
-        builder: (context, state) =>
-            Routes.connection.pageWrappedInScaffold(state.extra),
-      ),
-    ],
-  );
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     MaterialColor primary = Colors.blue;
@@ -46,7 +26,14 @@ class MyApp extends StatelessWidget {
           body: widget,
         ),
       ),
-      routerConfig: _router,
+      routerConfig: GoRouter(
+        initialLocation: Routes.home.string,
+        routes: [
+          Routes.home.route,
+          Routes.connections.route,
+          Routes.connection.route,
+        ],
+      ),
     );
   }
 }

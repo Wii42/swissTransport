@@ -20,7 +20,24 @@ enum Routes {
     return context.push(string, extra: params);
   }
 
-  Widget pageWrappedInScaffold([dynamic params]){
+  Widget pageWrappedInScaffold([dynamic params]) {
     return TabScaffold(tabs: Home.bottomTabs(), body: page(params));
+  }
+
+  GoRoute get route {
+    return GoRoute(
+      path: string,
+      pageBuilder: (context, state) => pageBuilder(state),
+    );
+  }
+
+  Page pageBuilder(GoRouterState state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: pageWrappedInScaffold(state.extra),
+      transitionsBuilder: (BuildContext context, Animation<double> animation,
+              Animation<double> secondaryAnimation, Widget child) =>
+          FadeTransition(opacity: animation, child: child),
+    );
   }
 }
