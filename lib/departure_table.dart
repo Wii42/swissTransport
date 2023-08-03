@@ -17,6 +17,7 @@ class DepartureTable extends StatelessWidget {
     return PaddedCard(
       child: ApiUser<StationBoard>(
         apiCall: api.stationBoard(station: station, limit: 5),
+          onError: ApiUser.serverNotFound,
         displayResponse: (board) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

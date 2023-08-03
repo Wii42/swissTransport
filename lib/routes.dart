@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sbb/connection_page/connection_page.dart';
-import 'package:sbb/tab_app.dart';
+import 'package:sbb/tab_scaffold.dart';
 
 import 'connections_page/connections_page.dart';
 import 'home.dart';
