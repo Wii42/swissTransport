@@ -1,7 +1,11 @@
+import 'json_coding/prognosis_coder.dart';
+
 ///A prognosis contains "realtime" information on the status of a connection checkpoint.
 class Prognosis {
+  static final PrognosisCoder jsonCoder = PrognosisCoder();
+
   ///The estimated arrival/departure platform
-  String? plattform;
+  String? platform;
 
   ///The departure time prognosis to the checkpoint
   DateTime? departure;
@@ -16,32 +20,35 @@ class Prognosis {
   int? capacity2nd;
 
   Prognosis(
-      {this.plattform,
+      {this.platform,
       this.departure,
       this.arrival,
       this.capacity1st,
       this.capacity2nd});
 
-  factory Prognosis.fromJson(Map<String, dynamic> map) {
-    return Prognosis(
-      plattform: map['plattform'],
-      departure:
-          map['departure'] != null ? DateTime.parse(map['departure']) : null,
-      arrival: map['arrival'] != null ? DateTime.parse(map['arrival']) : null,
-      capacity1st: map['capacity1st'],
-      capacity2nd: map['capacity2nd'],
-    );
-  }
+  factory Prognosis.fromJson(Map<String, dynamic> map) =>
+      jsonCoder.fromJson(map);
 
-  static Prognosis? maybeFromJson(Map<String, dynamic>? map) {
-    if (map == null) {
-      return null;
-    }
-    return Prognosis.fromJson(map);
-  }
+  static Prognosis? maybeFromJson(Map<String, dynamic>? map) =>
+      jsonCoder.maybeFromJson(map);
+
+  static List<Prognosis> multipleFromJson(List<dynamic> list) =>
+      jsonCoder.multipleFromJson(list);
+
+  static List<Prognosis>? maybeMultipleFromJson(List<dynamic>? list) =>
+      jsonCoder.maybeMultipleFromJson(list);
+
+  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
+
+  static List<Map<String, dynamic>> multipleAsJson(List<Prognosis> list) =>
+      jsonCoder.multipleAsJson(list);
+
+  static List<Map<String, dynamic>>? maybeMultipleAsJson(
+          List<Prognosis>? list) =>
+      jsonCoder.maybeMultipleAsJson(list);
 
   @override
   String toString() {
-    return "Plattform: $plattform, Departure: $departure, Arrival: $arrival, Capacity 1st class: $capacity1st, Capacity 2nd class: $capacity2nd";
+    return "Plattform: $platform, Departure: $departure, Arrival: $arrival, Capacity 1st class: $capacity1st, Capacity 2nd class: $capacity2nd";
   }
 }

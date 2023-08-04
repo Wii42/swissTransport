@@ -9,7 +9,9 @@ enum TransportVehicles {
   tram(apiName: "tram", icon: Icons.tram, productAbbreviations: ['T']),
   ship(apiName: "ship", icon: Icons.directions_boat),
   cableWay(
-      apiName: "cableway", icon: Icons.cable, productAbbreviations: ['GB', 'PB']),
+      apiName: "cableway",
+      icon: Icons.cable,
+      productAbbreviations: ['GB', 'PB']),
   none(apiName: "none", icon: Icons.question_mark);
 
   final IconData icon;
@@ -29,6 +31,13 @@ enum TransportVehicles {
     }
     print("$string does not match any TransportIcon");
     return TransportVehicles.none;
+  }
+
+  static TransportVehicles maybeFromJson(String? string) {
+    if (string == null) {
+      return TransportVehicles.none;
+    }
+    return TransportVehicles.fromJson(string);
   }
 
   static TransportVehicles? fromProduct(String? product) {

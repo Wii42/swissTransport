@@ -4,8 +4,12 @@ import 'package:sbb/transport_api/transport_objects/service.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 import 'package:sbb/transport_api/transportation_vehicles.dart';
 
+import 'json_coding/connection_coder.dart';
+
 ///A connection represents a possible journey between two locations.
 class Connection extends DepartureArrival {
+  static final ConnectionCoder jsonCoder = ConnectionCoder();
+
   ///The departure checkpoint of the connection
   Stop? from;
 
@@ -41,68 +45,30 @@ class Connection extends DepartureArrival {
     this.sections,
   });
 
-  factory Connection.fromJson(Map<String, dynamic> map) {
-    return Connection(
-      from: Stop.maybeFromJson(map['from']),
-      to: Stop.maybeFromJson(map['to']),
-      duration: tryParseDuration(map['duration']),
-      service: Service.maybeFromJson(map['service']),
-      products: map['products'] != null
-          ? [for (String product in map['products']) product]
-          : null,
-      capacity1st: map['capacity1st'],
-      capacity2nd: map['capacity2nd'],
-      sections: Section.maybeMultipleFromJson(map['sections']),
-    );
-  }
+  factory Connection.fromJson(Map<String, dynamic> map) =>
+      jsonCoder.fromJson(map);
 
-  static Connection? maybeFromJson(Map<String, dynamic>? map) {
-    if (map == null) {
-      return null;
-    }
-    return Connection.fromJson(map);
-  }
+  static Connection? maybeFromJson(Map<String, dynamic>? map) =>
+      jsonCoder.maybeFromJson(map);
 
-  static List<Connection> multipleFromJson(List<dynamic> list) {
-    return [for (Map<String, dynamic> map in list) Connection.fromJson(map)];
-  }
+  static List<Connection> multipleFromJson(List<dynamic> list) =>
+      jsonCoder.multipleFromJson(list);
 
-  static List<Connection>? maybeMultipleFromJson(List<dynamic>? list) {
-    if (list == null) {
-      return null;
-    }
-    return Connection.multipleFromJson(list);
-  }
+  static List<Connection>? maybeMultipleFromJson(List<dynamic>? list) =>
+      jsonCoder.maybeMultipleFromJson(list);
+
+  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
+
+  static List<Map<String, dynamic>> multipleAsJson(List<Connection> list) =>
+      jsonCoder.multipleAsJson(list);
+
+  static List<Map<String, dynamic>>? maybeMultipleAsJson(
+          List<Connection>? list) =>
+      jsonCoder.maybeMultipleAsJson(list);
 
   @override
   String toString() {
     return "From: $from, To: $to, Duration: $duration, Service: $service, Products: $products, Capacity 1st class: $capacity1st, Capacity 2nd class: $capacity2nd, Sections: $sections";
-  }
-
-  static Duration? tryParseDuration(String? string) {
-    if (string == null) {
-      return null;
-    }
-    try {
-      return parseDuration(string);
-    } on Exception {
-      return null;
-    }
-  }
-
-  static Duration parseDuration(String string) {
-    List<String> daySplit = string.split('d');
-    assert(daySplit.length == 2);
-    int days = int.parse(daySplit[0]);
-
-    String time = daySplit[1];
-    List<String> timeSplit = time.split(':');
-    assert(timeSplit.length == 3);
-    int hours = int.parse(timeSplit[0]);
-    int minutes = int.parse(timeSplit[1]);
-    int seconds = int.parse(timeSplit[2]);
-    return Duration(
-        days: days, hours: hours, minutes: minutes, seconds: seconds);
   }
 
   String? get transportProduct {

@@ -1,7 +1,11 @@
 import 'package:sbb/transport_api/helper/interfaces.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 
+import 'json_coding/journey_coder.dart';
+
 class Journey extends DepartureArrival {
+  static final JourneyCoder jsonCoder = JourneyCoder();
+
   ///The name of the transportation
   String? name;
 
@@ -31,50 +35,37 @@ class Journey extends DepartureArrival {
 
   Stop? stop;
 
-  Journey(
-      {this.name,
-      this.category,
-      this.categoryCode,
-      this.number,
-      this.operator,
-      this.to,
-      this.passList,
-      this.capacity1st,
-      this.capacity2nd,
-      this.stop});
+  Journey({
+    this.name,
+    this.category,
+    this.categoryCode,
+    this.number,
+    this.operator,
+    this.to,
+    this.passList,
+    this.capacity1st,
+    this.capacity2nd,
+    this.stop,
+  });
 
-  factory Journey.fromJson(Map<String, dynamic> map) {
-    return Journey(
-      name: map['name'],
-      category: map['category'],
-      categoryCode: map['categoryCode'],
-      number: map['number'],
-      operator: map['operator'],
-      to: map['to'],
-      passList: Stop.maybeMultipleFromJson(map['passList']),
-      capacity1st: map['capacity1st'],
-      capacity2nd: map['capacity2nd'],
-      stop: Stop.maybeFromJson(map['stop']),
-    );
-  }
+  factory Journey.fromJson(Map<String, dynamic> map) => jsonCoder.fromJson(map);
 
-  static Journey? maybeFromJson(Map<String, dynamic>? map) {
-    if (map == null) {
-      return null;
-    }
-    return Journey.fromJson(map);
-  }
+  static Journey? maybeFromJson(Map<String, dynamic>? map) =>
+      jsonCoder.maybeFromJson(map);
 
-  static List<Journey> multipleFromJson(List<dynamic> list) {
-    return [for (Map<String, dynamic> map in list) Journey.fromJson(map)];
-  }
+  static List<Journey> multipleFromJson(List<dynamic> list) =>
+      jsonCoder.multipleFromJson(list);
 
-  static List<Journey>? maybeMultipleFromJson(List<dynamic>? list) {
-    if (list == null) {
-      return null;
-    }
-    return Journey.multipleFromJson(list);
-  }
+  static List<Journey>? maybeMultipleFromJson(List<dynamic>? list) =>
+      jsonCoder.maybeMultipleFromJson(list);
+
+  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
+
+  static List<Map<String, dynamic>> multipleAsJson(List<Journey> list) =>
+      jsonCoder.multipleAsJson(list);
+
+  static List<Map<String, dynamic>>? maybeMultipleAsJson(List<Journey>? list) =>
+      jsonCoder.maybeMultipleAsJson(list);
 
   @override
   String toString() {

@@ -1,8 +1,11 @@
 import 'package:sbb/transport_api/transportation_vehicles.dart';
 
 import 'coordinates.dart';
+import 'json_coding/location_coder.dart';
 
 class Location {
+  static final LocationCoder jsonCoder = LocationCoder();
+
   ///The id of the location
   String? id;
 
@@ -37,41 +40,26 @@ class Location {
     this.icon = TransportVehicles.none,
   });
 
-  factory Location.fromJson(Map<String, dynamic> map) {
-    return Location(
-      id: map['id'],
-      type: map['type'] != null
-          ? LocationType.fromJson(map['type'])
-          : LocationType.none,
-      name: map['name'],
-      score: map['score'],
-      coordinates: map['coordinate'] != null
-          ? Coordinates.fromJson(map['coordinate'])
-          : null,
-      distance: map['distance'],
-      icon: map['icon'] != null
-          ? TransportVehicles.fromJson(map['icon'])
-          : TransportVehicles.none,
-    );
-  }
+  factory Location.fromJson(Map<String, dynamic> map) =>
+      jsonCoder.fromJson(map);
 
-  static Location? maybeFromJson(Map<String, dynamic>? map){
-    if(map == null){
-      return null;
-    }
-    return Location.fromJson(map);
-  }
+  static Location? maybeFromJson(Map<String, dynamic>? map) =>
+      jsonCoder.maybeFromJson(map);
 
-  static List<Location> multipleFromJson(List<dynamic> list) {
-    return [for (Map<String, dynamic> map in list) Location.fromJson(map)];
-  }
+  static List<Location> multipleFromJson(List<dynamic> list) =>
+      jsonCoder.multipleFromJson(list);
 
-  static List<Location>? maybeMultipleFromJson(List<dynamic>? list) {
-    if (list == null) {
-      return null;
-    }
-    return Location.multipleFromJson(list);
-  }
+  static List<Location>? maybeMultipleFromJson(List<dynamic>? list) =>
+      jsonCoder.maybeMultipleFromJson(list);
+
+  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
+
+  static List<Map<String, dynamic>> multipleAsJson(List<Location> list) =>
+      jsonCoder.multipleAsJson(list);
+
+  static List<Map<String, dynamic>>? maybeMultipleAsJson(
+          List<Location>? list) =>
+      jsonCoder.maybeMultipleAsJson(list);
 
   @override
   String toString() {
@@ -104,5 +92,12 @@ enum LocationType {
     }
     print("$string does not match any LocationType");
     return LocationType.none;
+  }
+
+  static LocationType maybeFromJson(String? string) {
+    if (string == null) {
+      return LocationType.none;
+    }
+    return LocationType.fromJson(string);
   }
 }

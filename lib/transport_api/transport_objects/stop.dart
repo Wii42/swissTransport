@@ -2,8 +2,12 @@ import 'package:sbb/transport_api/helper/interfaces.dart';
 import 'package:sbb/transport_api/transport_objects/location.dart';
 import 'package:sbb/transport_api/transport_objects/prognosis.dart';
 
+import 'json_coding/stop_coder.dart';
+
 ///A checkpoint represents an arrival or a departure point (in time and space) of a connection.
-class Stop extends DepartureArrival{
+class Stop extends DepartureArrival {
+  static final StopCoder jsonCoder = StopCoder();
+
   ///A location object showing this line's stop at the requested station.
   Location? station;
 
@@ -27,43 +31,37 @@ class Stop extends DepartureArrival{
   String? realtimeAvailability;
   Location? location;
 
-  Stop(
-      {this.station,
-      this.arrival,
-      this.departure,
-      this.delay,
-      this.platform,
-      this.prognosis});
+  Stop({
+    this.station,
+    this.arrival,
+    this.departure,
+    this.delay,
+    this.platform,
+    this.prognosis,
+    this.arrivalTimestamp,
+    this.departureTimestamp,
+    this.realtimeAvailability,
+    this.location,
+  });
 
-  factory Stop.fromJson(Map<String, dynamic> map) {
-    return Stop(
-      station: Location.maybeFromJson(map['station']),
-      arrival: map['arrival'] != null ? DateTime.parse(map['arrival']) : null,
-      departure:
-          map['departure'] != null ? DateTime.parse(map['departure']) : null,
-      delay: map['delay'],
-      platform: map['platform'],
-      prognosis: Prognosis.maybeFromJson(map['prognosis']),
-    );
-  }
+  factory Stop.fromJson(Map<String, dynamic> map) => jsonCoder.fromJson(map);
 
-  static Stop? maybeFromJson(Map<String, dynamic>? map) {
-    if (map == null) {
-      return null;
-    }
-    return Stop.fromJson(map);
-  }
+  static Stop? maybeFromJson(Map<String, dynamic>? map) =>
+      jsonCoder.maybeFromJson(map);
 
-  static List<Stop> multipleFromJson(List<dynamic> list) {
-    return [for (Map<String, dynamic> map in list) Stop.fromJson(map)];
-  }
+  static List<Stop> multipleFromJson(List<dynamic> list) =>
+      jsonCoder.multipleFromJson(list);
 
-  static List<Stop>? maybeMultipleFromJson(List<dynamic>? list) {
-    if (list == null) {
-      return null;
-    }
-    return Stop.multipleFromJson(list);
-  }
+  static List<Stop>? maybeMultipleFromJson(List<dynamic>? list) =>
+      jsonCoder.maybeMultipleFromJson(list);
+
+  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
+
+  static List<Map<String, dynamic>> multipleAsJson(List<Stop> list) =>
+      jsonCoder.multipleAsJson(list);
+
+  static List<Map<String, dynamic>>? maybeMultipleAsJson(List<Stop>? list) =>
+      jsonCoder.maybeMultipleAsJson(list);
 
   @override
   String toString() {
