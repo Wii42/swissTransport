@@ -16,14 +16,14 @@ class SavedConnectionsPage extends StatefulWidget {
 class _SavedConnectionsPageState extends State<SavedConnectionsPage> {
   @override
   Widget build(BuildContext context) {
-    List<Connection>? savedConnections = SavedConnections.of(context);
-    if (savedConnections == null || savedConnections.isEmpty) {
+    SavedConnections? savedConnections = SavedConnections.of(context);
+    if (savedConnections == null || savedConnections.list.isEmpty) {
       return const Center(child: Text("Keine gespeicherten Reisen vorhanden"));
     }
     return Center(
       child: ListView(
         children: [
-          for (Connection connection in savedConnections)
+          for (Connection connection in savedConnections.list)
             PaddedClickableCard(
               onTap: () => Routes.connection.push(context, params: connection),
               child: Column(

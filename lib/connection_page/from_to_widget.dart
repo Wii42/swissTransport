@@ -70,14 +70,16 @@ class FromToWidget extends StatelessWidget {
   }
 
   void Function()? onPressed(BuildContext context) {
-    List<Connection>? savedConnections = SavedConnections.of(context);
+    SavedConnections? savedConnections = SavedConnections.of(context);
+
     if (savedConnections == null ||
-        savedConnections.stringContains(connection)) {
+        savedConnections.list.stringContains(connection)) {
       return null;
     }
+    List<Connection> savedConnectionsList = savedConnections.list;
     ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
     return () {
-      if (savedConnections.stringContains(connection)) {
+      if (savedConnectionsList.stringContains(connection)) {
         messenger.showSnackBar(
           const SnackBar(content: Text('Verbindung bereits gemerkt')),
         );

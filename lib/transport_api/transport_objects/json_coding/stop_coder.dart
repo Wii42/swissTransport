@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:sbb/transport_api/transport_objects/json_coding/json_coder.dart';
 import 'package:sbb/transport_api/transport_objects/location.dart';
 

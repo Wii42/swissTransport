@@ -28,7 +28,7 @@ class _AddToSavedConnectionsButtonState
   }
 
   void Function()? onPressed(BuildContext context) {
-    List<Connection>? savedConnections = SavedConnections.of(context);
+    SavedConnections? savedConnections = SavedConnections.of(context);
     if (savedConnections == null || !isActive) {
       return null;
     }
@@ -38,14 +38,13 @@ class _AddToSavedConnectionsButtonState
         isActive = false;
       });
 
-      if (savedConnections.stringContains(widget.connection)) {
+      if (savedConnections.list.stringContains(widget.connection)) {
         ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
         messenger.showSnackBar(
           const SnackBar(content: Text('Bereits Gemerkt')),
         );
       } else {
         savedConnections.add(widget.connection);
-        ;
       }
     };
   }
@@ -55,11 +54,11 @@ class _AddToSavedConnectionsButtonState
   }
 
   bool setIsActive(BuildContext context) {
-    List<Connection>? connections = savedConnections(context);
+    List<Connection>? connections = savedConnections(context)?.list;
     if (connections == null) return false;
     return !connections.stringContains(widget.connection);
   }
 
-  List<Connection>? savedConnections(BuildContext context) =>
+  SavedConnections? savedConnections(BuildContext context) =>
       SavedConnections.of(context);
 }

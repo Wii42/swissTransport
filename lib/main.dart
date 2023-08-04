@@ -3,10 +3,14 @@ import 'package:go_router/go_router.dart';
 import 'package:sbb/routes.dart';
 import 'package:sbb/saved_connections.dart';
 import 'package:sbb/tab_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
 
-void main() {
+late final SharedPreferences sharedPreferences;
+
+void main() async{
+  sharedPreferences = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
 
