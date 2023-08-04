@@ -90,7 +90,6 @@ enum LocationType {
         return icon;
       }
     }
-    print("$string does not match any LocationType");
     return LocationType.none;
   }
 

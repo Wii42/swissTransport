@@ -84,7 +84,6 @@ class ConnectionCoder extends JsonCoder<Connection> {
     String twoDigitHours = twoDigits(duration.inHours.remainder(24));
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    print("${twoDigitDays}d$twoDigitHours:$twoDigitMinutes:$twoDigitSeconds");
     return "${twoDigitDays}d$twoDigitHours:$twoDigitMinutes:$twoDigitSeconds";
   }
 }

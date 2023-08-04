@@ -17,7 +17,7 @@ abstract class TransportApiRequest {
     Uri url = Uri.parse("$apiUrl?$parameters");
 
     http.Response response = await http.get(url);
-    print("${response.request}\n${response.statusCode}");
+    print("${response.statusCode} ${response.request}");
     return response;
   }
 

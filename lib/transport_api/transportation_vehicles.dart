@@ -29,7 +29,6 @@ enum TransportVehicles {
         return icon;
       }
     }
-    print("$string does not match any TransportIcon");
     return TransportVehicles.none;
   }
 
