@@ -9,12 +9,13 @@ import 'ui/home.dart';
 
 SharedPreferences? sharedPreferences;
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   getSharedPrefs();
   runApp(const MyApp());
 }
-void getSharedPrefs()async{
+
+void getSharedPrefs() async {
   sharedPreferences = await SharedPreferences.getInstance();
 }
 
@@ -44,6 +45,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-
-
 }

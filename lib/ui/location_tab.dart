@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/generic_ui_elements/padded_card.dart';
 import 'package:sbb/transport_api/transport_objects/location.dart';
-import 'package:sbb/transport_api/transportation_vehicles.dart';
+import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 
 class LocationTab extends StatelessWidget {
   final Location location;

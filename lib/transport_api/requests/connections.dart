@@ -1,10 +1,10 @@
 import 'package:intl/intl.dart';
 import 'package:sbb/transport_api/helper/bool_to_int.dart';
-import 'package:sbb/transport_api/accessibility.dart';
+import 'package:sbb/transport_api/enums/accessibility.dart';
 import 'package:sbb/transport_api/requests/api_request.dart';
 
 import '../transport_objects/connections.dart';
-import '../transportation_vehicles.dart';
+import '../enums/transport_vehicles.dart';
 
 class ConnectionsRequest extends TransportApiRequest {
   @override

@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:sbb/transport_api/requests/api_request.dart';
-import 'package:sbb/transport_api/transportation_vehicles.dart';
+import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 
 import '../transport_objects/station_board.dart';
 

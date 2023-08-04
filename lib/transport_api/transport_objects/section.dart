@@ -1,6 +1,6 @@
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 import 'package:sbb/transport_api/transport_objects/walk.dart';
-import 'package:sbb/transport_api/transportation_vehicles.dart';
+import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 
 import 'journey.dart';
 import 'json_coding/section_coder.dart';

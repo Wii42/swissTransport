@@ -1,6 +1,7 @@
 import 'package:sbb/transport_api/transport_objects/json_coding/json_coder.dart';
 
-import '../../transportation_vehicles.dart';
+import '../../enums/location_type.dart';
+import '../../enums/transport_vehicles.dart';
 import '../coordinates.dart';
 import '../location.dart';
 

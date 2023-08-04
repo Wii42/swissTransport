@@ -3,7 +3,7 @@ import 'package:sbb/transport_api/transport_objects/section.dart';
 import 'package:sbb/transport_api/transport_objects/service.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 import 'package:sbb/transport_api/transport_objects/walk.dart';
-import 'package:sbb/transport_api/transportation_vehicles.dart';
+import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 
 import 'json_coding/connection_coder.dart';
 

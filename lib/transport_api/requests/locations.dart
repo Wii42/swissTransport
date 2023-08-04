@@ -1,7 +1,7 @@
 import 'package:sbb/transport_api/transport_objects/coordinates.dart';
 import 'package:sbb/transport_api/requests/api_request.dart';
 
-import '../transport_objects/location.dart';
+import '../enums/location_type.dart';
 import '../transport_objects/stations.dart';
 
 class LocationsRequest extends TransportApiRequest {

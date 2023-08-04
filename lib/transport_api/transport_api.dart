@@ -5,10 +5,10 @@ import 'package:sbb/transport_api/transport_objects/coordinates.dart';
 import 'package:sbb/transport_api/requests/locations.dart';
 import 'package:sbb/transport_api/transport_objects/station_board.dart';
 import 'package:sbb/transport_api/transport_objects/stations.dart';
-import 'package:sbb/transport_api/transportation_vehicles.dart';
+import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 
-import 'accessibility.dart';
-import 'transport_objects/location.dart';
+import 'enums/accessibility.dart';
+import 'enums/location_type.dart';
 
 const String locationsUrl = "https://transport.opendata.ch/v1/locations";
 
