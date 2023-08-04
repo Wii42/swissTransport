@@ -2,6 +2,7 @@ import 'package:sbb/transport_api/helper/interfaces.dart';
 import 'package:sbb/transport_api/transport_objects/section.dart';
 import 'package:sbb/transport_api/transport_objects/service.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
+import 'package:sbb/transport_api/transport_objects/walk.dart';
 import 'package:sbb/transport_api/transportation_vehicles.dart';
 
 import 'json_coding/connection_coder.dart';
@@ -98,32 +99,15 @@ class Connection extends DepartureArrival {
   @override
   DateTime? get arrivalTime => to?.arrival;
 
-  int? get totalWalkingSecs {
-    if (sections == null) {
-      return null;
-    }
-    int walkingSecs = 0;
-    for (Section section in sections!) {
-      if (section.hasWalk) {
-        walkingSecs += section.walk!.duration!;
-      }
-    }
-    return walkingSecs;
-  }
+  Section? get firstSection => sections?.firstOrNull;
 
-  bool get hasWalkingTime => totalWalkingSecs != null && totalWalkingSecs != 0;
+  Walk? get startWalk => firstSection?.walk;
 
-  bool get isStartingWithWalk {
-    if (sections?.firstOrNull == null) {
-      return false;
-    }
-    return sections!.first.hasWalk;
-  }
+  bool get isStartingWithWalk => firstSection?.hasWalk ?? false;
 
   TransportVehicles? get transportVehicle {
-    Section? firstSection = sections?.firstOrNull;
     if (firstSection != null) {
-      TransportVehicles? vehicle = firstSection.transportVehicle;
+      TransportVehicles? vehicle = firstSection?.transportVehicle;
       if (vehicle != null) {
         return vehicle;
       }

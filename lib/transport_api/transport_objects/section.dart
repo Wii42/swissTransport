@@ -46,7 +46,7 @@ class Section {
     return "Journey: $journey, Walk: $walk, Departure: $departure, Arrival: $arrival";
   }
 
-  bool get hasWalk => (walk?.duration != null && walk!.duration! > 0);
+  bool get hasWalk => (walk != null && walk!.duration.inSeconds > 0);
 
   String? get direction => journey?.to ?? arrival?.station?.name;
 

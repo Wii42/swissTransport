@@ -4,9 +4,9 @@ class Walk {
   static final WalkCoder jsonCoder = WalkCoder();
 
   /// walking duration in seconds
-  int? duration;
+  Duration duration;
 
-  Walk({this.duration});
+  Walk({required this.duration});
 
   factory Walk.fromJson(Map<String, dynamic> map) => jsonCoder.fromJson(map);
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/connections_page/stops_indicator.dart';
+import 'package:sbb/connections_page/time_and_stops_row.dart';
 import 'package:sbb/generic_ui_elements/padded_card.dart';
 
 import '../transport_api/transport_objects/section.dart';
@@ -20,7 +21,8 @@ class TravelSectionRow extends StatelessWidget {
     if (section.hasWalk) {
       return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-          child: walkingIndicator());
+          child: TimeAndStopsRow.walkingIndicator(section,
+              suffix: const Text(' Fussweg')));
     }
     return PaddedCard(
       child: IntrinsicHeight(
@@ -127,22 +129,6 @@ class TravelSectionRow extends StatelessWidget {
         Text((end?.platform != null && end!.platform!.isNotEmpty)
             ? "Gl. ${end?.platform}"
             : ""),
-      ],
-    );
-  }
-
-  Widget walkingIndicator() {
-    int walkingMins = section.walk!.duration! ~/ 60;
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: 5,
-      children: [
-        Text("$walkingMins'"),
-        const Icon(
-          Icons.directions_walk,
-          size: 13,
-        ),
-        const Text("Fussweg"),
       ],
     );
   }

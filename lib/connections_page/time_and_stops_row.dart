@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sbb/connections_page/stops_indicator.dart';
 
 import '../transport_api/transport_objects/connection.dart';
+import '../transport_api/transport_objects/section.dart';
 
 class TimeAndStopsRow extends StatelessWidget {
   final Connection connection;
@@ -11,7 +12,9 @@ class TimeAndStopsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        if (connection.isStartingWithWalk) walkingIndicator(),
+        if (connection.isStartingWithWalk)
+          walkingIndicator(connection.firstSection,
+              suffix: const SizedBox(width: 10)),
         departureTimeText(connection),
         Expanded(
             child: Padding(
@@ -22,16 +25,15 @@ class TimeAndStopsRow extends StatelessWidget {
     );
   }
 
-  Widget walkingIndicator() {
-    int walkingMins = connection.totalWalkingSecs! ~/ 60;
+  static Widget walkingIndicator(Section? section, {Widget? suffix}) {
     return Row(
       children: [
         const Icon(
           Icons.directions_walk,
           size: 13,
         ),
-        Text("$walkingMins'"),
-        const SizedBox(width: 10)
+        Text("${section?.walk?.duration.inMinutes ?? 0}'"),
+        if (suffix != null) suffix,
       ],
     );
   }
