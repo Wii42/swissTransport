@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:sbb/custom_page.dart';
+import 'package:sbb/ui/custom_page.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
 
-import '../api_user.dart';
+import '../ui/api_user.dart';
 import 'from_to_widget.dart';
 import 'connections_list.dart';
 

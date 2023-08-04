@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sbb/routes.dart';
-import 'package:sbb/saved_connections.dart';
-import 'package:sbb/tab_app.dart';
+import 'package:sbb/ui/routes.dart';
+import 'package:sbb/ui/saved_connections.dart';
+import 'package:sbb/ui/tab_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home.dart';
+import 'ui/home.dart';
 
 SharedPreferences? sharedPreferences;
 

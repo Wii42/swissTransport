@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sbb/routes.dart';
+import 'package:sbb/ui/routes.dart';
 
 class TabNavigator extends StatelessWidget {
   const TabNavigator({

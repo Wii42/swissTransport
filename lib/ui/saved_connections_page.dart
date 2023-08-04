@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sbb/connection_representation.dart';
-import 'package:sbb/from_to_text.dart';
+import 'package:sbb/ui/connection_representation.dart';
+import 'package:sbb/ui/from_to_text.dart';
 import 'package:sbb/generic_ui_elements/padded_clickable_card.dart';
-import 'package:sbb/routes.dart';
-import 'package:sbb/saved_connections.dart';
+import 'package:sbb/ui/routes.dart';
+import 'package:sbb/ui/saved_connections.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
 class SavedConnectionsPage extends StatefulWidget {

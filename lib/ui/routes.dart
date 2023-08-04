@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sbb/connection_page/connection_page.dart';
-import 'package:sbb/tab_scaffold.dart';
+import 'package:sbb/ui/tab_scaffold.dart';
 
-import 'connections_page/connections_page.dart';
+import '../connections_page/connections_page.dart';
 import 'home.dart';
 
 enum Routes {

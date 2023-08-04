@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/generic_ui_elements/padded_card.dart';
-import 'package:sbb/saved_connections_page.dart';
-import 'package:sbb/tab_body.dart';
+import 'package:sbb/ui/saved_connections_page.dart';
+import 'package:sbb/ui/tab_body.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
@@ -10,7 +10,7 @@ import 'api_user.dart';
 import 'custom_page.dart';
 import 'custom_tabs_page.dart';
 import 'fahrplan_page.dart';
-import 'generic_ui_elements/widget_with_title.dart';
+import '../generic_ui_elements/widget_with_title.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/connections_page/time_and_stops_row.dart';
 import 'package:sbb/connections_page/travel_duration_row.dart';
-import 'package:sbb/saved_connections.dart';
+import 'package:sbb/ui/saved_connections.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
 import '../connections_page/connections_list.dart';
-import '../from_to_text.dart';
+import '../ui/from_to_text.dart';
 import '../generic_ui_elements/expandable_padded_card.dart';
 import 'add_to_saved_connections_button.dart';
 

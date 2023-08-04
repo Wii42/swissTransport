@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'generic_ui_elements/widget_with_title.dart';
+import '../generic_ui_elements/widget_with_title.dart';
 
 class TabScaffold extends StatelessWidget {
   const TabScaffold({

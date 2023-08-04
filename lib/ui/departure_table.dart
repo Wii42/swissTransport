@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sbb/api_user.dart';
+import 'package:sbb/ui/api_user.dart';
 import 'package:sbb/generic_ui_elements/padded_card.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/journey.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sbb/connection_page/connection_info.dart';
 import 'package:sbb/connection_page/from_to_widget.dart';
 
-import 'package:sbb/custom_page.dart';
+import 'package:sbb/ui/custom_page.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
 class ConnectionPage extends StatelessWidget {
