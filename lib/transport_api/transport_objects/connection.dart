@@ -112,13 +112,14 @@ class Connection extends DepartureArrival {
         return vehicle;
       }
     }
-
     List<String>? products = this.products;
     if (products == null) {
       return null;
     }
     return TransportVehicles.fromProduct(products.firstOrNull);
   }
+
+  bool get hasCapacityInfo => (capacity1st != null || capacity2nd != null);
 
   bool stringCompare(Connection other) {
     return (toString() == other.toString());

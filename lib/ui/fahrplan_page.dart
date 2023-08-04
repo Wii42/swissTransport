@@ -17,7 +17,10 @@ class FahrplanPage extends WidgetWithTitle {
   Widget build(BuildContext context) {
     return ListView(
       physics: const BouncingScrollPhysics(),
-      children: const [ConnectionsForm(), DepartureTable(station: "Wengwald")],
+      children: const [
+        ConnectionsForm(),
+        DepartureTable(station: "Bern"),
+      ],
     );
   }
 }

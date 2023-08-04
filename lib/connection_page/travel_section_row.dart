@@ -48,11 +48,23 @@ class TravelSectionRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          start?.departureTimeString ?? "",
-          style: const TextStyle(fontWeight: FontWeight.bold),
+        Column(
+          children: [
+            Text(
+              start?.departureTimeString ?? "",
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            if (section.departure != null && section.departure!.hasDelay)
+              TimeAndStopsRow.delayText(section.departure!),
+          ],
         ),
-        Text(end?.arrivalTimeString ?? ""),
+        Column(
+          children: [
+            if (section.arrival != null && section.arrival!.hasDelay)
+              TimeAndStopsRow.delayText(section.arrival!),
+            Text(end?.arrivalTimeString ?? ""),
+          ],
+        ),
       ],
     );
   }

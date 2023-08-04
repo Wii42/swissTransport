@@ -3,6 +3,7 @@ import 'package:sbb/connections_page/stops_indicator.dart';
 
 import '../transport_api/transport_objects/connection.dart';
 import '../transport_api/transport_objects/section.dart';
+import '../transport_api/transport_objects/stop.dart';
 
 class TimeAndStopsRow extends StatelessWidget {
   final Connection connection;
@@ -16,10 +17,14 @@ class TimeAndStopsRow extends StatelessWidget {
           walkingIndicator(connection.firstSection,
               suffix: const SizedBox(width: 10)),
         departureTimeText(connection),
+        if(connection.from != null && connection.from!.hasDelay)
+          delayText(connection.from!),
         Expanded(
             child: Padding(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
                 child: StopsIndicator(connection: connection))),
+        if(connection.to != null && connection.to!.hasDelay)
+          delayText(connection.to!),
         arrivalTimeText(connection)
       ],
     );
@@ -46,5 +51,12 @@ class TimeAndStopsRow extends StatelessWidget {
   static Widget arrivalTimeText(Connection connection) {
     return Text(connection.arrivalTimeString ?? "",
         style: const TextStyle(fontWeight: FontWeight.bold));
+  }
+
+  static Widget delayText(Stop stop) {
+    return Text(
+      "+${stop.delay}'",
+      style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+    );
   }
 }

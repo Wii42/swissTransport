@@ -16,7 +16,8 @@ class TravelDurationRow extends StatelessWidget {
                 connection.departurePlatform != '')
             ? Text("Gl. ${connection.departurePlatform}")
             : const Text(''),
-        Text(durationString(connection.duration))
+        if (connection.hasCapacityInfo) capacityInfo(),
+        Text(durationString(connection.duration)),
       ],
     );
   }
@@ -35,5 +36,16 @@ class TravelDurationRow extends StatelessWidget {
     string += "$mins min";
 
     return string;
+  }
+
+  Widget capacityInfo() {
+    return Row(
+      children: [
+        if (connection.capacity1st != null)
+          Text('1: ${connection.capacity1st}'),
+        if (connection.capacity2nd != null)
+          Text('2: ${connection.capacity2nd}'),
+      ],
+    );
   }
 }

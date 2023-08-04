@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 enum TransportVehicles {
-  bus(apiName: "bus", icon: Icons.directions_bus, productAbbreviations: ['B']),
+  bus(apiName: "bus", icon: Icons.directions_bus, productAbbreviations: ['B', 'BN']),
   train(
       apiName: "train",
       icon: Icons.directions_train,

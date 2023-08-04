@@ -76,4 +76,6 @@ class Stop extends DepartureArrival {
 
   @override
   DateTime? get departureTime => departure;
+
+  bool get hasDelay => (delay != null && delay! > 0);
 }
