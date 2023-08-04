@@ -31,12 +31,12 @@ class LocationCoder extends JsonCoder<Location> {
   Map<String, dynamic> asJson(Location object) {
     return {
       idKey: object.id,
-      typeKey: object.type.name,
+      typeKey: object.type.asJson(),
       nameKey: object.name,
       scoreKey: object.score,
       coordinatesKey: object.coordinates?.asJson(),
       distanceKey: object.distance,
-      iconKey: object.icon.apiName,
+      iconKey: object.icon.asJson(),
     };
   }
 }

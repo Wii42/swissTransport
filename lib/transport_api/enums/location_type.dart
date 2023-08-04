@@ -30,4 +30,8 @@ enum LocationType {
     }
     return LocationType.fromJson(string);
   }
+
+  String asJson(){
+    return name;
+  }
 }

@@ -3,7 +3,7 @@ import 'json_coding/walk_coder.dart';
 class Walk {
   static final WalkCoder jsonCoder = WalkCoder();
 
-  /// walking duration in seconds
+  /// walking duration
   Duration duration;
 
   Walk({required this.duration});

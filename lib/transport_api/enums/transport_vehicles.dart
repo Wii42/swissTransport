@@ -39,6 +39,10 @@ enum TransportVehicles {
     return TransportVehicles.fromJson(string);
   }
 
+  String asJson(){
+    return apiName;
+  }
+
   static TransportVehicles? fromProduct(String? product) {
     for (TransportVehicles vehicle in values) {
       if (vehicle.productAbbreviations.contains(product)) {
