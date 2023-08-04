@@ -39,7 +39,7 @@ enum TransportVehicles {
     return TransportVehicles.fromJson(string);
   }
 
-  String asJson(){
+  String asJson() {
     return apiName;
   }
 

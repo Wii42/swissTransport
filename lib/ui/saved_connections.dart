@@ -27,7 +27,7 @@ class SavedConnections extends InheritedWidget {
   }
 
   List<Connection> _loadFromSharedPreferencesIfPossible() {
-    if(sharedPrefs == null){
+    if (sharedPrefs == null) {
       return [];
     }
     if (sharedPrefs!.containsKey(savedConnectionsKey)) {
@@ -44,7 +44,8 @@ class SavedConnections extends InheritedWidget {
     sharedPrefs?.setStringList(
         savedConnectionsKey,
         _savedConnections
-            .map<String>((Connection connection) => jsonEncode(connection.asJson()))
+            .map<String>(
+                (Connection connection) => jsonEncode(connection.asJson()))
             .toList());
   }
 

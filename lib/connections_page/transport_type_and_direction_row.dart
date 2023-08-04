@@ -12,7 +12,7 @@ class TransportTypeAndDurationRow extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       spacing: 5,
       children: [
-        if(connection.transportVehicle != null)
+        if (connection.transportVehicle != null)
           Icon(connection.transportVehicle?.icon, size: 14),
         Text(
           connection.transportProduct ?? "",

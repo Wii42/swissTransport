@@ -26,9 +26,8 @@ class ApiUser<T extends Object> extends StatefulWidget {
   static Widget? serverNotFound(Object error) {
     if (error is ClientException && error is SocketException) {
       return Center(
-          child:
-          Text('Verbingung zum Server konnte nicht aufgebaut werden.\n\nDetails:\n${error.message}, URL: ${error.uri}'),
-
+        child: Text(
+            'Verbingung zum Server konnte nicht aufgebaut werden.\n\nDetails:\n${error.message}, URL: ${error.uri}'),
       );
     }
     return null; //Text(error.runtimeType.toString());

@@ -30,7 +30,7 @@ abstract class TransportApiRequest {
     return jsonResponse;
   }
 
-  Future<Map<String, dynamic>> getJsonResponse() async{
+  Future<Map<String, dynamic>> getJsonResponse() async {
     http.Response apiResponse = await callApi();
     return extractJson(apiResponse);
   }

@@ -22,10 +22,15 @@ class TravelSectionTable extends StatelessWidget {
   TableRow departure() {
     Stop? start = section.departure;
     return TableRow(children: [
-      Text(start?.departureTimeString ?? "", style: const TextStyle(fontWeight: FontWeight.bold),),
+      Text(
+        start?.departureTimeString ?? "",
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
       StopsIndicator.endStopIcon,
-      Text(start?.station?.name ?? '?', style: const TextStyle(fontWeight: FontWeight.bold)),
-      Text("Gl. ${start?.platform}", style: const TextStyle(fontWeight: FontWeight.bold))
+      Text(start?.station?.name ?? '?',
+          style: const TextStyle(fontWeight: FontWeight.bold)),
+      Text("Gl. ${start?.platform}",
+          style: const TextStyle(fontWeight: FontWeight.bold))
     ]);
   }
 

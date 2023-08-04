@@ -16,7 +16,6 @@ class TravelDurationRow extends StatelessWidget {
                 connection.departurePlatform != '')
             ? Text("Gl. ${connection.departurePlatform}")
             : const Text(''),
-
         Text(durationString(connection.duration))
       ],
     );
