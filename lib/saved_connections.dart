@@ -9,7 +9,7 @@ class SavedConnections extends InheritedWidget {
   static const String savedConnectionsKey = 'savedConnections';
 
   late final List<Connection> _savedConnections;
-  late final SharedPreferences sharedPrefs = sharedPreferences;
+  late final SharedPreferences? sharedPrefs = sharedPreferences;
 
   SavedConnections({super.key, required super.child}) {
     _savedConnections = _loadFromSharedPreferencesIfPossible();
@@ -27,8 +27,11 @@ class SavedConnections extends InheritedWidget {
   }
 
   List<Connection> _loadFromSharedPreferencesIfPossible() {
-    if (sharedPrefs.containsKey(savedConnectionsKey)) {
-      return sharedPrefs
+    if(sharedPrefs == null){
+      return [];
+    }
+    if (sharedPrefs!.containsKey(savedConnectionsKey)) {
+      return sharedPrefs!
           .getStringList(savedConnectionsKey)!
           .map<Connection>(
               (String string) => Connection.fromJson(jsonDecode(string)))
@@ -38,7 +41,7 @@ class SavedConnections extends InheritedWidget {
   }
 
   void _saveToSharedPreferences() {
-    sharedPrefs.setStringList(
+    sharedPrefs?.setStringList(
         savedConnectionsKey,
         _savedConnections
             .map<String>((Connection connection) => jsonEncode(connection.asJson()))
