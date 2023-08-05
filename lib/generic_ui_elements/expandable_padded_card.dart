@@ -18,7 +18,7 @@ class ExpandablePaddedCard extends StatelessWidget {
     return Card(
       child: ExpansionTile(
         title: alwaysVisibleChild,
-        initiallyExpanded: true,
+        initiallyExpanded: initiallyExpanded,
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         tilePadding: EdgeInsets.symmetric(horizontal: inset),
         childrenPadding: EdgeInsets.fromLTRB(inset, 0, inset, inset),

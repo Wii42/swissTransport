@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sbb/transport_api/helper/bool_to_int.dart';
 import 'package:sbb/transport_api/enums/accessibility.dart';
@@ -25,7 +26,7 @@ class ConnectionsRequest extends TransportApiRequest {
   DateTime? date;
 
   ///Time of the connection
-  DateTime? time;
+  TimeOfDay? time;
 
   ///defaults to false, if set to true the passed date and time is the arrival time
   bool? isArrivalTime;
@@ -88,7 +89,8 @@ class ConnectionsRequest extends TransportApiRequest {
       parametersList.add("date=${DateFormat("yyyy-MM-dd").format(date!)}");
     }
     if (time != null) {
-      parametersList.add("time=${DateFormat("hh:mm").format(time!)}");
+      parametersList.add(
+          "time=${DateFormat("hh:mm").format(DateTime(0, 0, 0, time!.hour, time!.minute))}");
     }
     if (isArrivalTime != null) {
       parametersList.add("isArrivalTime=${isArrivalTime!.toInt()}");

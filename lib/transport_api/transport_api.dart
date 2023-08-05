@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:sbb/transport_api/requests/connections.dart';
 import 'package:sbb/transport_api/requests/station_board.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
@@ -27,7 +28,7 @@ class TransportApi {
       required String to,
       List<String>? via,
       DateTime? date,
-      DateTime? time,
+      TimeOfDay? time,
       bool? isArrivalTime,
       List<TransportVehicles>? transportations,
       int? limit,
