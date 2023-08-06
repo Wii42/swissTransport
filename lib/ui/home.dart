@@ -58,14 +58,16 @@ class Home extends StatelessWidget {
         icon: Icons.label_important,
       ),
       const CustomPage(
-        title: 'API Testing',
-        icon: Icons.api_outlined,
-        body: Center(child: Text('Api Testing was successful'),)
-        //ApiUser<Connections>(
-        //  apiCall: api.connections(from: "Wengen", to: "Lauterbrunnen"),
-        //  displayResponse: _response,
-        //),
-      ),
+          title: 'API Testing',
+          icon: Icons.api_outlined,
+          body: Center(
+            child: Text('Api Testing was successful'),
+          )
+          //ApiUser<Connections>(
+          //  apiCall: api.connections(from: "Wengen", to: "Lauterbrunnen"),
+          //  displayResponse: _response,
+          //),
+          ),
     ];
   }
 }
