@@ -16,7 +16,7 @@ class DepartureTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return PaddedCard(
       child: ApiUser<StationBoard>(
-        apiCall: api.stationBoard(station: station, limit: 5),
+        apiCall: api.stationBoard(station: station, limit: 10),
         onError: ApiUser.serverNotFound,
         displayResponse: (board) {
           return Column(
@@ -32,34 +32,65 @@ class DepartureTable extends StatelessWidget {
                   )
                 ],
               ),
-              if (board.stationBoard != null)
-                Table(
-                  border: const TableBorder(horizontalInside: BorderSide()),
-                  children: [
-                    const TableRow(children: [
-                      Text(""),
-                      Text("Ab"),
-                      Text("Richtung"),
-                      Text("")
-                    ]),
-                    for (Journey journey in board.stationBoard!)
-                      TableRow(
-                        children: [
-                          Text(
-                            "${journey.category} ${journey.number}",
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(journey.departureTimeString ?? ""),
-                          Text(journey.to ?? ""),
-                          Text(journey.departurePlatform ?? "")
-                        ],
-                      )
-                  ],
-                )
+              if (board.stationBoard != null) departureTable(board)
             ],
           );
         },
       ),
     );
   }
+
+  Table departureTable(StationBoard board) {
+    return Table(
+      border: const TableBorder(horizontalInside: BorderSide()),
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      defaultColumnWidth: const IntrinsicColumnWidth(),
+      children: [
+        tableHeaders(),
+        for (Journey journey in board.stationBoard!)
+          TableRow(
+            children: [
+              padding(
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 20,
+                      child: Icon(journey.transportVehicle?.icon, size: 14),
+                    ),
+                    Text(journey.transportName ?? "",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              padding(
+                Text(journey.departureTimeString ?? ""),
+              ),
+              padding(
+                Text(journey.to ?? ""),
+              ),
+              padding(
+                Text(
+                  journey.departurePlatform ?? "",
+                  textAlign: TextAlign.end,
+                ),
+              ),
+            ],
+          )
+      ],
+    );
+  }
+
+  TableRow tableHeaders() {
+    return TableRow(children: [
+      const SizedBox(),
+      padding(const Text("Ab")),
+      padding(const Text("Richtung")),
+      padding(const Text("Gleis", textAlign: TextAlign.end)),
+    ]);
+  }
+
+  Widget padding(Widget? widget) =>
+      Padding(padding: const EdgeInsets.all(5), child: widget);
 }

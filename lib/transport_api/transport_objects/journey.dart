@@ -1,6 +1,7 @@
 import 'package:sbb/transport_api/helper/interfaces.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 
+import '../enums/transport_vehicles.dart';
 import 'json_coding/journey_coder.dart';
 
 class Journey extends DepartureArrival {
@@ -80,4 +81,25 @@ class Journey extends DepartureArrival {
 
   @override
   DateTime? get arrivalTime => passList?.lastOrNull?.arrival?.toLocal();
+
+  TransportVehicles? get transportVehicle {
+    return TransportVehicles.fromProduct(category);
+  }
+
+  String? get transportName {
+    String? tNumber;
+    if (number != null && number!.length < 4) {
+      tNumber = number;
+    }
+    if (category != null && tNumber != null) {
+      return "$category $tNumber";
+    }
+    if (category != null) {
+      return category;
+    }
+    if (tNumber != null) {
+      return tNumber;
+    }
+    return null;
+  }
 }

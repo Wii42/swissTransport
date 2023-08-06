@@ -50,17 +50,12 @@ class Section {
 
   String? get direction => journey?.to ?? arrival?.station?.name;
 
-  String? get transportProduct {
+  String? get transportName {
     if (hasWalk) {
       return null;
     }
-    if (journey?.category != null || journey?.number != null) {
-      return "${journey?.category} ${journey?.number}";
-    }
-    return null;
+    return journey?.transportName;
   }
 
-  TransportVehicles? get transportVehicle {
-    return TransportVehicles.fromProduct(journey?.category);
-  }
+  TransportVehicles? get transportVehicle => journey?.transportVehicle;
 }

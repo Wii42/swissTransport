@@ -75,7 +75,7 @@ class Connection extends DepartureArrival {
   String? get transportProduct {
     Section? firstSection = sections?.firstOrNull;
     if (firstSection != null) {
-      String? product = firstSection.transportProduct;
+      String? product = firstSection.transportName;
       if (product != null) {
         return product;
       }

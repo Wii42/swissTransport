@@ -115,7 +115,7 @@ class TravelSectionRow extends StatelessWidget {
           children: [
             if (section.transportVehicle != null)
               Icon(section.transportVehicle?.icon, size: 11),
-            Text(section.transportProduct ?? '',
+            Text(section.transportName ?? '',
                 style: Theme.of(context).textTheme.bodySmall)
           ],
         ),
