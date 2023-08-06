@@ -90,7 +90,7 @@ class ConnectionsRequest extends TransportApiRequest {
     }
     if (time != null) {
       parametersList.add(
-          "time=${DateFormat("hh:mm").format(DateTime(0, 0, 0, time!.hour, time!.minute))}");
+          "time=${DateFormat("HH:mm").format(DateTime(0, 0, 0, time!.hour, time!.minute))}");
     }
     if (isArrivalTime != null) {
       parametersList.add("isArrivalTime=${isArrivalTime!.toInt()}");
