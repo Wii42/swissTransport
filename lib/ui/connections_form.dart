@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sbb/generic_ui_elements/padded_card.dart';
+import 'package:sbb/generic_ui_elements/expandable_padded_form_card.dart';
 import 'package:sbb/ui/routes.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
@@ -15,11 +15,6 @@ class ConnectionsForm extends StatefulWidget {
 }
 
 class ConnectionsFormState extends State<ConnectionsForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController dateController = TextEditingController(text: 'heute');
@@ -39,120 +34,110 @@ class ConnectionsFormState extends State<ConnectionsForm> {
 
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return PaddedCard(
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ExpansionTile(
-              expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
-              title: Column(
-                children: [
-                  TextFormField(
-                    // The validator receives the text that the user has entered.
-                    decoration: const InputDecoration(
-                      labelText: "Von",
-                      icon: Icon(Icons.start),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Bitte eine Station eingeben';
-                      }
-                      return null;
-                    },
-                    onSaved: (input) {
-                      from = input;
-                    },
-                  ),
-                  TextFormField(
-                    // The validator receives the text that the user has entered.
-                    decoration: const InputDecoration(
-                        labelText: "Nach", icon: Icon(Icons.arrow_forward)),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Bitte eine Station eingeben';
-                      }
-                      return null;
-                    },
-                    onSaved: (input) {
-                      to = input;
-                    },
-                  ),
-                ],
-              ),
-              children: [
-                TextFormField(
-                  // The validator receives the text that the user has entered.
-                  decoration: const InputDecoration(
-                      labelText: "Via", icon: Icon(Icons.airline_stops)),
-                  onSaved: (input) {
-                    via = input;
-                  },
-                ),
-                TextFormField(
-                  controller: dateController,
-                  //editing controller of this TextField
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.calendar_today), //icon of text field
-                      labelText: "Datum wählen" //label text of field
-                      ),
-                  readOnly: true, // when true user cannot edit text
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: date ?? DateTime.now(), //get today's date
-                        firstDate:
-                            DateTime.now().subtract(const Duration(days: 200)),
-                        lastDate:
-                            DateTime.now().add(const Duration(days: 120)));
-                    setState(() {
-                      dateController.text = pickedDate.toString();
-                      date = pickedDate;
-                    });
-                  },
-                ),
-                TextFormField(
-                  controller: timeController,
-                  //editing controller of this TextField
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.access_time), //icon of text field
-                      labelText: "Uhrzeit wählen" //label text of field
-                      ),
-                  readOnly: true, // when true user cannot edit text
-                  onTap: () async {
-                    TimeOfDay? pickedTime = await showTimePicker(
-                      context: context,
-                      initialTime: time ?? TimeOfDay.now(),
-                    );
-                    setState(() {
-                      timeController.text = pickedTime != null
-                          ? DateFormat("hh:mm").format(DateTime(
-                              0, 0, 0, pickedTime.hour, pickedTime.minute))
-                          : '-';
-                      time = pickedTime;
-                    }); //get today's date
-                  },
-                ),
-                CheckboxFormField(
-                  title: const Text('Zeit und datum sind Ankunftszeit'),
-                  onSaved: (input) {
-                    isArrivalTime = input;
-                  },
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: ElevatedButton(
-                onPressed: _sendRequest,
-                child: const Text('Verbindungen anzeigen'),
-              ),
-            ),
-          ],
-        ),
+    return ExpandablePaddedFormCard(
+      alwaysVisibleChild: alwaysVisibleFields(),
+      formKey: _formKey,
+      hideableChildren: hideableOptions(context),
+      suffixWidget: sendButton(),
+    );
+  }
+
+  Padding sendButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: ElevatedButton(
+        onPressed: _sendRequest,
+        child: const Text('Verbindungen anzeigen'),
       ),
+    );
+  }
+
+  List<Widget> hideableOptions(BuildContext context) {
+    return [
+      TextFormField(
+        decoration: const InputDecoration(
+            labelText: "Via", icon: Icon(Icons.airline_stops)),
+        onSaved: (input) {
+          via = input;
+        },
+      ),
+      TextFormField(
+        controller: dateController,
+        decoration: const InputDecoration(
+            icon: Icon(Icons.calendar_today), labelText: "Datum wählen"),
+        readOnly: true,
+        onTap: () async {
+          DateTime? pickedDate = await showDatePicker(
+              context: context,
+              initialDate: date ?? DateTime.now(), //get today's date
+              firstDate: DateTime.now().subtract(const Duration(days: 200)),
+              lastDate: DateTime.now().add(const Duration(days: 120)));
+          setState(() {
+            dateController.text = pickedDate.toString();
+            date = pickedDate;
+          });
+        },
+      ),
+      TextFormField(
+        controller: timeController,
+        decoration: const InputDecoration(
+            icon: Icon(Icons.access_time), labelText: "Uhrzeit wählen"),
+        readOnly: true,
+        onTap: () async {
+          TimeOfDay? pickedTime = await showTimePicker(
+            context: context,
+            initialTime: time ?? TimeOfDay.now(),
+          );
+          setState(() {
+            timeController.text = pickedTime != null
+                ? DateFormat("hh:mm").format(
+                    DateTime(0, 0, 0, pickedTime.hour, pickedTime.minute))
+                : '-';
+            time = pickedTime;
+          });
+        },
+      ),
+      CheckboxFormField(
+        title: const Text('Zeit und datum sind Ankunftszeit'),
+        onSaved: (input) {
+          isArrivalTime = input;
+        },
+      ),
+    ];
+  }
+
+  Column alwaysVisibleFields() {
+    return Column(
+      children: [
+        TextFormField(
+          decoration: const InputDecoration(
+            labelText: "Von",
+            icon: Icon(Icons.start),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Bitte eine Station eingeben';
+            }
+            return null;
+          },
+          onSaved: (input) {
+            from = input;
+          },
+        ),
+        TextFormField(
+          decoration: const InputDecoration(
+              labelText: "Nach", icon: Icon(Icons.arrow_forward)),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Bitte eine Station eingeben';
+            }
+            return null;
+          },
+          onSaved: (input) {
+            to = input;
+          },
+        ),
+      ],
     );
   }
 
