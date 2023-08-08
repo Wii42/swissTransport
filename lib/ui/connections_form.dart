@@ -52,8 +52,8 @@ class ConnectionsFormState extends State<ConnectionsForm> {
     );
   }
 
-  Column alwaysVisibleFields() {
-    return Column(
+  Widget alwaysVisibleFields() {
+    return Wrap(
       children: [
         TextFormField(
           decoration: const InputDecoration(

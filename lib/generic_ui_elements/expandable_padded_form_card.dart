@@ -33,10 +33,15 @@ class ExpandablePaddedFormCard extends StatelessWidget {
               initiallyExpanded: initiallyExpanded,
               expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
               tilePadding: EdgeInsets.symmetric(horizontal: inset),
-              childrenPadding: EdgeInsets.fromLTRB(inset, 0, inset, inset),
+              childrenPadding: EdgeInsets.fromLTRB(
+                  inset, 0, inset, (suffixWidget == null) ? inset : 0),
               children: hideableChildren,
             ),
-            if (suffixWidget != null) suffixWidget!,
+            if (suffixWidget != null)
+              Padding(
+                padding: EdgeInsets.fromLTRB(inset, 0, inset, inset),
+                child: suffixWidget!,
+              ),
           ],
         ),
       ),

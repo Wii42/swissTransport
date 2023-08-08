@@ -58,7 +58,8 @@ class DepartureTable extends StatelessWidget {
                       width: 20,
                       child: Icon(journey.transportVehicle?.icon, size: 14),
                     ),
-                    Text(journey.transportName ?? "",
+                    Text(
+                      journey.transportName ?? "",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
