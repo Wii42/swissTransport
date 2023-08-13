@@ -53,38 +53,81 @@ class ConnectionsFormState extends State<ConnectionsForm> {
   }
 
   Widget alwaysVisibleFields() {
-    return Wrap(
-      children: [
-        TextFormField(
-          decoration: const InputDecoration(
-            labelText: "Von",
-            icon: Icon(Icons.start),
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Bitte eine Station eingeben';
-            }
-            return null;
-          },
-          onSaved: (input) {
-            from = input;
-          },
-        ),
-        TextFormField(
-          decoration: const InputDecoration(
-              labelText: "Nach", icon: Icon(Icons.arrow_forward)),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Bitte eine Station eingeben';
-            }
-            return null;
-          },
-          onSaved: (input) {
-            to = input;
-          },
-        ),
-      ],
+    TextEditingController fromController = TextEditingController();
+    TextEditingController toController = TextEditingController();
+
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth < 500) {
+        return Row(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  fromField(fromController),
+                  toField(toController),
+                ],
+              ),
+            ),
+            IconButton(
+                onPressed: () => swapTexts(fromController, toController),
+                icon: const Icon(Icons.swap_vert))
+          ],
+        );
+      } else {
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(child: fromField(fromController, hasIcon: false)),
+            IconButton(
+                onPressed: () => swapTexts(fromController, toController),
+                icon: const Icon(Icons.swap_horiz)),
+            Expanded(child: toField(toController, hasIcon: false)),
+          ],
+        );
+      }
+    });
+  }
+
+  TextFormField toField(TextEditingController controller,
+      {bool hasIcon = true}) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+          labelText: "Nach",
+          icon: hasIcon ? const Icon(Icons.arrow_forward) : null),
+      validator: validateStationForm,
+      onSaved: (input) {
+        to = input;
+      },
     );
+  }
+
+  TextFormField fromField(TextEditingController controller,
+      {bool hasIcon = true}) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: "Von",
+        icon: hasIcon ? const Icon(Icons.start) : null,
+      ),
+      validator: validateStationForm,
+      onSaved: (input) {
+        from = input;
+      },
+    );
+  }
+
+  String? validateStationForm(value) {
+    if (value == null || value.isEmpty) {
+      return 'Bitte eine Station eingeben';
+    }
+    return null;
+  }
+
+  void swapTexts(TextEditingController a, TextEditingController b) {
+    String temp = a.text;
+    a.text = b.text;
+    b.text = temp;
   }
 
   List<Widget> hideableOptions(BuildContext context) {
@@ -96,48 +139,72 @@ class ConnectionsFormState extends State<ConnectionsForm> {
           via = input;
         },
       ),
-      TextFormField(
-        controller: dateController,
-        decoration: const InputDecoration(
-            icon: Icon(Icons.calendar_month), labelText: "Datum wählen"),
-        readOnly: true,
-        onTap: () async {
-          DateTime? pickedDate = await showDatePicker(
-              context: context,
-              initialDate: date ?? DateTime.now(), //get today's date
-              firstDate: DateTime.now().subtract(const Duration(days: 200)),
-              lastDate: DateTime.now().add(const Duration(days: 120)));
-          setState(() {
-            date = pickedDate;
-            dateController.text = formatDate(date ?? DateTime.now());
-          });
-        },
-      ),
-      TextFormField(
-        controller: timeController,
-        decoration: const InputDecoration(
-            icon: Icon(Icons.access_time), labelText: "Uhrzeit wählen"),
-        readOnly: true,
-        onTap: () async {
-          TimeOfDay? pickedTime = await showTimePicker(
-            context: context,
-            initialTime: time ?? TimeOfDay.now(),
+      LayoutBuilder(builder: (context, constraints) {
+        if (constraints.maxWidth < 400) {
+          return Column(children: [dateField(context), timeField(context)]);
+        } else {
+          return Flex(
+            direction: Axis.horizontal,
+            children: [
+              Expanded(flex: 3, child: dateField(context)),
+              const SizedBox(
+                width: 30,
+              ),
+              Expanded(flex: 2, child: timeField(context))
+            ],
           );
-          setState(() {
-            time = pickedTime;
-            timeController.text = formatTime(time ?? TimeOfDay.now());
-          });
-        },
-      ),
-      TwoOptionsToggleFormField(
-        firstOption: 'Ab',
-        secondOption: 'An',
-        icon: const Icon(Icons.multiple_stop),
-        onSaved: (input) {
-          isArrivalTime = input;
-        },
+        }
+      }),
+      Align(
+        child: TwoOptionsToggleFormField(
+          firstOption: 'Ab',
+          secondOption: 'An',
+          //icon: const Icon(Icons.multiple_stop),
+          onSaved: (input) {
+            isArrivalTime = input;
+          },
+        ),
       )
     ];
+  }
+
+  TextFormField timeField(BuildContext context) {
+    return TextFormField(
+      controller: timeController,
+      decoration: const InputDecoration(
+          icon: Icon(Icons.access_time), labelText: "Uhrzeit wählen"),
+      readOnly: true,
+      onTap: () async {
+        TimeOfDay? pickedTime = await showTimePicker(
+          context: context,
+          initialTime: time ?? TimeOfDay.now(),
+        );
+        setState(() {
+          time = pickedTime;
+          timeController.text = formatTime(time ?? TimeOfDay.now());
+        });
+      },
+    );
+  }
+
+  TextFormField dateField(BuildContext context) {
+    return TextFormField(
+      controller: dateController,
+      decoration: const InputDecoration(
+          icon: Icon(Icons.calendar_month), labelText: "Datum wählen"),
+      readOnly: true,
+      onTap: () async {
+        DateTime? pickedDate = await showDatePicker(
+            context: context,
+            initialDate: date ?? DateTime.now(), //get today's date
+            firstDate: DateTime.now().subtract(const Duration(days: 200)),
+            lastDate: DateTime.now().add(const Duration(days: 120)));
+        setState(() {
+          date = pickedDate;
+          dateController.text = formatDate(date ?? DateTime.now());
+        });
+      },
+    );
   }
 
   void _sendRequest() {
@@ -158,7 +225,8 @@ class ConnectionsFormState extends State<ConnectionsForm> {
         couchette: couchette,
         bike: bike,
         limit: 10);
-    Navigator.of(context).pushNamed(Routes.connections.string, arguments: connections);
+    Navigator.of(context)
+        .pushNamed(Routes.connections.string, arguments: connections);
     //Routes.connections.push(context, params: connections);
   }
 
