@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../generic_ui_elements/widget_with_title.dart';
 
@@ -18,7 +17,6 @@ class TabScaffold extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
         child: TabBar(
-          onTap: returnToHome(context),
           tabs: WidgetWithTitle.titleTabs(tabs),
           labelColor: Theme.of(context).textTheme.bodyMedium?.color,
         ),
@@ -29,11 +27,5 @@ class TabScaffold extends StatelessWidget {
     );
   }
 
-  void Function(int) returnToHome(BuildContext context) {
-    return (_) {
-      while (context.canPop()) {
-        context.pop();
-      }
-    };
-  }
+
 }

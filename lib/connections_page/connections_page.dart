@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sbb/generic_ui_elements/widget_with_title.dart';
 
 import 'package:sbb/ui/custom_page.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
@@ -8,15 +9,20 @@ import '../ui/api_user.dart';
 import 'from_to_widget.dart';
 import 'connections_list.dart';
 
-class ConnectionsPage extends StatelessWidget {
+class ConnectionsPage extends WidgetWithTitle {
   final Future<Connections> connectionsRequest;
+
+  @override
+  final String title = 'Verbindungen';
+  @override
+  final IconData icon = Icons.multiple_stop;
 
   const ConnectionsPage({super.key, required this.connectionsRequest});
 
   @override
   Widget build(BuildContext context) {
     return CustomPage(
-      title: 'Verbindungen',
+      title: title,
       body: ApiUser<Connections>(
           apiCall: connectionsRequest, displayResponse: display),
     );
@@ -39,6 +45,6 @@ class ConnectionsPage extends StatelessWidget {
     );
   }
 
-  static Widget inRoute([dynamic request]) =>
+  factory ConnectionsPage.inRoute([dynamic request]) =>
       ConnectionsPage(connectionsRequest: request);
 }

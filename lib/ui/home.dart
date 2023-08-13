@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/generic_ui_elements/padded_card.dart';
 import 'package:sbb/ui/saved_connections_page.dart';
-import 'package:sbb/ui/tab_body.dart';
+import 'package:sbb/ui/schedule_page.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
 
 import 'api_user.dart';
 import 'custom_page.dart';
-import 'custom_tabs_page.dart';
-import 'fahrplan_page.dart';
 import '../generic_ui_elements/widget_with_title.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
-
+class Home extends WidgetWithTitle {
   static const TransportApi api = TransportApi();
+
+  @override
+  final String title = 'Home';
+  @override
+  final IconData icon = Icons.home;
+
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  static Widget inRoute([dynamic params]) => const Home();
+  factory Home.inRoute([dynamic params]) => const Home();
 
   static Widget _response(Connections data) {
     return ListView(
@@ -40,23 +43,8 @@ class Home extends StatelessWidget {
 
   static List<WidgetWithTitle> bottomTabs() {
     return [
-      const CustomTabsPage(
-        title: 'Planen',
-        icon: Icons.travel_explore,
-        tabs: [
-          FahrplanPage(),
-          TabBody(
-            title: 'Touch-Fahrplan',
-            body: Center(child: Text('Touch-Fahrplan')),
-          ),
-          TabBody(title: 'Karte', body: Center(child: Text('Karte'))),
-        ],
-      ),
-      const CustomPage(
-        title: 'Reisen',
-        body: SavedConnectionsPage(),
-        icon: Icons.label_important,
-      ),
+      const ScheduleNavigatorPage(),
+      const SavedConnectionsNavigatorPage(),
       const CustomPage(
           title: 'API Testing',
           icon: Icons.api_outlined,

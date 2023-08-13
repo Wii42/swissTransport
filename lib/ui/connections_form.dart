@@ -158,7 +158,8 @@ class ConnectionsFormState extends State<ConnectionsForm> {
         couchette: couchette,
         bike: bike,
         limit: 10);
-    Routes.connections.push(context, params: connections);
+    Navigator.of(context).pushNamed(Routes.connections.string, arguments: connections);
+    //Routes.connections.push(context, params: connections);
   }
 
   static String formatTime(TimeOfDay time) {

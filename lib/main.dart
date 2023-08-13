@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:sbb/ui/routes.dart';
 import 'package:sbb/ui/saved_connections.dart';
 import 'package:sbb/ui/tab_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MaterialColor primary = Colors.blue;
-    return MaterialApp.router(
+    return MaterialApp(
       title: 'OpenTransport',
       theme: ThemeData(primarySwatch: primary, brightness: Brightness.light),
       darkTheme: ThemeData(primarySwatch: primary, brightness: Brightness.dark),
@@ -34,14 +32,6 @@ class MyApp extends StatelessWidget {
           tabs: Home.bottomTabs(),
           body: widget,
         ),
-      ),
-      routerConfig: GoRouter(
-        initialLocation: Routes.home.string,
-        routes: [
-          Routes.home.route,
-          Routes.connections.route,
-          Routes.connection.route,
-        ],
       ),
     );
   }

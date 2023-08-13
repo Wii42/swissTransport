@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 abstract class TransportApiRequest {
@@ -17,7 +18,9 @@ abstract class TransportApiRequest {
     Uri url = Uri.parse("$apiUrl?$parameters");
 
     http.Response response = await http.get(url);
-    print("${response.statusCode} ${response.request}");
+    if (kDebugMode) {
+      print("${response.statusCode} ${response.request}");
+    }
     return response;
   }
 

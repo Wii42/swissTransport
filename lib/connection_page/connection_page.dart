@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/connection_page/connection_info.dart';
 import 'package:sbb/connection_page/from_to_widget.dart';
+import 'package:sbb/generic_ui_elements/widget_with_title.dart';
 
 import 'package:sbb/ui/custom_page.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
-class ConnectionPage extends StatelessWidget {
+class ConnectionPage extends WidgetWithTitle {
   final Connection connection;
+
+  @override
+  final String title = 'Verbindung';
+  @override
+  final IconData icon = Icons.multiple_stop;
 
   const ConnectionPage({super.key, required this.connection});
 
   @override
   Widget build(BuildContext context) {
     return CustomPage(
-        title: 'Verbindung',
+        title: title,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -26,6 +32,6 @@ class ConnectionPage extends StatelessWidget {
         ));
   }
 
-  static Widget inRoute([dynamic connection]) =>
+  factory ConnectionPage.inRoute([dynamic connection]) =>
       ConnectionPage(connection: connection);
 }

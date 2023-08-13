@@ -12,7 +12,9 @@ class ConnectionSneakPeek extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PaddedClickableCard(
-      onTap: () => Routes.connection.push(context, params: connection),
+      onTap: () => Navigator.of(context)
+          .pushNamed(Routes.connection.string, arguments: connection),
+      //Routes.connection.push(context, params: connection),
       child: ConnectionRepresentation(connection: connection),
     );
   }
