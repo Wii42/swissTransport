@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:sbb/generic_ui_elements/expandable_padded_form_card.dart';
+import 'package:sbb/helper/date_time_helper.dart';
 import 'package:sbb/ui/routes.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
 
 import '../generic_ui_elements/two_options_toggle_form_field.dart';
+import '../helper/time_format.dart';
 
 class ConnectionsForm extends StatefulWidget {
   const ConnectionsForm({super.key});
@@ -231,9 +232,7 @@ class ConnectionsFormState extends State<ConnectionsForm> {
   }
 
   static String formatTime(TimeOfDay time) {
-    String timeString = DateFormat("HH:mm").format(
-      DateTime(0, 0, 0, time.hour, time.minute),
-    );
+    String timeString = TimeFormat.HHmm().format(time);
     if (time == TimeOfDay.now()) {
       timeString += ' ( Jetzt )';
     }
@@ -241,19 +240,11 @@ class ConnectionsFormState extends State<ConnectionsForm> {
   }
 
   static String formatDate(DateTime date) {
-    String dateString = DateFormat("dd.MM.yyyy").format(date);
-    if (isToday(date)) {
+    String dateString = DateTimeHelper.dayMonthYear.format(date);
+    if (date.isToday()) {
       dateString += ' ( Heute )';
     }
     return dateString;
-  }
-
-  static bool isToday(DateTime date) {
-    DateTime now = DateTime.now();
-    DateTime today = DateTime(now.year, now.month, now.day);
-    return (date.year == today.year &&
-        date.month == today.month &&
-        date.day == today.day);
   }
 
   bool _isInputValid() => _formKey.currentState!.validate();
