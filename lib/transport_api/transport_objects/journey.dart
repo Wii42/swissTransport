@@ -1,4 +1,4 @@
-import 'package:sbb/transport_api/helper/interfaces.dart';
+import 'package:sbb/transport_api/helper/departure_arrival_interface.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 
 import '../enums/transport_vehicles.dart';
@@ -77,7 +77,7 @@ class Journey extends DepartureArrival {
   DateTime? get departureTime => passList?.firstOrNull?.departure?.toLocal();
 
   @override
-  String? get departurePlatformString => passList?.firstOrNull?.platform;
+  String? get departurePlatformData => passList?.firstOrNull?.platform;
 
   @override
   DateTime? get arrivalTime => passList?.lastOrNull?.arrival?.toLocal();

@@ -1,4 +1,5 @@
-import 'package:sbb/transport_api/helper/interfaces.dart';
+import 'package:sbb/transport_api/helper/date_time_helper.dart';
+import 'package:sbb/transport_api/helper/departure_arrival_interface.dart';
 import 'package:sbb/transport_api/transport_objects/section.dart';
 import 'package:sbb/transport_api/transport_objects/service.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
@@ -8,7 +9,7 @@ import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 import 'json_coding/connection_coder.dart';
 
 ///A connection represents a possible journey between two locations.
-class Connection extends DepartureArrival{
+class Connection extends DepartureArrival {
   static final ConnectionCoder jsonCoder = ConnectionCoder();
 
   ///The departure checkpoint of the connection
@@ -94,7 +95,7 @@ class Connection extends DepartureArrival{
   DateTime? get departureTime => from?.departure;
 
   @override
-  String? get departurePlatformString => from?.platform;
+  String? get departurePlatformData => from?.platform;
 
   @override
   DateTime? get arrivalTime => to?.arrival;
@@ -123,6 +124,16 @@ class Connection extends DepartureArrival{
 
   bool stringCompare(Connection other) {
     return (toString() == other.toString());
+  }
+
+  bool isSameDate(Connection other) {
+    DateTime? connectionDateTime = departureTime?.toLocal();
+    DateTime? previousConnectionDateTime =
+    other.departureTime?.toLocal();
+    if (connectionDateTime == null || previousConnectionDateTime == null) {
+      return false;
+    }
+    return connectionDateTime.isSameDate(previousConnectionDateTime);
   }
 }
 

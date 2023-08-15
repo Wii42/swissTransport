@@ -56,7 +56,9 @@ class TimeAndStopsRow extends StatelessWidget {
   static Widget delayText(Stop stop) {
     return Text(
       "+${stop.delay}'",
-      style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+      style: unplannedChangeStyle,
     );
   }
+
+  static TextStyle get unplannedChangeStyle => const TextStyle(fontWeight: FontWeight.bold, color: Colors.red);
 }

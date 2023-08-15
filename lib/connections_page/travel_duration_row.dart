@@ -12,9 +12,9 @@ class TravelDurationRow extends StatelessWidget {
       alignment: WrapAlignment.spaceBetween,
       spacing: 5,
       children: [
-        (connection.departurePlatformString != null &&
-                connection.departurePlatformString != '')
-            ? Text("Gl. ${connection.departurePlatformString}")
+        (connection.departurePlatformData != null &&
+                connection.departurePlatformData != '')
+            ? Text("Gl. ${connection.departurePlatformData}")
             : const Text(''),
         if (connection.hasCapacityInfo) capacityInfo(),
         Text(durationString(connection.duration)),

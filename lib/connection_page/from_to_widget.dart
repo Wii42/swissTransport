@@ -5,6 +5,7 @@ import 'package:sbb/ui/saved_connections.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
 import '../connections_page/connections_list.dart';
+import '../ui/date_badge.dart';
 import '../ui/from_to_text.dart';
 import '../generic_ui_elements/expandable_padded_card.dart';
 import 'add_to_saved_connections_button.dart';
@@ -22,7 +23,7 @@ class FromToWidget extends StatelessWidget {
       ),
       hideableChildren: [
         Text(
-            "${ConnectionsList.connectionDateString(connection)}, ${TravelDurationRow.durationString(connection.duration)}"),
+            "${DateBadge.connectionDateString(connection)}, ${TravelDurationRow.durationString(connection.duration)}"),
         TimeAndStopsRow(connection: connection),
         if (SavedConnections.of(context) != null) ...[
           const SizedBox(
@@ -35,38 +36,6 @@ class FromToWidget extends StatelessWidget {
         ]
       ],
     );
-
-    //return PaddedCard(
-    //  child: ExpansionTile(
-    //    title: FromToText(
-    //      from: connection.from?.station,
-    //      to: connection.to?.station,
-    //      textStyle: Theme.of(context).textTheme.bodyMedium,
-    //    ),
-    //    initiallyExpanded: true,
-    //    expandedCrossAxisAlignment: CrossAxisAlignment.start,
-    //    tilePadding: EdgeInsets.zero,
-    //    //childrenPadding: EdgeInsets.all(10),
-    //    textColor: Theme.of(context).textTheme.bodyMedium?.color,
-    //    children: [
-    //      Text(
-    //          "${ConnectionsList.connectionDateString(connection)}, ${TravelDurationRow.durationString(connection.duration)}"),
-    //      TimeAndStopsRow(connection: connection)
-    //    ],
-    //  ),
-    //);
-
-    //   Column(
-    //     crossAxisAlignment: CrossAxisAlignment.stretch,
-    //     children: [
-    //       FromToText(
-    //           from: connection.from?.station, to: connection.to?.station),
-    //       Text(
-    //           "${ConnectionsList.connectionDateString(connection)}, ${TravelDurationRow.durationString(connection.duration)}"),
-    //       TimeAndStopsRow(connection: connection)
-    //     ],
-    //   ),
-    // );
   }
 
   void Function()? onPressed(BuildContext context) {

@@ -1,15 +1,22 @@
 import 'package:sbb/transport_api/helper/date_time_to_string_extension.dart';
 
-abstract class DepartureArrival {
+abstract class DepartureArrival implements Comparable {
   static const String platformKey = 'platform', sectionKey = 'platformSection';
 
-  String? get departurePlatformString;
+  String? get departurePlatformData;
 
   String? get departurePlatform =>
-      _departurePlatformSection(departurePlatformString)[platformKey];
+      _departurePlatformSection(departurePlatformData)[platformKey];
 
   String? get departurePlatformSection =>
-      _departurePlatformSection(departurePlatformString)[sectionKey];
+      _departurePlatformSection(departurePlatformData)[sectionKey];
+
+  bool hasDeparturePlatformChanged() {
+    if (departurePlatformData == null) {
+      return false;
+    }
+    return departurePlatformData!.endsWith('!');
+  }
 
   DateTime? get departureTime;
 
@@ -37,6 +44,9 @@ abstract class DepartureArrival {
     if (platform == null) {
       return map;
     }
+    if(hasDeparturePlatformChanged()){
+      platform = platform.substring(0, platform.length-1);
+    }
 
     RegExp pattern = RegExp(r'^[0-9]+[a-zA-Z]');
     if (!pattern.hasMatch(platform)) {
@@ -49,5 +59,24 @@ abstract class DepartureArrival {
     map[platformKey] = platform.substring(0, split);
     map[sectionKey] = platform.substring(split);
     return map;
+  }
+
+  @override
+  int compareTo(other) {
+    DateTime? thisTime = departureTime;
+    DateTime? otherTime = other.departureTime;
+
+    if (thisTime != null && otherTime != null) {
+      return thisTime.compareTo(other.departureTime);
+    }
+    if (thisTime != null) {
+      return 1;
+    }
+
+    if (otherTime != null) {
+      return -1;
+    }
+
+    return 0;
   }
 }

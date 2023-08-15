@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/generic_ui_elements/expandable_padded_form_card.dart';
-import 'package:sbb/helper/date_time_helper.dart';
+import 'package:sbb/transport_api/helper/date_time_helper.dart';
 import 'package:sbb/ui/routes.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';

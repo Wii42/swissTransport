@@ -1,4 +1,4 @@
-import 'package:sbb/transport_api/helper/interfaces.dart';
+import 'package:sbb/transport_api/helper/departure_arrival_interface.dart';
 import 'package:sbb/transport_api/transport_objects/location.dart';
 import 'package:sbb/transport_api/transport_objects/prognosis.dart';
 
@@ -72,7 +72,7 @@ class Stop extends DepartureArrival {
   DateTime? get arrivalTime => arrival;
 
   @override
-  String? get departurePlatformString => platform;
+  String? get departurePlatformData => platform;
 
   @override
   DateTime? get departureTime => departure;

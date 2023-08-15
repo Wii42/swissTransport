@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sbb/connections_page/time_and_stops_row.dart';
 import 'package:sbb/ui/api_user.dart';
 import 'package:sbb/generic_ui_elements/padded_card.dart';
 import 'package:sbb/transport_api/transport_api.dart';
@@ -77,8 +78,15 @@ class DepartureTable extends StatelessWidget {
                     overflow: TextOverflow.visible,
                   )),
                   padding(Text(journey.departurePlatform ?? "",
-                      maxLines: 1, textAlign: TextAlign.end)),
+                      style: journey.hasDeparturePlatformChanged()
+                          ? TimeAndStopsRow.unplannedChangeStyle
+                          : null,
+                      maxLines: 1,
+                      textAlign: TextAlign.end)),
                   padding(Text(journey.departurePlatformSection ?? "",
+                      style: journey.hasDeparturePlatformChanged()
+                          ? TimeAndStopsRow.unplannedChangeStyle
+                          : null,
                       maxLines: 1)),
                 ],
               )

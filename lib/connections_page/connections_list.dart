@@ -1,6 +1,9 @@
 import 'package:flutter/widgets.dart';
+import 'package:sbb/transport_api/helper/date_time_helper.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
+import '../transport_api/enums/weekday.dart';
+import '../ui/date_badge.dart';
 import 'connection_sneak_peek.dart';
 
 class ConnectionsList extends StatefulWidget {
@@ -9,42 +12,6 @@ class ConnectionsList extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _ConnectionsListState();
-
-  static String connectionDateString(Connection connection) {
-    String text = '?';
-    DateTime? departure = connection.from?.departure;
-    if (departure != null) {
-      String weekday;
-      switch (departure.weekday) {
-        case 1:
-          weekday = "Montag";
-          break;
-        case 2:
-          weekday = "Dienstag";
-          break;
-        case 3:
-          weekday = "Mittwoch";
-          break;
-        case 4:
-          weekday = "Donnerstag";
-          break;
-        case 5:
-          weekday = "Freitag";
-          break;
-        case 6:
-          weekday = "Samstag";
-          break;
-        case 7:
-          weekday = "Sonntag";
-          break;
-        default:
-          weekday = "?";
-          break;
-      }
-      text = "$weekday ${departure.day}.${departure.month}.${departure.year}";
-    }
-    return text;
-  }
 }
 
 class _ConnectionsListState extends State<ConnectionsList> {
@@ -71,34 +38,12 @@ class _ConnectionsListState extends State<ConnectionsList> {
 
     for (Connection connection in connections) {
       if (previousConnection == null ||
-          !isSameDate(connection, previousConnection)) {
-        list.add(connectionDate(connection));
+          !connection.isSameDate(previousConnection)) {
+        list.add(DateBadge(connection: connection));
       }
       list.add(ConnectionSneakPeek(connection: connection));
       previousConnection = connection;
     }
     return list;
-  }
-
-  bool isSameDate(Connection connection, Connection previousConnection) {
-    DateTime? connectionDateTime = connection.from?.departure?.toLocal();
-    DateTime? previousConnectionDateTime =
-        previousConnection.from?.departure?.toLocal();
-    if (connectionDateTime == null || previousConnectionDateTime == null) {
-      return false;
-    }
-    DateTime connectionDate = DateTime(connectionDateTime.year,
-        connectionDateTime.month, connectionDateTime.day);
-    DateTime previousConnectionDate = DateTime(previousConnectionDateTime.year,
-        previousConnectionDateTime.month, previousConnectionDateTime.day);
-    return connectionDate == previousConnectionDate;
-  }
-
-  Widget connectionDate(Connection connection) {
-    String text = ConnectionsList.connectionDateString(connection);
-    return Padding(
-        padding:
-            const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),
-        child: Text(text));
   }
 }
