@@ -8,7 +8,7 @@ import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 import 'json_coding/connection_coder.dart';
 
 ///A connection represents a possible journey between two locations.
-class Connection extends DepartureArrival {
+class Connection extends DepartureArrival{
   static final ConnectionCoder jsonCoder = ConnectionCoder();
 
   ///The departure checkpoint of the connection
@@ -94,7 +94,7 @@ class Connection extends DepartureArrival {
   DateTime? get departureTime => from?.departure;
 
   @override
-  String? get departurePlatform => from?.platform;
+  String? get departurePlatformString => from?.platform;
 
   @override
   DateTime? get arrivalTime => to?.arrival;

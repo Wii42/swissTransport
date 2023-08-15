@@ -72,7 +72,7 @@ class Stop extends DepartureArrival {
   DateTime? get arrivalTime => arrival;
 
   @override
-  String? get departurePlatform => platform;
+  String? get departurePlatformString => platform;
 
   @override
   DateTime? get departureTime => departure;

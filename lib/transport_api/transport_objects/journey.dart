@@ -77,7 +77,7 @@ class Journey extends DepartureArrival {
   DateTime? get departureTime => passList?.firstOrNull?.departure?.toLocal();
 
   @override
-  String? get departurePlatform => passList?.firstOrNull?.platform;
+  String? get departurePlatformString => passList?.firstOrNull?.platform;
 
   @override
   DateTime? get arrivalTime => passList?.lastOrNull?.arrival?.toLocal();
