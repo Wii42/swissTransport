@@ -9,7 +9,7 @@ class ExpandablePaddedCard extends StatelessWidget {
   const ExpandablePaddedCard(
       {super.key,
       required this.alwaysVisibleChild,
-      required this.hideableChildren,
+      this.hideableChildren = const [],
       this.inset = 10,
       this.initiallyExpanded = true});
 

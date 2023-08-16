@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sbb/connections_page/top_widget.dart';
 import 'package:sbb/generic_ui_elements/widget_with_title.dart';
 
 import 'package:sbb/ui/custom_page.dart';
@@ -6,7 +7,6 @@ import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
 
 import '../ui/api_user.dart';
-import 'from_to_widget.dart';
 import 'connections_list.dart';
 
 class ConnectionsPage extends WidgetWithTitle {
@@ -36,7 +36,7 @@ class ConnectionsPage extends WidgetWithTitle {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        FromToInfo(connections: connections),
+        TopWidget(connections: connections),
         Expanded(
             child: ConnectionsList(
           initialConnections: connections.connections!,
