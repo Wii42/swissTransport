@@ -3,7 +3,6 @@ import 'package:sbb/generic_ui_elements/padded_card.dart';
 import 'package:sbb/generic_ui_elements/widget_with_title.dart';
 import 'package:sbb/journey_page/pass_list.dart';
 
-import '../transport_api/transport_objects/journey.dart';
 import '../transport_api/transport_objects/section.dart';
 import '../ui/custom_page.dart';
 import 'info_widget.dart';

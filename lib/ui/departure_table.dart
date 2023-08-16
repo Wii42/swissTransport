@@ -6,7 +6,6 @@ import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/journey.dart';
 import 'package:sbb/transport_api/transport_objects/station_board.dart';
 
-import '../transport_api/transport_objects/location.dart';
 import '../transport_api/transport_objects/stop.dart';
 
 class DepartureTable extends StatelessWidget {

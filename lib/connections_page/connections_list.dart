@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:sbb/transport_api/helper/date_time_helper.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
-import '../transport_api/enums/weekday.dart';
 import '../ui/date_badge.dart';
 import 'connection_sneak_peek.dart';
 

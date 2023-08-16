@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/connections_page/stops_indicator.dart';
 import 'package:sbb/connections_page/time_and_stops_row.dart';
-import 'package:sbb/generic_ui_elements/padded_card.dart';
 
 import '../generic_ui_elements/padded_clickable_card.dart';
 import '../transport_api/transport_objects/section.dart';
