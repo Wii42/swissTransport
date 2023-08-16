@@ -78,4 +78,6 @@ class Stop extends DepartureArrival {
   DateTime? get departureTime => departure;
 
   bool get hasDelay => (delay != null && delay! > 0);
+
+  bool get isRealStop => arrival != null || departure != null;
 }

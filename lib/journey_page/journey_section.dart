@@ -61,9 +61,10 @@ class JourneySection extends StatelessWidget {
             if (stop.hasDelay) TimeAndStopsRow.delayText(stop),
           ],
         ),
-        const SizedBox(
-          height: 10,
-        ),
+        if (stop.isRealStop && (nextStop != null && nextStop!.isRealStop))
+          const SizedBox(
+            height: 20,
+          ),
         if (nextStop != null && !isHeadedToFinalDestination)
           Column(
             children: [
@@ -90,21 +91,27 @@ class JourneySection extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 5,
-            child: !isStartOrEndOfSection
-                ? StopsIndicator.verticalLine(context, indent: 0)
-                : null,
-          ),
-          (isStartOrEndOfSection)
-              ? StopsIndicator.endStopIcon
-              : StopsIndicator.inBetweenStopIcon,
-          if (nextStop != null)
-            Expanded(
-              child: StopsIndicator.verticalLine(context, endIndent: 0),
-            ),
-        ],
+        children: (stop.isRealStop)
+            ? [
+                SizedBox(
+                  height: 5,
+                  child: !isStartOrEndOfSection
+                      ? StopsIndicator.verticalLine(context, indent: 0)
+                      : null,
+                ),
+                (isStartOrEndOfSection)
+                    ? StopsIndicator.endStopIcon
+                    : StopsIndicator.inBetweenStopIcon,
+                if (nextStop != null)
+                  Expanded(
+                    child: StopsIndicator.verticalLine(context, endIndent: 0),
+                  ),
+              ]
+            : [
+                Expanded(
+                    child: StopsIndicator.verticalLine(context,
+                        indent: 0, endIndent: 0)),
+              ],
       ),
     );
   }
