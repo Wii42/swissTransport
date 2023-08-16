@@ -46,49 +46,56 @@ class TravelSectionRow extends StatelessWidget {
   Stop? get start => section.departure;
   Stop? get end => section.arrival;
 
-  Column times() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          children: [
-            Text(
-              start?.departureTimeString ?? "",
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            if (start != null && start!.hasDelay)
-              TimeAndStopsRow.delayText(start!),
-          ],
-        ),
-        Column(
-          children: [
-            if (end != null && end!.hasDelay)
-              TimeAndStopsRow.delayText(end!),
-            Text(end?.arrivalTimeString ?? ""),
-          ],
-        ),
-      ],
+  Widget times() {
+    return SizedBox(
+      width: 40,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              Text(
+                start?.departureTimeString ?? "",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              if (start != null && start!.hasDelay)
+                TimeAndStopsRow.delayText(start!),
+            ],
+          ),
+          Column(
+            children: [
+              if (end != null && end!.hasDelay) TimeAndStopsRow.delayText(end!),
+              Text(end?.arrivalTimeString ?? ""),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
   Widget verticalStopsIndicator(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.5, horizontal: 3),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          (isStartOfConnection)
-              ? StopsIndicator.endStopIcon
-              : StopsIndicator.inBetweenStopIcon,
-          Expanded(
-            child: StopsIndicator.verticalLine(context),
-          ),
-          (isEndOfConnection)
-              ? StopsIndicator.endStopIcon
-              : StopsIndicator.inBetweenStopIcon,
-        ],
+    return SizedBox(
+      width: 25,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 5.5,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            (isStartOfConnection)
+                ? StopsIndicator.endStopIcon
+                : StopsIndicator.inBetweenStopIcon,
+            Expanded(
+              child: StopsIndicator.verticalLine(context),
+            ),
+            (isEndOfConnection)
+                ? StopsIndicator.endStopIcon
+                : StopsIndicator.inBetweenStopIcon,
+          ],
+        ),
       ),
     );
   }
