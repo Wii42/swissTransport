@@ -126,7 +126,7 @@ class DepartureTable extends StatelessWidget {
     }
 
     return Text(
-      stationNames.join(', '),
+      stationNames.join('   '),
       softWrap: false,
       overflow: TextOverflow.fade,
     );

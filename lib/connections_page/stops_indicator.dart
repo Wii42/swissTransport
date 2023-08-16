@@ -66,11 +66,11 @@ class StopsIndicator extends StatelessWidget {
         color: Theme.of(context).textTheme.bodyMedium?.color);
   }
 
-  static Widget verticalLine(BuildContext context) {
+  static Widget verticalLine(BuildContext context, {double indent = 2, double endIndent = 1.5}) {
     return VerticalDivider(
         thickness: 1,
-        indent: 2,
-        endIndent: 1.5,
+        indent: indent,
+        endIndent: endIndent,
         color: Theme.of(context).textTheme.bodyMedium?.color);
   }
 }

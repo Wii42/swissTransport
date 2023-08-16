@@ -19,7 +19,7 @@ class FahrplanPage extends WidgetWithTitle {
       physics: const BouncingScrollPhysics(),
       children: const [
         ConnectionsForm(),
-        DepartureTable(station: "Bern"),
+        DepartureTable(station: "Scheyenholz"),
       ],
     );
   }

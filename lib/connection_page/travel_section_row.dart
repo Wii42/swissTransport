@@ -3,8 +3,10 @@ import 'package:sbb/connections_page/stops_indicator.dart';
 import 'package:sbb/connections_page/time_and_stops_row.dart';
 import 'package:sbb/generic_ui_elements/padded_card.dart';
 
+import '../generic_ui_elements/padded_clickable_card.dart';
 import '../transport_api/transport_objects/section.dart';
 import '../transport_api/transport_objects/stop.dart';
+import '../ui/routes.dart';
 
 class TravelSectionRow extends StatelessWidget {
   final Section section;
@@ -24,7 +26,9 @@ class TravelSectionRow extends StatelessWidget {
           child: TimeAndStopsRow.walkingIndicator(section,
               suffix: const Text(' Fussweg')));
     }
-    return PaddedCard(
+    return PaddedClickableCard(
+      onTap: () => Navigator.of(context)
+          .pushNamed(Routes.journey.string, arguments: section),
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,14 +58,14 @@ class TravelSectionRow extends StatelessWidget {
               start?.departureTimeString ?? "",
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            if (section.departure != null && section.departure!.hasDelay)
-              TimeAndStopsRow.delayText(section.departure!),
+            if (start != null && start!.hasDelay)
+              TimeAndStopsRow.delayText(start!),
           ],
         ),
         Column(
           children: [
-            if (section.arrival != null && section.arrival!.hasDelay)
-              TimeAndStopsRow.delayText(section.arrival!),
+            if (end != null && end!.hasDelay)
+              TimeAndStopsRow.delayText(end!),
             Text(end?.arrivalTimeString ?? ""),
           ],
         ),
