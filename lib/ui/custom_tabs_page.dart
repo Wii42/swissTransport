@@ -3,7 +3,7 @@ import 'package:sbb/generic_ui_elements/widget_with_title.dart';
 
 import 'custom_page.dart';
 
-class CustomTabsPage extends WidgetWithTitle {
+class CustomTabsPage extends StatelessWidget with WidgetWithTitle {
   @override
   final String title;
 

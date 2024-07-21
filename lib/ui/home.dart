@@ -10,22 +10,19 @@ import 'api_user.dart';
 import 'custom_page.dart';
 import '../generic_ui_elements/widget_with_title.dart';
 
-class Home extends WidgetWithTitle {
+class Home extends StatefulWidget with WidgetWithTitle {
   static const TransportApi api = TransportApi();
 
   @override
   final String title = 'Home';
+
   @override
   final IconData icon = Icons.home;
 
   const Home({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return TabBarView(
-      children: bottomTabs(),
-    );
-  }
+  State<Home> createState() => _HomeState();
 
   factory Home.inRoute([dynamic params]) => const Home();
 
@@ -41,21 +38,42 @@ class Home extends WidgetWithTitle {
     );
   }
 
-  static List<WidgetWithTitle> bottomTabs() {
-    return [
-      const ScheduleNavigatorPage(),
-      const SavedConnectionsNavigatorPage(),
-      const CustomPage(
-          title: 'API Testing',
-          icon: Icons.api_outlined,
-          body: Center(
-            child: Text('Api Testing was successful'),
-          )
-          //ApiUser<Connections>(
-          //  apiCall: api.connections(from: "Wengen", to: "Lauterbrunnen"),
-          //  displayResponse: _response,
-          //),
-          ),
-    ];
+  static List<WidgetWithTitle> bottomTabs = [
+    const ScheduleNavigatorPage(),
+    const SavedConnectionsNavigatorPage(),
+    CustomPage(
+      title: 'API Testing',
+      icon: Icons.api_outlined,
+      body: Center(
+        child:
+            //  child: Text('Api Testing was successful'),
+            //)
+            ApiUser<Connections>(
+          apiCall: api.connections(from: "Wengen", to: "Lauterbrunnen"),
+          displayResponse: _response,
+        ),
+      ),
+    ),
+  ];
+}
+
+class _HomeState extends State<Home> {
+  int selectedIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: NavigationBar(
+        destinations: [
+          for (WidgetWithTitle page in Home.bottomTabs)
+            NavigationDestination(icon: Icon(page.icon), label: page.title)
+        ],
+        onDestinationSelected: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+      ),
+      body: Home.bottomTabs[selectedIndex],
+    );
   }
 }

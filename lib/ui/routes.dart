@@ -24,6 +24,6 @@ enum Routes {
   const Routes({required this.page, required this.string});
 
   Widget pageWrappedInScaffold([dynamic params]) {
-    return TabScaffold(tabs: Home.bottomTabs(), body: page(params));
+    return TabScaffold(tabs: Home.bottomTabs, body: page(params));
   }
 }

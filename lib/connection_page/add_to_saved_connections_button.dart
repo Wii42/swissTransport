@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../ui/saved_connections.dart';
 import '../transport_api/transport_objects/connection.dart';
@@ -28,7 +29,7 @@ class _AddToSavedConnectionsButtonState
   }
 
   void Function()? onPressed(BuildContext context) {
-    SavedConnections? savedConnections = SavedConnections.of(context);
+    SavedConnections? savedConnections = context.watch<SavedConnections?>();
     if (savedConnections == null || !isActive) {
       return null;
     }
@@ -60,5 +61,5 @@ class _AddToSavedConnectionsButtonState
   }
 
   SavedConnections? savedConnections(BuildContext context) =>
-      SavedConnections.of(context);
+      context.watch<SavedConnections?>();
 }

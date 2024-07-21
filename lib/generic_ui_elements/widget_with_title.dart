@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-abstract class WidgetWithTitle extends StatelessWidget {
-  const WidgetWithTitle({super.key});
+mixin WidgetWithTitle on Widget {
+  //const WidgetWithTitle({super.key});
 
   String get title;
 
@@ -13,6 +13,17 @@ abstract class WidgetWithTitle extends StatelessWidget {
           (WidgetWithTitle tabBody) => Tab(
             text: tabBody.title,
             icon: tabBody.icon != null ? Icon(tabBody.icon) : null,
+          ),
+        )
+        .toList();
+  }
+
+  static List<NavigationDestination> destinations(Iterable<WidgetWithTitle> widgets) {
+    return widgets
+        .map<NavigationDestination>(
+          (WidgetWithTitle tabBody) => NavigationDestination(
+            label: tabBody.title,
+            icon: Icon(tabBody.icon),
           ),
         )
         .toList();

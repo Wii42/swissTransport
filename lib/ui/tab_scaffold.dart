@@ -9,17 +9,18 @@ class TabScaffold extends StatelessWidget {
     required this.body,
   });
 
-  final List<WidgetWithTitle> tabs;
+  final Iterable<WidgetWithTitle> tabs;
   final Widget body;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        child: TabBar(
-          tabs: WidgetWithTitle.titleTabs(tabs),
-          labelColor: Theme.of(context).textTheme.bodyMedium?.color,
-        ),
+      bottomNavigationBar: NavigationBar(
+        destinations: WidgetWithTitle.destinations(tabs)
+        //child: TabBar(
+        //  tabs: WidgetWithTitle.titleTabs(tabs),
+        //  labelColor: Theme.of(context).textTheme.bodyMedium?.color,
+        //),
       ),
       body: body,
       //TabBarView(

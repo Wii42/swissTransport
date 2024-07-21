@@ -6,7 +6,7 @@ import 'package:sbb/generic_ui_elements/widget_with_title.dart';
 import 'package:sbb/ui/custom_page.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
-class ConnectionPage extends WidgetWithTitle {
+class ConnectionPage extends StatelessWidget with WidgetWithTitle {
   final Connection connection;
 
   @override

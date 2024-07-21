@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/generic_ui_elements/widget_with_title.dart';
 
-class TabBody extends WidgetWithTitle {
+class TabBody extends StatelessWidget with WidgetWithTitle {
   final Widget body;
 
   @override

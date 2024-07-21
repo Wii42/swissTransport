@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sbb/connections_page/time_and_stops_row.dart';
 import 'package:sbb/connections_page/travel_duration_row.dart';
 import 'package:sbb/ui/saved_connections.dart';
@@ -24,7 +25,7 @@ class FromToWidget extends StatelessWidget {
         Text(
             "${DateBadge.connectionDateString(connection)}, ${TravelDurationRow.durationString(connection.duration)}"),
         TimeAndStopsRow(connection: connection),
-        if (SavedConnections.of(context) != null) ...[
+        if (context.watch<SavedConnections?>() != null) ...[
           const SizedBox(
             height: 5,
           ),
@@ -38,7 +39,7 @@ class FromToWidget extends StatelessWidget {
   }
 
   void Function()? onPressed(BuildContext context) {
-    SavedConnections? savedConnections = SavedConnections.of(context);
+    SavedConnections? savedConnections = context.watch<SavedConnections?>();
 
     if (savedConnections == null ||
         savedConnections.list.stringContains(connection)) {

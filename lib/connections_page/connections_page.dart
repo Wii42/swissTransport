@@ -9,7 +9,7 @@ import 'package:sbb/transport_api/transport_objects/connections.dart';
 import '../ui/api_user.dart';
 import 'connections_list.dart';
 
-class ConnectionsPage extends WidgetWithTitle {
+class ConnectionsPage extends StatelessWidget with WidgetWithTitle {
   final Future<Connections> connectionsRequest;
 
   @override

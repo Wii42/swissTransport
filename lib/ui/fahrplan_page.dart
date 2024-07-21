@@ -4,7 +4,7 @@ import 'package:sbb/ui/departure_data_table.dart';
 
 import 'connections_form.dart';
 
-class FahrplanPage extends WidgetWithTitle {
+class FahrplanPage extends StatelessWidget with WidgetWithTitle {
   @override
   final String title = "Fahrplan";
 

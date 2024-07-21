@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sbb/ui/connection_representation.dart';
 import 'package:sbb/ui/from_to_text.dart';
 import 'package:sbb/generic_ui_elements/padded_clickable_card.dart';
@@ -18,7 +19,7 @@ class SavedConnectionsWidget extends StatefulWidget {
 class _SavedConnectionsWidgetState extends State<SavedConnectionsWidget> {
   @override
   Widget build(BuildContext context) {
-    SavedConnections? savedConnections = SavedConnections.of(context);
+    SavedConnections? savedConnections = context.watch<SavedConnections?>();
 
     if (savedConnections == null || savedConnections.list.isEmpty) {
       return const Center(child: Text("Keine gespeicherten Reisen vorhanden"));

@@ -5,25 +5,14 @@ import 'package:sbb/main.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SavedConnections extends InheritedWidget {
+class SavedConnections extends ChangeNotifier {
   static const String savedConnectionsKey = 'savedConnections';
 
   late final List<Connection> _savedConnections;
-  late final SharedPreferences? sharedPrefs = sharedPreferences;
+  final SharedPreferences sharedPrefs;
 
-  SavedConnections({super.key, required super.child}) {
+  SavedConnections({required this.sharedPrefs}) {
     _savedConnections = _loadFromSharedPreferencesIfPossible();
-  }
-
-  @override
-  bool updateShouldNotify(covariant SavedConnections oldWidget) {
-    return true;
-  }
-
-  static SavedConnections? of(BuildContext context) {
-    SavedConnections? inherited =
-        (context.dependOnInheritedWidgetOfExactType<SavedConnections>());
-    return inherited;
   }
 
   List<Connection> _loadFromSharedPreferencesIfPossible() {

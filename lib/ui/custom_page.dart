@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/generic_ui_elements/widget_with_title.dart';
 
-class CustomPage extends WidgetWithTitle {
+class CustomPage extends StatelessWidget with WidgetWithTitle {
   @override
   final String title;
 

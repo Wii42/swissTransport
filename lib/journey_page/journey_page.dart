@@ -7,7 +7,7 @@ import '../transport_api/transport_objects/section.dart';
 import '../ui/custom_page.dart';
 import 'info_widget.dart';
 
-class JourneyPage extends WidgetWithTitle {
+class JourneyPage extends StatelessWidget with WidgetWithTitle {
   @override
   final String title = 'Fahrtinfo';
   @override

@@ -133,18 +133,25 @@ class JourneySection extends StatelessWidget {
     );
   }
 
-  Column tracks() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          (stop.platform != null && stop.platform!.isNotEmpty)
-              ? "Gl. ${stop.platform}"
-              : "",
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ],
+  Widget tracks() {
+    return Text(
+      platformString(),
+      style: stop.hasDeparturePlatformChanged()
+          ? TimeAndStopsRow.unplannedChangeStyle
+          : const TextStyle(fontWeight: FontWeight.bold),
     );
+  }
+
+  String platformString() {
+    if (stop.platform == null || stop.platform!.isEmpty) {
+      return '';
+    }
+
+    List<String> bits = [
+      'Gl.',
+      if (stop.departurePlatform != null) stop.departurePlatform!,
+      if (stop.departurePlatformSection != null) stop.departurePlatformSection!,
+    ];
+    return bits.join(' ');
   }
 }
