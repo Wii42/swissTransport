@@ -1,21 +1,21 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 abstract class TransportApiRequest {
-  List<String> get parametersList;
+  Map<String, dynamic> get queryParameters;
 
-  String parametersAsString() {
-    return parametersList.join('&');
-  }
-
-  String get apiUrl;
+  final Uri baseUrl = Uri.https("transport.opendata.ch", "v1");
+  String get apiEndpoint;
 
   Future<http.Response> callApi() async {
-    String parameters = parametersAsString();
-
-    Uri url = Uri.parse("$apiUrl?$parameters");
+    log(baseUrl.authority);
+    log([...baseUrl.pathSegments, apiEndpoint].toString());
+    log(queryParameters.toString());
+    Uri url = Uri.https(baseUrl.authority, [...baseUrl.pathSegments, apiEndpoint].join('/'), queryParameters);
+    log(url.toString());
 
     http.Response response = await http.get(url);
     if (kDebugMode) {

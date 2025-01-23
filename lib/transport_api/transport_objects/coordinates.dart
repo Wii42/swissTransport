@@ -1,12 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'json_coding/coordinates_coder.dart';
-
 part 'coordinates.g.dart';
 
 @JsonSerializable()
 class Coordinates {
-  static final CoordinatesCoder jsonCoder = CoordinatesCoder();
 
   ///The type of the given coordinate
   String? type;

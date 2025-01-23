@@ -9,7 +9,7 @@ import '../enums/transport_vehicles.dart';
 
 class ConnectionsRequest extends TransportApiRequest {
   @override
-  final String apiUrl = 'https://transport.opendata.ch/v1/connections';
+  final String apiEndpoint = 'connections';
 
   ///Specifies the departure location of the connection.
   ///Example: 'Lausanne
@@ -78,48 +78,45 @@ class ConnectionsRequest extends TransportApiRequest {
   }
 
   @override
-  List<String> get parametersList {
-    List<String> parametersList = ["from=$from", "to=$to"];
+  Map<String, dynamic> get queryParameters {
+    Map<String, dynamic> parametersList = {"from": from, "to": to};
     if (via != null) {
-      for (String stopover in via!) {
-        parametersList.add("via[]=$stopover");
-      }
+      parametersList["via[]"] = via;
     }
     if (date != null) {
-      parametersList.add("date=${DateFormat("yyyy-MM-dd").format(date!)}");
+      parametersList["date"] = DateFormat("yyyy-MM-dd").format(date!);
     }
     if (time != null) {
-      parametersList.add(
-          "time=${DateFormat("HH:mm").format(DateTime(0, 0, 0, time!.hour, time!.minute))}");
+      parametersList["time"] = DateFormat("HH:mm")
+          .format(DateTime(0, 0, 0, time!.hour, time!.minute));
     }
     if (isArrivalTime != null) {
-      parametersList.add("isArrivalTime=${isArrivalTime!.toInt()}");
+      parametersList["isArrivalTime"] = isArrivalTime!.toInt().toString();
     }
     if (transportations != null) {
-      for (TransportVehicles vehicle in transportations!) {
-        parametersList.add("transportations[]=${vehicle.name}");
-      }
+      parametersList["transportations[]"] =
+          transportations!.map((e) => e.name).toList();
     }
     if (limit != null) {
-      parametersList.add("limit=$limit");
+      parametersList["limit"] = limit.toString();
     }
     if (page != null) {
-      parametersList.add("page=$page");
+      parametersList["page"] = page.toString();
     }
     if (direct != null) {
-      parametersList.add("direct=${direct!.toInt()}");
+      parametersList["direct"] = direct!.toInt().toString();
     }
     if (sleeper != null) {
-      parametersList.add("sleeper=${sleeper!.toInt()}");
+      parametersList["sleeper"] = sleeper!.toInt().toString();
     }
     if (couchette != null) {
-      parametersList.add("couchette=${couchette!.toInt()}");
+      parametersList["couchette"] = couchette!.toInt().toString();
     }
     if (bike != null) {
-      parametersList.add("bike=${bike!.toInt()}");
+      parametersList["bike"] = bike!.toInt().toString();
     }
     if (accessibility != null) {
-      parametersList.add("accessibility=${accessibility!.apiName}");
+      parametersList["accessibility"] = accessibility!.apiName;
     }
 
     return parametersList;

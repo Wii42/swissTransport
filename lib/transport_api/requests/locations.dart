@@ -6,7 +6,7 @@ import '../transport_objects/stations.dart';
 
 class LocationsRequest extends TransportApiRequest {
   @override
-  final String apiUrl = "https://transport.opendata.ch/v1/locations";
+  final String apiEndpoint = "locations";
 
   ///Specifies the location name to search for
   String? query;
@@ -31,21 +31,21 @@ class LocationsRequest extends TransportApiRequest {
   }
 
   @override
-  List<String> get parametersList {
-    List<String> parametersList = [];
+  Map<String, dynamic> get queryParameters {
+    Map<String, dynamic> parametersList = {};
     if (query != null) {
-      parametersList.add("query=$query");
+      parametersList["query"] = query;
     }
     if (coordinates != null) {
       if (coordinates!.x != null) {
-        parametersList.add("x=${coordinates!.x}");
+        parametersList["x"] = coordinates!.x.toString();
       }
       if (coordinates!.y != null) {
-        parametersList.add("y=${coordinates!.y}");
+        parametersList["y"] = coordinates!.y.toString();
       }
     }
     if (type != null) {
-      parametersList.add("type=${type!.name}");
+      parametersList["type"] = type!.name;
     }
     return parametersList;
   }

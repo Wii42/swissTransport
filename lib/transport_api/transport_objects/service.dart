@@ -1,13 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'json_coding/service_coder.dart';
-
 part 'service.g.dart';
 
 ///Operation information for a connection.
 @JsonSerializable()
 class Service {
-  static final ServiceCoder jsonCoder = ServiceCoder();
 
   ///Information about how regular a connection operates.
   String? regular;

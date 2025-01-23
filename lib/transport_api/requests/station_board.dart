@@ -7,7 +7,7 @@ import '../transport_objects/station_board.dart';
 ///Returns the next connections leaving from a specific location.
 class StationBoardRequest extends TransportApiRequest {
   @override
-  final String apiUrl = "https://transport.opendata.ch/v1/stationboard";
+  final String apiEndpoint = "stationboard";
 
   ///Specifies the location of which a station board should be returned
   String? station;
@@ -51,28 +51,25 @@ class StationBoardRequest extends TransportApiRequest {
   }
 
   @override
-  List<String> get parametersList {
-    List<String> parametersList = [];
+  Map<String, dynamic> get queryParameters {
+    Map<String, dynamic> parametersList = {};
     if (station != null) {
-      parametersList.add("station=$station");
+      parametersList["station"] = station;
     }
     if (id != null) {
-      parametersList.add("id=$id");
+      parametersList["id"] = id;
     }
     if (limit != null) {
-      parametersList.add("limit=$limit");
+      parametersList["limit"] = limit.toString();
     }
     if (transportations != null) {
-      for (TransportVehicles vehicle in transportations!) {
-        parametersList.add("transportations[]=$vehicle");
-      }
+      parametersList["transportations"] = transportations!.map((e) => e.name).toList();
     }
     if (datetime != null) {
-      parametersList
-          .add("datetime=${DateFormat("yyyy-MM-dd hh:mm").format(datetime!)}");
+      parametersList["datetime"] = DateFormat("yyyy-MM-dd hh:mm").format(datetime!);
     }
     if (type != null) {
-      parametersList.add("type=${type!.name}");
+      parametersList["type"] = type!.name;
     }
 
     return parametersList;
