@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sbb/ui/routes.dart';
 import 'package:sbb/ui/saved_connections.dart';
-import 'package:sbb/ui/tab_app.dart';
-import 'package:sbb/ui/tab_scaffold.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'generic_ui_elements/widget_with_title.dart';
 import 'ui/home.dart';
 
 late SharedPreferences sharedPreferences;

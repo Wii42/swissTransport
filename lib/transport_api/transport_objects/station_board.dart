@@ -14,7 +14,8 @@ class StationBoard {
 
   StationBoard({this.station, this.stationBoard});
 
-  factory StationBoard.fromJson(Map<String, dynamic> map) => _$StationBoardFromJson(map);
+  factory StationBoard.fromJson(Map<String, dynamic> map) =>
+      _$StationBoardFromJson(map);
 
   Map<String, dynamic> toJson() => _$StationBoardToJson(this);
 
@@ -26,9 +27,12 @@ class StationBoard {
   @override
   operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is StationBoard && other.station == station && ListEquality().equals(other.stationBoard, stationBoard);
+    return other is StationBoard &&
+        other.station == station &&
+        ListEquality().equals(other.stationBoard, stationBoard);
   }
 
   @override
-  int get hashCode => Object.hashAll([station, ListEquality().hash(stationBoard)]);
+  int get hashCode =>
+      Object.hashAll([station, ListEquality().hash(stationBoard)]);
 }

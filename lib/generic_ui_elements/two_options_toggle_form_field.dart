@@ -5,14 +5,11 @@ class TwoOptionsToggleFormField extends FormField<bool> {
     super.key,
     String? firstOption,
     String? secondOption,
-    FormFieldSetter<bool>? onSaved,
-    FormFieldValidator<bool>? validator,
-    bool? initialValue,
+    super.onSaved,
+    super.validator,
+    super.initialValue,
     Icon? icon,
   }) : super(
-            onSaved: onSaved,
-            validator: validator,
-            initialValue: initialValue,
             builder: (FormFieldState<bool> state) {
               return Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,

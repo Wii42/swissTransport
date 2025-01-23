@@ -14,5 +14,6 @@ class TimeFormat {
     return dateFormat.format(DateTimeHelper.fromTimeOfDay(time));
   }
 
+  // ignore: non_constant_identifier_names
   factory TimeFormat.HHmm() => TimeFormat("HH:mm");
 }

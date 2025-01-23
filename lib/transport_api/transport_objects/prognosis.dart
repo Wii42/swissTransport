@@ -5,7 +5,6 @@ part 'prognosis.g.dart';
 ///A prognosis contains "realtime" information on the status of a connection checkpoint.
 @JsonSerializable()
 class Prognosis {
-
   ///The estimated arrival/departure platform
   String? platform;
 
@@ -43,13 +42,14 @@ class Prognosis {
     if (identical(this, other)) return true;
 
     return other is Prognosis &&
-      other.platform == platform &&
-      other.departure == departure &&
-      other.arrival == arrival &&
-      other.capacity1st == capacity1st &&
-      other.capacity2nd == capacity2nd;
+        other.platform == platform &&
+        other.departure == departure &&
+        other.arrival == arrival &&
+        other.capacity1st == capacity1st &&
+        other.capacity2nd == capacity2nd;
   }
 
   @override
-  int get hashCode => Object.hashAll([platform, departure, arrival, capacity1st, capacity2nd]);
+  int get hashCode =>
+      Object.hashAll([platform, departure, arrival, capacity1st, capacity2nd]);
 }

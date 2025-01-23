@@ -9,7 +9,6 @@ part 'journey.g.dart';
 
 @JsonSerializable()
 class Journey extends DepartureArrival {
-
   ///The name of the transportation
   String? name;
 

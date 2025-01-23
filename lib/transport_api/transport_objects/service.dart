@@ -5,7 +5,6 @@ part 'service.g.dart';
 ///Operation information for a connection.
 @JsonSerializable()
 class Service {
-
   ///Information about how regular a connection operates.
   String? regular;
 

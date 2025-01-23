@@ -4,7 +4,6 @@ part 'coordinates.g.dart';
 
 @JsonSerializable()
 class Coordinates {
-
   ///The type of the given coordinate
   String? type;
 

@@ -63,10 +63,12 @@ class StationBoardRequest extends TransportApiRequest {
       parametersList["limit"] = limit.toString();
     }
     if (transportations != null) {
-      parametersList["transportations"] = transportations!.map((e) => e.name).toList();
+      parametersList["transportations"] =
+          transportations!.map((e) => e.name).toList();
     }
     if (datetime != null) {
-      parametersList["datetime"] = DateFormat("yyyy-MM-dd hh:mm").format(datetime!);
+      parametersList["datetime"] =
+          DateFormat("yyyy-MM-dd hh:mm").format(datetime!);
     }
     if (type != null) {
       parametersList["type"] = type!.name;

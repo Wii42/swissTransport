@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
-import 'package:sbb/transport_api/transport_objects/journey.dart';
 import 'package:sbb/transport_api/transport_objects/section.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 

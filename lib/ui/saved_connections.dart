@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:sbb/main.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

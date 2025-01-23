@@ -4,6 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  test('test', ()async {SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();}, testOn: 'windows');
+  test('test', ()async { await SharedPreferences.getInstance();}, testOn: 'windows');
 
 }

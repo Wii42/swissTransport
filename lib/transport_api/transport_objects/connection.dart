@@ -14,7 +14,6 @@ part 'connection.g.dart';
 ///A connection represents a possible journey between two locations.
 @JsonSerializable()
 class Connection extends DepartureArrival {
-
   ///The departure checkpoint of the connection
   Stop? from;
 
@@ -54,14 +53,14 @@ class Connection extends DepartureArrival {
     this.sections,
   });
 
-  factory Connection.fromJson(Map<String, dynamic> map) {try{
-
-    return _$ConnectionFromJson(map);
+  factory Connection.fromJson(Map<String, dynamic> map) {
+    try {
+      return _$ConnectionFromJson(map);
+    } catch (e) {
+      //print(map);
+      rethrow;
+    }
   }
-  catch(e){
-    //print(map);
-    rethrow;
-  }}
 
   Map<String, dynamic> toJson() => _$ConnectionToJson(this);
 
@@ -125,8 +124,7 @@ class Connection extends DepartureArrival {
 
   bool isSameDate(Connection other) {
     DateTime? connectionDateTime = departureTime?.toLocal();
-    DateTime? previousConnectionDateTime =
-    other.departureTime?.toLocal();
+    DateTime? previousConnectionDateTime = other.departureTime?.toLocal();
     if (connectionDateTime == null || previousConnectionDateTime == null) {
       return false;
     }
@@ -143,7 +141,6 @@ class Connection extends DepartureArrival {
         other.to == to &&
         other.duration == duration &&
         other.service == service &&
-
         eq.equals(products, other.products) &&
         other.capacity1st == capacity1st &&
         other.capacity2nd == capacity2nd &&

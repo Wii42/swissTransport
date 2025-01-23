@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sbb/transport_api/helper/departure_arrival_interface.dart';
 import 'package:sbb/transport_api/transport_objects/location.dart';
@@ -10,7 +8,6 @@ part 'stop.g.dart';
 ///A checkpoint represents an arrival or a departure point (in time and space) of a connection.
 @JsonSerializable()
 class Stop extends DepartureArrival {
-
   ///A location object showing this line's stop at the requested station.
   Location? station;
 
@@ -47,17 +44,7 @@ class Stop extends DepartureArrival {
     this.location,
   });
 
-  factory Stop.fromJson(Map<String, dynamic> map) {
-    try{
-      return _$StopFromJson(map);
-    }
-    catch(e){
-      print(map["arrival"]?.runtimeType);
-      print((map["arrival"] as String) == "null");
-      print(map);
-      rethrow;
-    }
-  }
+  factory Stop.fromJson(Map<String, dynamic> map) => _$StopFromJson(map);
 
   Map<String, dynamic> toJson() => _$StopToJson(this);
 
@@ -78,7 +65,6 @@ class Stop extends DepartureArrival {
   bool get hasDelay => (delay != null && delay! > 0);
 
   bool get isRealStop => arrival != null || departure != null;
-
 
   @override
   bool operator ==(Object other) {

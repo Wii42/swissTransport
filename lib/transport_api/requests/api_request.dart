@@ -14,7 +14,8 @@ abstract class TransportApiRequest {
     log(baseUrl.authority);
     log([...baseUrl.pathSegments, apiEndpoint].toString());
     log(queryParameters.toString());
-    Uri url = Uri.https(baseUrl.authority, [...baseUrl.pathSegments, apiEndpoint].join('/'), queryParameters);
+    Uri url = Uri.https(baseUrl.authority,
+        [...baseUrl.pathSegments, apiEndpoint].join('/'), queryParameters);
     log(url.toString());
 
     http.Response response = await http.get(url);

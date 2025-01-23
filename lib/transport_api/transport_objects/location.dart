@@ -8,7 +8,6 @@ part 'location.g.dart';
 
 @JsonSerializable()
 class Location {
-
   ///The id of the location
   String? id;
 
@@ -56,22 +55,18 @@ class Location {
     return "ID: $id, Type: ${type.name}, Name: $name, Score: $score, Coordinates: $coordinates, Distance: $distance, Icon: ${icon.name}";
   }
 
-  static Map<String, dynamic>? _coordinatesKey(Map<dynamic, dynamic> map, String string) {
-    return map["coordinate"] ?? map["coordinates"];
-  }
-
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is Location &&
-      other.id == id &&
-      other.type == type &&
-      other.name == name &&
-      other.score == score &&
-      other.coordinates == coordinates &&
-      other.distance == distance &&
-      other.icon == icon;
+        other.id == id &&
+        other.type == type &&
+        other.name == name &&
+        other.score == score &&
+        other.coordinates == coordinates &&
+        other.distance == distance &&
+        other.icon == icon;
   }
 
   @override

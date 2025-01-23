@@ -4,13 +4,10 @@ class CheckboxFormField extends FormField<bool> {
   CheckboxFormField({
     super.key,
     Widget? title,
-    FormFieldSetter<bool>? onSaved,
-    FormFieldValidator<bool>? validator,
-    bool? initialValue,
+    super.onSaved,
+    super.validator,
+    super.initialValue,
   }) : super(
-            onSaved: onSaved,
-            validator: validator,
-            initialValue: initialValue,
             builder: (FormFieldState<bool> state) {
               return Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,

@@ -9,7 +9,6 @@ part 'section.g.dart';
 
 @JsonSerializable()
 class Section {
-
   ///A journey, the transportation used by this section. Can be null
   Journey? journey;
 
