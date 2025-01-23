@@ -13,12 +13,12 @@ late SharedPreferences sharedPreferences;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  getSharedPrefs();
+  await getSharedPrefs();
   runApp(const MyApp());
 }
 
-void getSharedPrefs() async {
-  sharedPreferences = await SharedPreferences.getInstance();
+ Future<void> getSharedPrefs() async {
+   sharedPreferences = await SharedPreferences.getInstance();
 }
 
 class MyApp extends StatelessWidget {

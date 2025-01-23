@@ -1,12 +1,14 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 import 'package:sbb/transport_api/transport_objects/walk.dart';
 import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 
 import 'journey.dart';
-import 'json_coding/section_coder.dart';
 
+part 'section.g.dart';
+
+@JsonSerializable()
 class Section {
-  static final SectionCoder jsonCoder = SectionCoder();
 
   ///A journey, the transportation used by this section. Can be null
   Journey? journey;
@@ -22,31 +24,16 @@ class Section {
 
   Section({this.journey, this.walk, this.departure, this.arrival});
 
-  factory Section.fromJson(Map<String, dynamic> map) => jsonCoder.fromJson(map);
+  factory Section.fromJson(Map<String, dynamic> map) => _$SectionFromJson(map);
 
-  static Section? maybeFromJson(Map<String, dynamic>? map) =>
-      jsonCoder.maybeFromJson(map);
-
-  static List<Section> multipleFromJson(List<dynamic> list) =>
-      jsonCoder.multipleFromJson(list);
-
-  static List<Section>? maybeMultipleFromJson(List<dynamic>? list) =>
-      jsonCoder.maybeMultipleFromJson(list);
-
-  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
-
-  static List<Map<String, dynamic>> multipleAsJson(List<Section> list) =>
-      jsonCoder.multipleAsJson(list);
-
-  static List<Map<String, dynamic>>? maybeMultipleAsJson(List<Section>? list) =>
-      jsonCoder.maybeMultipleAsJson(list);
+  Map<String, dynamic> toJson() => _$SectionToJson(this);
 
   @override
   String toString() {
     return "Journey: $journey, Walk: $walk, Departure: $departure, Arrival: $arrival";
   }
 
-  bool get hasWalk => (walk != null && walk!.duration.inSeconds > 0);
+  bool get hasWalk => (walk?.duration != null && walk!.duration!.inSeconds > 0);
 
   String? get direction => journey?.to ?? arrival?.station?.name;
 
@@ -58,4 +45,18 @@ class Section {
   }
 
   TransportVehicles? get transportVehicle => journey?.transportVehicle;
+
+  @override
+  operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Section &&
+        other.journey == journey &&
+        other.walk == walk &&
+        other.departure == departure &&
+        other.arrival == arrival;
+  }
+
+  @override
+  int get hashCode => Object.hashAll([journey, walk, departure, arrival]);
 }

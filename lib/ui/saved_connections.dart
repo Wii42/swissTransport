@@ -16,11 +16,8 @@ class SavedConnections extends ChangeNotifier {
   }
 
   List<Connection> _loadFromSharedPreferencesIfPossible() {
-    if (sharedPrefs == null) {
-      return [];
-    }
-    if (sharedPrefs!.containsKey(savedConnectionsKey)) {
-      return sharedPrefs!
+    if (sharedPrefs.containsKey(savedConnectionsKey)) {
+      return sharedPrefs
           .getStringList(savedConnectionsKey)!
           .map<Connection>(
               (String string) => Connection.fromJson(jsonDecode(string)))
@@ -30,11 +27,11 @@ class SavedConnections extends ChangeNotifier {
   }
 
   void _saveToSharedPreferences() {
-    sharedPrefs?.setStringList(
+    sharedPrefs.setStringList(
         savedConnectionsKey,
         _savedConnections
             .map<String>(
-                (Connection connection) => jsonEncode(connection.asJson()))
+                (Connection connection) => jsonEncode(connection.toJson()))
             .toList());
   }
 

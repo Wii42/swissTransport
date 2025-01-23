@@ -1,16 +1,19 @@
+import 'package:collection/collection.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sbb/transport_api/helper/date_time_helper.dart';
 import 'package:sbb/transport_api/helper/departure_arrival_interface.dart';
+import 'package:sbb/transport_api/transport_objects/json_converters/duration_parse_converter.dart';
 import 'package:sbb/transport_api/transport_objects/section.dart';
 import 'package:sbb/transport_api/transport_objects/service.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 import 'package:sbb/transport_api/transport_objects/walk.dart';
 import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 
-import 'json_coding/connection_coder.dart';
+part 'connection.g.dart';
 
 ///A connection represents a possible journey between two locations.
+@JsonSerializable()
 class Connection extends DepartureArrival {
-  static final ConnectionCoder jsonCoder = ConnectionCoder();
 
   ///The departure checkpoint of the connection
   Stop? from;
@@ -19,7 +22,10 @@ class Connection extends DepartureArrival {
   Stop? to;
 
   ///Duration of the journey
+  @DurationParseConverter()
   Duration? duration;
+
+  int? transfers;
 
   ///Service information about how regular the connection operates
   Service? service;
@@ -40,6 +46,7 @@ class Connection extends DepartureArrival {
     this.from,
     this.to,
     this.duration,
+    this.transfers,
     this.service,
     this.products,
     this.capacity1st,
@@ -47,26 +54,16 @@ class Connection extends DepartureArrival {
     this.sections,
   });
 
-  factory Connection.fromJson(Map<String, dynamic> map) =>
-      jsonCoder.fromJson(map);
+  factory Connection.fromJson(Map<String, dynamic> map) {try{
 
-  static Connection? maybeFromJson(Map<String, dynamic>? map) =>
-      jsonCoder.maybeFromJson(map);
+    return _$ConnectionFromJson(map);
+  }
+  catch(e){
+    //print(map);
+    rethrow;
+  }}
 
-  static List<Connection> multipleFromJson(List<dynamic> list) =>
-      jsonCoder.multipleFromJson(list);
-
-  static List<Connection>? maybeMultipleFromJson(List<dynamic>? list) =>
-      jsonCoder.maybeMultipleFromJson(list);
-
-  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
-
-  static List<Map<String, dynamic>> multipleAsJson(List<Connection> list) =>
-      jsonCoder.multipleAsJson(list);
-
-  static List<Map<String, dynamic>>? maybeMultipleAsJson(
-          List<Connection>? list) =>
-      jsonCoder.maybeMultipleAsJson(list);
+  Map<String, dynamic> toJson() => _$ConnectionToJson(this);
 
   @override
   String toString() {
@@ -134,6 +131,38 @@ class Connection extends DepartureArrival {
       return false;
     }
     return connectionDateTime.isSameDate(previousConnectionDateTime);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    ListEquality eq = ListEquality();
+    return other is Connection &&
+        other.from == from &&
+        other.to == to &&
+        other.duration == duration &&
+        other.service == service &&
+
+        eq.equals(products, other.products) &&
+        other.capacity1st == capacity1st &&
+        other.capacity2nd == capacity2nd &&
+        eq.equals(sections, other.sections);
+  }
+
+  @override
+  int get hashCode {
+    ListEquality eq = ListEquality();
+    return Object.hashAll([
+      from,
+      to,
+      duration,
+      service,
+      eq.hash(products),
+      capacity1st,
+      capacity2nd,
+      eq.hash(sections),
+    ]);
   }
 }
 

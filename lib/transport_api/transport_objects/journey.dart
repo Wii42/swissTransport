@@ -1,17 +1,22 @@
+import 'package:collection/collection.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sbb/transport_api/helper/departure_arrival_interface.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 
 import '../enums/transport_vehicles.dart';
-import 'json_coding/journey_coder.dart';
 
+part 'journey.g.dart';
+
+@JsonSerializable()
 class Journey extends DepartureArrival {
-  static final JourneyCoder jsonCoder = JourneyCoder();
 
   ///The name of the transportation
   String? name;
 
   ///Category of the transportation
   String? category;
+
+  String? subcategory;
 
   ///An internal category code of the transportation
   int? categoryCode;
@@ -39,6 +44,7 @@ class Journey extends DepartureArrival {
   Journey({
     this.name,
     this.category,
+    this.subcategory,
     this.categoryCode,
     this.number,
     this.operator,
@@ -49,24 +55,9 @@ class Journey extends DepartureArrival {
     this.stop,
   });
 
-  factory Journey.fromJson(Map<String, dynamic> map) => jsonCoder.fromJson(map);
+  factory Journey.fromJson(Map<String, dynamic> map) => _$JourneyFromJson(map);
 
-  static Journey? maybeFromJson(Map<String, dynamic>? map) =>
-      jsonCoder.maybeFromJson(map);
-
-  static List<Journey> multipleFromJson(List<dynamic> list) =>
-      jsonCoder.multipleFromJson(list);
-
-  static List<Journey>? maybeMultipleFromJson(List<dynamic>? list) =>
-      jsonCoder.maybeMultipleFromJson(list);
-
-  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
-
-  static List<Map<String, dynamic>> multipleAsJson(List<Journey> list) =>
-      jsonCoder.multipleAsJson(list);
-
-  static List<Map<String, dynamic>>? maybeMultipleAsJson(List<Journey>? list) =>
-      jsonCoder.maybeMultipleAsJson(list);
+  Map<String, dynamic> toJson() => _$JourneyToJson(this);
 
   @override
   String toString() {
@@ -102,4 +93,33 @@ class Journey extends DepartureArrival {
     }
     return null;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Journey) {
+      return name == other.name &&
+          category == other.category &&
+          categoryCode == other.categoryCode &&
+          number == other.number &&
+          operator == other.operator &&
+          to == other.to &&
+          ListEquality().equals(passList, other.passList) &&
+          capacity1st == other.capacity1st &&
+          capacity2nd == other.capacity2nd;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+        name,
+        category,
+        categoryCode,
+        number,
+        operator,
+        to,
+        ListEquality().hash(passList),
+        capacity1st,
+        capacity2nd,
+      ]);
 }

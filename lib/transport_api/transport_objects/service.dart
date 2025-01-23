@@ -1,6 +1,11 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import 'json_coding/service_coder.dart';
 
+part 'service.g.dart';
+
 ///Operation information for a connection.
+@JsonSerializable()
 class Service {
   static final ServiceCoder jsonCoder = ServiceCoder();
 
@@ -12,24 +17,9 @@ class Service {
 
   Service({this.regular, this.irregular});
 
-  factory Service.fromJson(Map<String, dynamic> map) => jsonCoder.fromJson(map);
+  factory Service.fromJson(Map<String, dynamic> map) => _$ServiceFromJson(map);
 
-  static Service? maybeFromJson(Map<String, dynamic>? map) =>
-      jsonCoder.maybeFromJson(map);
-
-  static List<Service> multipleFromJson(List<dynamic> list) =>
-      jsonCoder.multipleFromJson(list);
-
-  static List<Service>? maybeMultipleFromJson(List<dynamic>? list) =>
-      jsonCoder.maybeMultipleFromJson(list);
-
-  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
-
-  static List<Map<String, dynamic>> multipleAsJson(List<Service> list) =>
-      jsonCoder.multipleAsJson(list);
-
-  static List<Map<String, dynamic>>? maybeMultipleAsJson(List<Service>? list) =>
-      jsonCoder.maybeMultipleAsJson(list);
+  Map<String, dynamic> toJson() => _$ServiceToJson(this);
 
   @override
   String toString() {

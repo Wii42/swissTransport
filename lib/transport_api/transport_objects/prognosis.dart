@@ -1,8 +1,10 @@
-import 'json_coding/prognosis_coder.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'prognosis.g.dart';
 
 ///A prognosis contains "realtime" information on the status of a connection checkpoint.
+@JsonSerializable()
 class Prognosis {
-  static final PrognosisCoder jsonCoder = PrognosisCoder();
 
   ///The estimated arrival/departure platform
   String? platform;
@@ -27,28 +29,27 @@ class Prognosis {
       this.capacity2nd});
 
   factory Prognosis.fromJson(Map<String, dynamic> map) =>
-      jsonCoder.fromJson(map);
+      _$PrognosisFromJson(map);
 
-  static Prognosis? maybeFromJson(Map<String, dynamic>? map) =>
-      jsonCoder.maybeFromJson(map);
-
-  static List<Prognosis> multipleFromJson(List<dynamic> list) =>
-      jsonCoder.multipleFromJson(list);
-
-  static List<Prognosis>? maybeMultipleFromJson(List<dynamic>? list) =>
-      jsonCoder.maybeMultipleFromJson(list);
-
-  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
-
-  static List<Map<String, dynamic>> multipleAsJson(List<Prognosis> list) =>
-      jsonCoder.multipleAsJson(list);
-
-  static List<Map<String, dynamic>>? maybeMultipleAsJson(
-          List<Prognosis>? list) =>
-      jsonCoder.maybeMultipleAsJson(list);
+  Map<String, dynamic> toJson() => _$PrognosisToJson(this);
 
   @override
   String toString() {
     return "Plattform: $platform, Departure: $departure, Arrival: $arrival, Capacity 1st class: $capacity1st, Capacity 2nd class: $capacity2nd";
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Prognosis &&
+      other.platform == platform &&
+      other.departure == departure &&
+      other.arrival == arrival &&
+      other.capacity1st == capacity1st &&
+      other.capacity2nd == capacity2nd;
+  }
+
+  @override
+  int get hashCode => Object.hashAll([platform, departure, arrival, capacity1st, capacity2nd]);
 }

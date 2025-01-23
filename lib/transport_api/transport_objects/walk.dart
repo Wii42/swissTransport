@@ -1,29 +1,28 @@
-import 'json_coding/walk_coder.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+import 'json_converters/duration_in_seconds_converter.dart';
+
+part 'walk.g.dart';
+
+@JsonSerializable()
 class Walk {
-  static final WalkCoder jsonCoder = WalkCoder();
-
   /// walking duration
-  Duration duration;
+  @DurationInSecondsConverter()
+  Duration? duration;
 
   Walk({required this.duration});
 
-  factory Walk.fromJson(Map<String, dynamic> map) => jsonCoder.fromJson(map);
+  factory Walk.fromJson(Map<String, dynamic> map) => _$WalkFromJson(map);
 
-  static Walk? maybeFromJson(Map<String, dynamic>? map) =>
-      jsonCoder.maybeFromJson(map);
+  Map<String, dynamic> toJson() => _$WalkToJson(this);
 
-  static List<Walk> multipleFromJson(List<dynamic> list) =>
-      jsonCoder.multipleFromJson(list);
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-  static List<Walk>? maybeMultipleFromJson(List<dynamic>? list) =>
-      jsonCoder.maybeMultipleFromJson(list);
+    return other is Walk && other.duration == duration;
+  }
 
-  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
-
-  static List<Map<String, dynamic>> multipleAsJson(List<Walk> list) =>
-      jsonCoder.multipleAsJson(list);
-
-  static List<Map<String, dynamic>>? maybeMultipleAsJson(List<Walk>? list) =>
-      jsonCoder.maybeMultipleAsJson(list);
+  @override
+  int get hashCode => Object.hashAll([duration]);
 }

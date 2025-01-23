@@ -20,6 +20,6 @@ class WalkCoder extends JsonCoder<Walk> {
 
   @override
   Map<String, dynamic> asJson(Walk object) {
-    return {durationKey: object.duration.inSeconds};
+    return {durationKey: object.duration?.inSeconds};
   }
 }

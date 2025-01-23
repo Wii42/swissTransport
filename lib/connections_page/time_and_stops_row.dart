@@ -37,7 +37,7 @@ class TimeAndStopsRow extends StatelessWidget {
           Icons.directions_walk,
           size: 13,
         ),
-        Text("${section?.walk?.duration.inMinutes ?? 0}'"),
+        Text("${section?.walk?.duration?.inMinutes ?? 0}'"),
         if (suffix != null) suffix,
       ],
     );

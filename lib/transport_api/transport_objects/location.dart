@@ -1,11 +1,13 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 
 import '../enums/location_type.dart';
 import 'coordinates.dart';
-import 'json_coding/location_coder.dart';
 
+part 'location.g.dart';
+
+@JsonSerializable()
 class Location {
-  static final LocationCoder jsonCoder = LocationCoder();
 
   ///The id of the location
   String? id;
@@ -41,29 +43,39 @@ class Location {
     this.icon = TransportVehicles.none,
   });
 
-  factory Location.fromJson(Map<String, dynamic> map) =>
-      jsonCoder.fromJson(map);
+  factory Location.fromJson(Map<String, dynamic> map) {
+    map["coordinates"] ??= map["coordinate"];
+    map.remove("coordinate");
+    return _$LocationFromJson(map);
+  }
 
-  static Location? maybeFromJson(Map<String, dynamic>? map) =>
-      jsonCoder.maybeFromJson(map);
-
-  static List<Location> multipleFromJson(List<dynamic> list) =>
-      jsonCoder.multipleFromJson(list);
-
-  static List<Location>? maybeMultipleFromJson(List<dynamic>? list) =>
-      jsonCoder.maybeMultipleFromJson(list);
-
-  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
-
-  static List<Map<String, dynamic>> multipleAsJson(List<Location> list) =>
-      jsonCoder.multipleAsJson(list);
-
-  static List<Map<String, dynamic>>? maybeMultipleAsJson(
-          List<Location>? list) =>
-      jsonCoder.maybeMultipleAsJson(list);
+  Map<String, dynamic> toJson() => _$LocationToJson(this);
 
   @override
   String toString() {
     return "ID: $id, Type: ${type.name}, Name: $name, Score: $score, Coordinates: $coordinates, Distance: $distance, Icon: ${icon.name}";
+  }
+
+  static Map<String, dynamic>? _coordinatesKey(Map<dynamic, dynamic> map, String string) {
+    return map["coordinate"] ?? map["coordinates"];
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Location &&
+      other.id == id &&
+      other.type == type &&
+      other.name == name &&
+      other.score == score &&
+      other.coordinates == coordinates &&
+      other.distance == distance &&
+      other.icon == icon;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hashAll([id, type, name, score, coordinates, distance, icon]);
   }
 }

@@ -1,12 +1,15 @@
+import 'dart:developer';
+
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sbb/transport_api/helper/departure_arrival_interface.dart';
 import 'package:sbb/transport_api/transport_objects/location.dart';
 import 'package:sbb/transport_api/transport_objects/prognosis.dart';
 
-import 'json_coding/stop_coder.dart';
+part 'stop.g.dart';
 
 ///A checkpoint represents an arrival or a departure point (in time and space) of a connection.
+@JsonSerializable()
 class Stop extends DepartureArrival {
-  static final StopCoder jsonCoder = StopCoder();
 
   ///A location object showing this line's stop at the requested station.
   Location? station;
@@ -44,24 +47,19 @@ class Stop extends DepartureArrival {
     this.location,
   });
 
-  factory Stop.fromJson(Map<String, dynamic> map) => jsonCoder.fromJson(map);
+  factory Stop.fromJson(Map<String, dynamic> map) {
+    try{
+      return _$StopFromJson(map);
+    }
+    catch(e){
+      print(map["arrival"]?.runtimeType);
+      print((map["arrival"] as String) == "null");
+      print(map);
+      rethrow;
+    }
+  }
 
-  static Stop? maybeFromJson(Map<String, dynamic>? map) =>
-      jsonCoder.maybeFromJson(map);
-
-  static List<Stop> multipleFromJson(List<dynamic> list) =>
-      jsonCoder.multipleFromJson(list);
-
-  static List<Stop>? maybeMultipleFromJson(List<dynamic>? list) =>
-      jsonCoder.maybeMultipleFromJson(list);
-
-  Map<String, dynamic> asJson() => jsonCoder.asJson(this);
-
-  static List<Map<String, dynamic>> multipleAsJson(List<Stop> list) =>
-      jsonCoder.multipleAsJson(list);
-
-  static List<Map<String, dynamic>>? maybeMultipleAsJson(List<Stop>? list) =>
-      jsonCoder.maybeMultipleAsJson(list);
+  Map<String, dynamic> toJson() => _$StopToJson(this);
 
   @override
   String toString() {
@@ -80,4 +78,38 @@ class Stop extends DepartureArrival {
   bool get hasDelay => (delay != null && delay! > 0);
 
   bool get isRealStop => arrival != null || departure != null;
+
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Stop &&
+        other.station == station &&
+        other.arrival == arrival &&
+        other.departure == departure &&
+        other.delay == delay &&
+        other.platform == platform &&
+        other.prognosis == prognosis &&
+        other.arrivalTimestamp == arrivalTimestamp &&
+        other.departureTimestamp == departureTimestamp &&
+        other.realtimeAvailability == realtimeAvailability &&
+        other.location == location;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hashAll([
+      station,
+      arrival,
+      departure,
+      delay,
+      platform,
+      prognosis,
+      arrivalTimestamp,
+      departureTimestamp,
+      realtimeAvailability,
+      location,
+    ]);
+  }
 }
