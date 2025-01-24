@@ -13,8 +13,8 @@ void main() async {
   runApp(const MyApp());
 }
 
- Future<void> getSharedPrefs() async {
-   sharedPreferences = await SharedPreferences.getInstance();
+Future<void> getSharedPrefs() async {
+  sharedPreferences = await SharedPreferences.getInstance();
 }
 
 class MyApp extends StatelessWidget {
@@ -22,14 +22,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MaterialColor primary = Colors.blue;
     return MaterialApp(
       title: 'OpenTransport',
-      theme: ThemeData(primarySwatch: primary, brightness: Brightness.light),
-      darkTheme: ThemeData(primarySwatch: primary, brightness: Brightness.dark),
+      themeMode: ThemeMode.system,
+      theme: theme(Brightness.light),
+      darkTheme: theme(Brightness.dark),
       home: ChangeNotifierProvider(
         create: (_) => SavedConnections(sharedPrefs: sharedPreferences),
         child: const Home(),
+      ),
+    );
+  }
+
+  ThemeData theme(Brightness brightness) {
+    const MaterialAccentColor primary = Colors.blueAccent;
+    ColorScheme scheme = ColorScheme.fromSeed(seedColor: primary, brightness: brightness);
+    return ThemeData(
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: primary, brightness: brightness),
+        primaryColor: primary,
+      appBarTheme: AppBarTheme(
+        backgroundColor: primary,
+        foregroundColor: Colors.white,
+      ),
+      tabBarTheme: TabBarTheme(
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.white,
+        labelStyle: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }
