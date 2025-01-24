@@ -63,6 +63,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
+        selectedIndex: selectedIndex,
         destinations: [
           for (WidgetWithTitle page in Home.bottomTabs)
             NavigationDestination(icon: Icon(page.icon), label: page.title)

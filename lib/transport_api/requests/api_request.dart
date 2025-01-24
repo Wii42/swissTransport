@@ -11,17 +11,11 @@ abstract class TransportApiRequest {
   String get apiEndpoint;
 
   Future<http.Response> callApi() async {
-    log(baseUrl.authority);
-    log([...baseUrl.pathSegments, apiEndpoint].toString());
-    log(queryParameters.toString());
     Uri url = Uri.https(baseUrl.authority,
         [...baseUrl.pathSegments, apiEndpoint].join('/'), queryParameters);
-    log(url.toString());
 
     http.Response response = await http.get(url);
-    if (kDebugMode) {
-      print("${response.statusCode} ${response.request}");
-    }
+    log("${response.statusCode} ${response.request}");
     return response;
   }
 
