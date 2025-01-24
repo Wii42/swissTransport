@@ -11,8 +11,6 @@ import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 import 'enums/accessibility.dart';
 import 'enums/location_type.dart';
 
-const String locationsUrl = "https://transport.opendata.ch/v1/locations";
-
 class TransportApi {
   const TransportApi();
 
