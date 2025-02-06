@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/connections_page/time_and_stops_row.dart';
+import 'package:sbb/helper/go_subroute_extension.dart';
 import 'package:sbb/ui/api_user.dart';
 import 'package:sbb/generic_ui_elements/padded_card.dart';
 import 'package:sbb/transport_api/transport_api.dart';
@@ -195,6 +196,6 @@ class DepartureDataTable extends StatelessWidget {
       constraints.maxWidth > widthConstraint;
 
   void showDetails(Journey journey, BuildContext context) =>
-      Navigator.of(context).pushNamed(Routes.journey.string,
-          arguments: Section(journey: journey));
+      context.pushSubRoute(Routes.journey.string,
+          extra: Section(journey: journey));
 }

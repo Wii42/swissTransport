@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sbb/helper/go_subroute_extension.dart';
 import 'package:sbb/ui/connection_representation.dart';
 import 'package:sbb/ui/from_to_text.dart';
 import 'package:sbb/generic_ui_elements/padded_clickable_card.dart';
@@ -32,8 +33,7 @@ class _SavedConnectionsWidgetState extends State<SavedConnectionsWidget> {
   PaddedClickableCard clickableConnectionSneakPeek(BuildContext context,
       Connection connection, SavedConnections savedConnections) {
     return PaddedClickableCard(
-      onTap: () => Navigator.of(context)
-          .pushNamed(Routes.connection.string, arguments: connection),
+      onTap: () => context.pushSubRoute(Routes.connection.string, extra: connection),
       //Routes.connection.push(context, params: connection),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

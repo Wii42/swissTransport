@@ -12,7 +12,7 @@ class TabApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: tabs.length,
-      child: body ?? Routes.home.pageWrappedInScaffold(),
+      child: body ?? Routes.schedule.pageWrappedInScaffold(),
     );
   }
 }

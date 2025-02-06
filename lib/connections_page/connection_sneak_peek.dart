@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sbb/helper/go_subroute_extension.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
 import '../ui/connection_representation.dart';
@@ -12,8 +13,7 @@ class ConnectionSneakPeek extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PaddedClickableCard(
-      onTap: () => Navigator.of(context)
-          .pushNamed(Routes.connection.string, arguments: connection),
+      onTap: () => context.pushSubRoute(Routes.connection.string, extra: connection),
       //Routes.connection.push(context, params: connection),
       child: ConnectionRepresentation(connection: connection),
     );

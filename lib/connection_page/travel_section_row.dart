@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/connections_page/stops_indicator.dart';
 import 'package:sbb/connections_page/time_and_stops_row.dart';
+import 'package:sbb/helper/go_subroute_extension.dart';
 
 import '../generic_ui_elements/padded_clickable_card.dart';
 import '../transport_api/transport_objects/section.dart';
@@ -26,8 +27,7 @@ class TravelSectionRow extends StatelessWidget {
               suffix: const Text(' Fussweg')));
     }
     return PaddedClickableCard(
-      onTap: () => Navigator.of(context)
-          .pushNamed(Routes.journey.string, arguments: section),
+      onTap: () => context.pushSubRoute(Routes.journey.string, extra: section),
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,

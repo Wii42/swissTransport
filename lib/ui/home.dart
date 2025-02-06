@@ -26,7 +26,7 @@ class Home extends StatefulWidget with WidgetWithTitle {
 
   factory Home.inRoute([dynamic params]) => const Home();
 
-  static Widget _response(Connections data) {
+  static Widget response(Connections data) {
     return ListView(
       //crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -41,20 +41,24 @@ class Home extends StatefulWidget with WidgetWithTitle {
   static List<WidgetWithTitle> bottomTabs = [
     const ScheduleNavigatorPage(),
     const SavedConnectionsNavigatorPage(),
-    CustomPage(
-      title: 'API Testing',
-      icon: Icons.api_outlined,
-      body: Center(
-        child:
-            //  child: Text('Api Testing was successful'),
-            //)
-            ApiUser<Connections>(
-          apiCall: api.connections(from: "Wengen", to: "Lauterbrunnen"),
-          displayResponse: _response,
-        ),
+    apiTestingPage(),
+  ];
+
+  static CustomPage apiTestingPage() {
+    return CustomPage(
+    title: 'API Testing',
+    icon: Icons.api_outlined,
+    body: Center(
+      child:
+          //  child: Text('Api Testing was successful'),
+          //)
+          ApiUser<Connections>(
+        apiCall: api.connections(from: "Wengen", to: "Lauterbrunnen"),
+        displayResponse: response,
       ),
     ),
-  ];
+  );
+  }
 }
 
 class _HomeState extends State<Home> {
@@ -78,3 +82,5 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+
