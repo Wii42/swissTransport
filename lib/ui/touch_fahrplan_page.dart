@@ -39,25 +39,32 @@ class _TouchFahrplanPageState extends State<TouchFahrplanPage> {
 
   @override
   Widget build(BuildContext context) {
-    double spacing = 5;
-    return Column(
-      children: [
-        stationsGrid([
-          stationTile(stationName: 'Bern', crossAxisCellCount: 2),
-          stationTile(stationName: 'Wengen', crossAxisCellCount: 1)
-        ], spacing: spacing),
-        SizedBox(height: spacing),
-        stationsGrid([
-          stationTile(stationName: currentLocation, crossAxisCellCount: 2),
-          stationTile(stationName: from),
-          stationTile(stationName: to)
-        ], spacing: spacing)
-      ],
+    const double spacing = 5;
+    return Padding(
+      padding: const EdgeInsets.all(spacing),
+      child: Column(
+        children: [
+          stationsGrid([
+            stationTile(stationName: 'Bern', crossAxisCellCount: 2),
+            stationTile(stationName: 'Wengen', crossAxisCellCount: 1)
+          ], spacing: spacing),
+          SizedBox(height: spacing),
+          stationsGrid([
+            stationTile(
+                stationName: currentLocation,
+                icon: Icons.my_location_outlined,
+                crossAxisCellCount: 2),
+            stationTile(stationName: from, icon: Icons.start),
+            stationTile(stationName: to, icon: Icons.arrow_forward),
+          ], spacing: spacing)
+        ],
+      ),
     );
   }
 
   StaggeredGridTile stationTile(
       {required String stationName,
+      IconData? icon,
       int mainAxisCellCount = 1,
       int crossAxisCellCount = 1}) {
     return StaggeredGridTile.count(
@@ -66,7 +73,7 @@ class _TouchFahrplanPageState extends State<TouchFahrplanPage> {
       child: GridTile(
           child: DragTarget<String>(
         onAcceptWithDetails: (details) {
-          print("launch connection ${details.data} -> $stationName");
+          log("launch connection ${details.data} -> $stationName");
           showConnections(details.data, stationName);
         },
         onWillAcceptWithDetails: (details) => details.data != stationName,
@@ -85,28 +92,37 @@ class _TouchFahrplanPageState extends State<TouchFahrplanPage> {
                 if (_dragSourceStation == null) {
                   setState(() {
                     _dragSourceStation = stationName;
-                    print("Drag started from $_dragSourceStation");
+                    log("Drag started from $_dragSourceStation");
                   });
                 }
               },
               onDragEnd: (_) {
                 if (_dragSourceStation == stationName) {
                   setState(() {
-                    print("Drag ended from $_dragSourceStation");
+                    log("Drag ended from $_dragSourceStation");
                     _dragSourceStation = null;
                   });
                 }
               },
-              feedback: Center(
-                  child: Icon(Icons.circle, size: 16, color: Colors.blue)),
+              feedback: Icon(Icons.circle, size: 16, color: Colors.blue),
               child: Opacity(
                 opacity: darken ? 0.5 : 1.0,
-                child: Container(
-                    color: Colors.grey[800], child: Text(stationName)),
+                child: tileBody(stationName, icon: icon),
               ));
         },
       )),
     );
+  }
+
+  Container tileBody(String stationName, {IconData? icon}) {
+    return Container(
+        color: Colors.grey[800],
+        child: Stack(
+          children: [
+            if (icon != null) Center(child: Icon(icon)),
+            Positioned(left: 5, bottom: 5, child: Text(stationName)),
+          ],
+        ));
   }
 
   StaggeredGrid stationsGrid(List<StaggeredGridTile> stations,
@@ -163,7 +179,6 @@ class _TouchFahrplanPageState extends State<TouchFahrplanPage> {
         type: LocationType.station.name,
       ),
     );
-    print('Close stations: ${closeStations.stations}');
     Iterable<Location> stationsWithDistance = closeStations.stations
         .where((s) => s.distance != null && s.icon != TransportVehicles.none);
     return stationsWithDistance
