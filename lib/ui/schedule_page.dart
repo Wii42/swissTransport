@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/ui/routes.dart';
-import 'package:sbb/ui/tab_body.dart';
+import 'package:sbb/ui/touch_fahrplan_page.dart';
 
 import 'custom_navigator_page.dart';
 import 'custom_tabs_page.dart';
@@ -15,10 +15,7 @@ class SchedulePage extends CustomTabsPage {
           icon: Icons.travel_explore,
           tabs: const [
             FahrplanPage(),
-            TabBody(
-              title: 'Touch-Fahrplan',
-              body: Center(child: Text('Touch-Fahrplan')),
-            ),
+            TouchFahrplanPage(),
             MapPage(),
           ],
         );

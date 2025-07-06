@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/transport_api/helper/date_time_helper.dart';
-import 'package:sbb/ui/routes.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
+import 'package:sbb/ui/routes.dart';
 
 import '../generic_ui_elements/two_options_toggle_form_field.dart';
 import '../helper/time_format.dart';
@@ -114,7 +114,7 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
     );
   }
 
-  String? validateStationForm(value) {
+  String? validateStationForm(String? value) {
     if (value == null || value.isEmpty) {
       return 'Bitte eine Station eingeben';
     }

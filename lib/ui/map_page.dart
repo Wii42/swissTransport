@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:sbb/generic_ui_elements/with_space_between.dart';
@@ -28,8 +29,15 @@ class MapPage extends StatefulWidget with WidgetWithTitle {
   State<MapPage> createState() => _MapPageState();
 }
 
-class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
-  MapController mapController = MapController();
+class _MapPageState extends State<MapPage>
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+  late final AnimatedMapController mapController;
+  @override
+  void initState() {
+    super.initState();
+    mapController = AnimatedMapController(vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -54,78 +62,20 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
                   ),
                   builder: (context, snapshot2) {
                     return FlutterMap(
-                      mapController: mapController,
+                      mapController: mapController.mapController,
                       options: MapOptions(
                         initialCenter: latLng,
                       ),
                       children: [
-                        TileLayer(
-                          // Display map tiles from any source
-                          urlTemplate:
-                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // OSMF's Tile Server
-                          userAgentPackageName: 'com.wi42.swiss_transport',
-                          // And many more recommended properties!
-                        ),
+                        tileLayer(),
                         MarkerLayer(
                           markers: [
                             if (snapshot2.hasData)
-                              for (Location location
-                              in snapshot2.data!.stations)
-                                if (location.coordinates?.x != null &&
-                                    location.coordinates?.y != null)
-                                  Marker(
-                                    point: LatLng(
-                                      location.coordinates!.x!,
-                                      location.coordinates!.y!,
-                                    ),
-                                    rotate: true,
-                                    child: IconButton(
-                                      icon: Icon(
-                                          location.icon ==
-                                              TransportVehicles.none
-                                              ? Icons.location_on
-                                              : location.icon.icon,
-                                          color: Color(0xFF003366)),
-                                      onPressed: () {
-                                        mapController.move(
-                                            LatLng(
-                                              location.coordinates!.x!,
-                                              location.coordinates!.y!,
-                                            ),
-                                            17);
-                                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                          content: Row(
-                                            children: <Widget>[
-                                              Icon(location.icon.icon),
-                                              Text(
-                                                location.name ?? '<no name>', style: TextStyle(fontWeight: FontWeight.bold),),
-                                              if (location.distance != null)
-                                                Text('${location.distance!}m'),
-                                            ].withSpaceBetween(width: 12),
-                                          ),
-                                          showCloseIcon: true,
-                                        ));
-                                      },
-                                    ),
-                                  ),
-                            Marker(
-                              point: latLng,
-                              child: Icon(Icons.location_on, color: Colors.red),
-                              rotate: true
-                            ),
+                              ...stationMarkers(snapshot2.data!.stations),
+                            geolocationMarker(latLng),
                           ],
                         ),
-                        RichAttributionWidget(
-                          // Include a stylish prebuilt attribution widget that meets all requirments
-                          attributions: [
-                            TextSourceAttribution(
-                              'OpenStreetMap contributors',
-                              onTap: () => launchUrl(Uri.parse(
-                                  'https://openstreetmap.org/copyright')), // (external)
-                            ),
-                          ],
-                        ),
+                        attributionWidget(),
                       ],
                     );
                   });
@@ -138,6 +88,92 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
         });
   }
 
+  Marker geolocationMarker(LatLng latLng) {
+    return Marker(
+        point: latLng,
+        child: Icon(Icons.location_on, color: Colors.red),
+        rotate: true);
+  }
+
+  Widget attributionWidget() {
+    return RichAttributionWidget(
+      // Include a stylish prebuilt attribution widget that meets all requirments
+      attributions: [
+        TextSourceAttribution(
+          'OpenStreetMap contributors',
+          onTap: () => launchUrl(
+              Uri.parse('https://openstreetmap.org/copyright')), // (external)
+        ),
+      ],
+    );
+  }
+
+  TileLayer tileLayer() {
+    return TileLayer(
+      // Display map tiles from any source
+      urlTemplate:
+          'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // OSMF's Tile Server
+      userAgentPackageName: 'com.wi42.swiss_transport',
+      // And many more recommended properties!
+    );
+  }
+
+  List<Marker> stationMarkers(List<Location> locations) {
+    return [
+      for (Location location in locations)
+        if (location.coordinates?.x != null && location.coordinates?.y != null)
+          Marker(
+            point: LatLng(
+              location.coordinates!.x!,
+              location.coordinates!.y!,
+            ),
+            rotate: true,
+            child: IconButton(
+              icon: Icon(
+                  location.icon == TransportVehicles.none
+                      ? Icons.location_on
+                      : location.icon.icon,
+                  color: Color(0xFF003366)),
+              onPressed: _onStationClicked(location),
+            ),
+          )
+    ];
+  }
+
+  void Function() _onStationClicked(Location location) => () {
+        mapController.animateTo(
+            dest: LatLng(
+              location.coordinates!.x!,
+              location.coordinates!.y!,
+            ),
+            zoom: 17);
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Row(
+            children: <Widget>[
+              Icon(location.icon.icon),
+              Expanded(
+                child: Text(
+                  location.name ?? '<no name>',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.fade,
+                ),
+              ),
+              if (location.distance != null) Text('${location.distance!}m'),
+            ].withSpaceBetween(width: 12),
+          ),
+          showCloseIcon: true,
+        ));
+      };
+
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
 }

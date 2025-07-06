@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/connections_page/top_widget.dart';
 import 'package:sbb/generic_ui_elements/widget_with_title.dart';
-
-import 'package:sbb/ui/custom_page.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
+import 'package:sbb/ui/custom_page.dart';
 
 import '../ui/api_user.dart';
 import 'connections_list.dart';
@@ -30,13 +29,18 @@ class ConnectionsPage extends StatelessWidget with WidgetWithTitle {
 
   Widget display(Connections connections) {
     List<Connection>? connectionList = connections.connections;
-    if (connectionList == null || connectionList.isEmpty) {
+    if ((connectionList == null || connectionList.isEmpty) &&
+        connections.from == null &&
+        connections.to == null) {
       return const Center(child: Text("Keine Verbindungen gefunden"));
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TopWidget(connections: connections),
+        TopWidget(
+          connections: connections,
+          initiallyExpanded: (connectionList == null || connectionList.isEmpty),
+        ),
         Expanded(
             child: ConnectionsList(
           initialConnections: connections.connections!,

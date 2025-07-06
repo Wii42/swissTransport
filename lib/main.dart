@@ -92,7 +92,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: primary,
         foregroundColor: Colors.white,
       ),
-      tabBarTheme: TabBarTheme(
+      tabBarTheme: TabBarThemeData(
         labelColor: Colors.white,
         unselectedLabelColor: Colors.white,
         labelStyle: TextStyle(fontWeight: FontWeight.bold),
