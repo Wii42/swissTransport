@@ -6,13 +6,17 @@ import 'package:sbb/ui/routes.dart';
 
 import '../generic_ui_elements/two_options_toggle_form_field.dart';
 import '../helper/time_format.dart';
+import '../transport_api/transport_objects/stations.dart';
 
 abstract class ConnectionsFormSkeleton extends StatefulWidget {
   const ConnectionsFormSkeleton({super.key});
 
   String? get initialFrom => null;
+
   String? get initialTo => null;
+
   DateTime? get initialDate => null;
+
   TimeOfDay? get initialTime => null;
 
   @override
@@ -85,9 +89,8 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
     });
   }
 
-  TextFormField toField(TextEditingController controller,
-      {bool hasIcon = true}) {
-    return TextFormField(
+  Widget toField(TextEditingController controller, {bool hasIcon = true}) {
+    return autocompleteTextFormField(
       controller: controller,
       decoration: InputDecoration(
           labelText: "Nach",
@@ -99,9 +102,8 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
     );
   }
 
-  TextFormField fromField(TextEditingController controller,
-      {bool hasIcon = true}) {
-    return TextFormField(
+  Widget fromField(TextEditingController controller, {bool hasIcon = true}) {
+    return autocompleteTextFormField(
       controller: controller,
       decoration: InputDecoration(
         labelText: "Von",
@@ -129,7 +131,7 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
 
   List<Widget> hideableOptions(BuildContext context) {
     return [
-      TextFormField(
+      autocompleteTextFormField(
         decoration: const InputDecoration(
             labelText: "Via", icon: Icon(Icons.airline_stops)),
         onSaved: (input) {
@@ -248,4 +250,59 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
   }
 
   bool _isInputValid() => formKey.currentState!.validate();
+
+  Widget autocompleteTextFormField(
+      {TextEditingController? controller,
+      InputDecoration? decoration,
+      String? Function(String?)? validator,
+      void Function(String?)? onSaved}) {
+    return RawAutocomplete<String>(
+      textEditingController: controller,
+      focusNode: controller != null ? FocusNode() : null,
+      fieldViewBuilder: (BuildContext context,
+          TextEditingController textEditingController,
+          FocusNode focusNode,
+          VoidCallback onFieldSubmitted) {
+        return TextFormField(
+          controller: textEditingController,
+          focusNode: focusNode,
+          decoration: decoration,
+          validator: validator,
+          onSaved: onSaved,
+        );
+      },
+      optionsBuilder: (TextEditingValue textEditingValue) async {
+        if (textEditingValue.text.isEmpty) {
+          return const Iterable<String>.empty();
+        }
+        Stations stations =
+            await TransportApi().locations(query: textEditingValue.text);
+        return stations.stations.map((station) => station.name ?? "?");
+      },
+      optionsViewBuilder: (BuildContext context,
+          void Function(String) onSelected, Iterable<String> options) {
+        return Material(
+          elevation: 4.0,
+          child: ListView.separated(
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              String option = options.toList()[index];
+              return GestureDetector(
+                onTap: () {
+                  onSelected(option);
+                },
+                child: ListTile(
+                  title: Text(option),
+                ),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return Divider();
+            },
+            itemCount: options.length,
+          ),
+        );
+      },
+    );
+  }
 }
