@@ -6,7 +6,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:sbb/helper/go_subroute_extension.dart';
 import 'package:sbb/location.dart';
-import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 import 'package:sbb/ui/routes.dart';
 
 import '../generic_ui_elements/widget_with_title.dart';
@@ -176,11 +175,11 @@ class _TouchFahrplanPageState extends State<TouchFahrplanPage> {
       coordinates: Coordinates(
         x: position.longitude,
         y: position.latitude,
-        type: LocationType.station.name,
+        type: LocationType.all.name,
       ),
     );
-    Iterable<Location> stationsWithDistance = closeStations.stations
-        .where((s) => s.distance != null && s.icon != TransportVehicles.none);
+    Iterable<Location> stationsWithDistance =
+        closeStations.stations.where((s) => s.distance != null);
     return stationsWithDistance
             .sortedByCompare(
                 (s) => s.distance!, (a, b) => a.compareTo(b)) // reverse order

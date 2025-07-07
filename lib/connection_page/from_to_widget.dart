@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sbb/connections_page/time_and_stops_row.dart';
 import 'package:sbb/connections_page/travel_duration_row.dart';
-import 'package:sbb/ui/saved_connections.dart';
+import 'package:sbb/provider/saved_connections.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
 
+import '../generic_ui_elements/expandable_padded_card.dart';
 import '../ui/date_badge.dart';
 import '../ui/from_to_text.dart';
-import '../generic_ui_elements/expandable_padded_card.dart';
 import 'add_to_saved_connections_button.dart';
 
 class FromToWidget extends StatelessWidget {

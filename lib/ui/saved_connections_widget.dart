@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sbb/generic_ui_elements/padded_clickable_card.dart';
 import 'package:sbb/helper/go_subroute_extension.dart';
+import 'package:sbb/provider/saved_connections.dart';
+import 'package:sbb/transport_api/transport_objects/connection.dart';
 import 'package:sbb/ui/connection_representation.dart';
 import 'package:sbb/ui/from_to_text.dart';
-import 'package:sbb/generic_ui_elements/padded_clickable_card.dart';
 import 'package:sbb/ui/routes.dart';
-import 'package:sbb/ui/saved_connections.dart';
-import 'package:sbb/transport_api/transport_objects/connection.dart';
 
 import 'date_badge.dart';
 
@@ -33,7 +33,8 @@ class _SavedConnectionsWidgetState extends State<SavedConnectionsWidget> {
   PaddedClickableCard clickableConnectionSneakPeek(BuildContext context,
       Connection connection, SavedConnections savedConnections) {
     return PaddedClickableCard(
-      onTap: () => context.pushSubRoute(Routes.connection.string, extra: connection),
+      onTap: () =>
+          context.pushSubRoute(Routes.connection.string, extra: connection),
       //Routes.connection.push(context, params: connection),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

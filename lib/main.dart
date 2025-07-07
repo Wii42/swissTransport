@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sbb/provider/cached_locations.dart';
+import 'package:sbb/provider/saved_connections.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
 import 'package:sbb/ui/api_user.dart';
 import 'package:sbb/ui/app_view.dart';
 import 'package:sbb/ui/custom_page.dart';
 import 'package:sbb/ui/routes.dart';
-import 'package:sbb/ui/saved_connections.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ui/home.dart';
@@ -29,12 +30,52 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<SavedConnections>(
+            create: (_) => SavedConnections(sharedPrefs: sharedPreferences),
+          ),
+          ChangeNotifierProvider<CachedLocations>(
+              create: (_) => CachedLocations())
+        ],
+        child: MaterialApp.router(
+            title: 'OpenTransport',
+            themeMode: ThemeMode.system,
+            theme: theme(Brightness.light),
+            darkTheme: theme(Brightness.dark),
+            routerConfig: routerConfig()));
+  }
+
+  ThemeData theme(Brightness brightness) {
+    const MaterialAccentColor primary = Colors.blueAccent;
+    ColorScheme scheme =
+        ColorScheme.fromSeed(seedColor: primary, brightness: brightness);
+    return ThemeData(
+      colorScheme: scheme,
+      primaryColor: primary,
+      appBarTheme: AppBarTheme(
+        backgroundColor: primary,
+        foregroundColor: Colors.white,
+      ),
+      tabBarTheme: TabBarThemeData(
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.white,
+        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  static List<GoRoute> goSubRoutes(List<Routes> routes) {
+    return routes.map((route) => route.goRoute()).toList();
+  }
+
+  static GoRouter routerConfig() {
     List<Routes> sharedSubRoutes = [
       Routes.connections,
       Routes.connection,
       Routes.journey
     ];
-    final GoRouter router = GoRouter(
+    return GoRouter(
       routes: [
         StatefulShellRoute.indexedStack(
             builder: (context, state, navigationShell) {
@@ -71,36 +112,5 @@ class MyApp extends StatelessWidget {
       ],
       initialLocation: Routes.schedule.string,
     );
-    return ChangeNotifierProvider(
-        create: (_) => SavedConnections(sharedPrefs: sharedPreferences),
-        child: MaterialApp.router(
-            title: 'OpenTransport',
-            themeMode: ThemeMode.system,
-            theme: theme(Brightness.light),
-            darkTheme: theme(Brightness.dark),
-            routerConfig: router));
-  }
-
-  ThemeData theme(Brightness brightness) {
-    const MaterialAccentColor primary = Colors.blueAccent;
-    ColorScheme scheme =
-        ColorScheme.fromSeed(seedColor: primary, brightness: brightness);
-    return ThemeData(
-      colorScheme: scheme,
-      primaryColor: primary,
-      appBarTheme: AppBarTheme(
-        backgroundColor: primary,
-        foregroundColor: Colors.white,
-      ),
-      tabBarTheme: TabBarThemeData(
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.white,
-        labelStyle: TextStyle(fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-
-  List<GoRoute> goSubRoutes(List<Routes> routes) {
-    return routes.map((route) => route.goRoute()).toList();
   }
 }

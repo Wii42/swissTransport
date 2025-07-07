@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sbb/provider/cached_locations.dart';
 import 'package:sbb/transport_api/helper/date_time_helper.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
@@ -272,11 +274,17 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
         );
       },
       optionsBuilder: (TextEditingValue textEditingValue) async {
-        if (textEditingValue.text.isEmpty) {
+        final String nameQuery = textEditingValue.text.trim();
+        if (nameQuery.isEmpty) {
           return const Iterable<String>.empty();
         }
-        Stations stations =
-            await TransportApi().locations(query: textEditingValue.text);
+        CachedLocations cachedStations = context.read<CachedLocations>();
+        Stations? cached = cachedStations.getLocationByName(nameQuery);
+        if (cached != null) {
+          return cached.stations.map((station) => station.name ?? "?");
+        }
+        Stations stations = await TransportApi().locations(query: nameQuery);
+        cachedStations.addLocationByName(nameQuery, stations);
         return stations.stations.map((station) => station.name ?? "?");
       },
       optionsViewBuilder: (BuildContext context,

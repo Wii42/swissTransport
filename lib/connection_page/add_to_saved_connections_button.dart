@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../ui/saved_connections.dart';
+import '../provider/saved_connections.dart';
 import '../transport_api/transport_objects/connection.dart';
 
 class AddToSavedConnectionsButton extends StatefulWidget {
