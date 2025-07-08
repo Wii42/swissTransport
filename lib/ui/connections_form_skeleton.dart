@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sbb/provider/cached_locations.dart';
 import 'package:sbb/transport_api/helper/date_time_helper.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/connections.dart';
@@ -8,7 +6,7 @@ import 'package:sbb/ui/routes.dart';
 
 import '../generic_ui_elements/two_options_toggle_form_field.dart';
 import '../helper/time_format.dart';
-import '../transport_api/transport_objects/stations.dart';
+import 'autocomplete_location_form_field.dart';
 
 abstract class ConnectionsFormSkeleton extends StatefulWidget {
   const ConnectionsFormSkeleton({super.key});
@@ -92,7 +90,7 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
   }
 
   Widget toField(TextEditingController controller, {bool hasIcon = true}) {
-    return autocompleteTextFormField(
+    return AutocompleteLocationFormField(
       controller: controller,
       decoration: InputDecoration(
           labelText: "Nach",
@@ -105,7 +103,7 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
   }
 
   Widget fromField(TextEditingController controller, {bool hasIcon = true}) {
-    return autocompleteTextFormField(
+    return AutocompleteLocationFormField(
       controller: controller,
       decoration: InputDecoration(
         labelText: "Von",
@@ -133,7 +131,7 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
 
   List<Widget> hideableOptions(BuildContext context) {
     return [
-      autocompleteTextFormField(
+      AutocompleteLocationFormField(
         decoration: const InputDecoration(
             labelText: "Via", icon: Icon(Icons.airline_stops)),
         onSaved: (input) {
@@ -252,65 +250,4 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
   }
 
   bool _isInputValid() => formKey.currentState!.validate();
-
-  Widget autocompleteTextFormField(
-      {TextEditingController? controller,
-      InputDecoration? decoration,
-      String? Function(String?)? validator,
-      void Function(String?)? onSaved}) {
-    return RawAutocomplete<String>(
-      textEditingController: controller,
-      focusNode: controller != null ? FocusNode() : null,
-      fieldViewBuilder: (BuildContext context,
-          TextEditingController textEditingController,
-          FocusNode focusNode,
-          VoidCallback onFieldSubmitted) {
-        return TextFormField(
-          controller: textEditingController,
-          focusNode: focusNode,
-          decoration: decoration,
-          validator: validator,
-          onSaved: onSaved,
-        );
-      },
-      optionsBuilder: (TextEditingValue textEditingValue) async {
-        final String nameQuery = textEditingValue.text.trim();
-        if (nameQuery.isEmpty) {
-          return const Iterable<String>.empty();
-        }
-        CachedLocations cachedStations = context.read<CachedLocations>();
-        Stations? cached = cachedStations.getLocationByName(nameQuery);
-        if (cached != null) {
-          return cached.stations.map((station) => station.name ?? "?");
-        }
-        Stations stations = await TransportApi().locations(query: nameQuery);
-        cachedStations.addLocationByName(nameQuery, stations);
-        return stations.stations.map((station) => station.name ?? "?");
-      },
-      optionsViewBuilder: (BuildContext context,
-          void Function(String) onSelected, Iterable<String> options) {
-        return Material(
-          elevation: 4.0,
-          child: ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              String option = options.toList()[index];
-              return GestureDetector(
-                onTap: () {
-                  onSelected(option);
-                },
-                child: ListTile(
-                  title: Text(option),
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return Divider();
-            },
-            itemCount: options.length,
-          ),
-        );
-      },
-    );
-  }
 }
