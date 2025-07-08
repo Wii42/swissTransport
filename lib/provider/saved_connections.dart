@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:sbb/db/app_database.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
@@ -39,6 +40,15 @@ class SavedConnections extends ChangeNotifier {
     notifyListeners();
     database.removeSavedConnection(connection);
     return successful;
+  }
+
+  SavedConnection? getMatchingConnection(Connection connection) {
+    if (!_isInitialized) {
+      _loadAll();
+    }
+    return _savedConnections.firstWhereOrNull(
+      (savedConnection) => savedConnection.connection == connection,
+    );
   }
 
   Future<void> _loadAll() async {

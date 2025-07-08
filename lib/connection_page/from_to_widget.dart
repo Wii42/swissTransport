@@ -37,28 +37,4 @@ class FromToWidget extends StatelessWidget {
       ],
     );
   }
-
-  void Function()? onPressed(BuildContext context) {
-    SavedConnections? savedConnections = context.watch<SavedConnections?>();
-
-    if (savedConnections == null ||
-        savedConnections.connections.stringContains(connection)) {
-      return null;
-    }
-    List<Connection> savedConnectionsList = savedConnections.connections;
-    ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
-    return () {
-      if (savedConnectionsList.stringContains(connection)) {
-        messenger.showSnackBar(
-          const SnackBar(content: Text('Verbindung bereits gemerkt')),
-        );
-      } else {
-        savedConnections.add(connection);
-        messenger.showSnackBar(
-          const SnackBar(
-              content: Text('Verbindung zu gemerkten Reisen hinzugefügt')),
-        );
-      }
-    };
-  }
 }

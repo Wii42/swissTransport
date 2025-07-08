@@ -1,66 +1,44 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sbb/db/app_database.dart';
 
 import '../provider/saved_connections.dart';
 import '../transport_api/transport_objects/connection.dart';
 
-class AddToSavedConnectionsButton extends StatefulWidget {
+class AddToSavedConnectionsButton extends StatelessWidget {
   final Connection connection;
 
   const AddToSavedConnectionsButton({super.key, required this.connection});
 
   @override
-  State<AddToSavedConnectionsButton> createState() =>
-      _AddToSavedConnectionsButtonState();
-}
-
-class _AddToSavedConnectionsButtonState
-    extends State<AddToSavedConnectionsButton> {
-  bool isActive = true;
-  bool _isInit = true;
-
-  @override
   Widget build(BuildContext context) {
-    if (_isInit) {
-      isActive = setIsActive(context);
-      _isInit = false;
+    SavedConnections savedConnections = context.watch<SavedConnections>();
+    bool connectionAlreadySaved =
+        savedConnections.connections.contains(connection);
+    if (connectionAlreadySaved) {
+      return TextButton(
+          onPressed: () {
+            SavedConnection? savedConnection =
+                savedConnections.getMatchingConnection(connection);
+            if (savedConnection == null) {
+              log("connection not found in saved connections");
+              return;
+            }
+            savedConnections.remove(savedConnection);
+          },
+          child: Text("Reise nicht mehr merken"));
     }
     return ElevatedButton(
-        onPressed: onPressed(context), child: Text(buttonText));
+        onPressed: () => savedConnections.add(connection),
+        child: Text('Merke Verbindung'));
   }
 
-  void Function()? onPressed(BuildContext context) {
-    SavedConnections? savedConnections = context.watch<SavedConnections?>();
-    if (savedConnections == null || !isActive) {
-      return null;
-    }
-
+  void Function()? addConnection(
+      BuildContext context, SavedConnections savedConnections) {
     return () {
-      setState(() {
-        isActive = false;
-      });
-
-      if (savedConnections.connections.stringContains(widget.connection)) {
-        ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
-        messenger.showSnackBar(
-          const SnackBar(content: Text('Bereits Gemerkt')),
-        );
-      } else {
-        savedConnections.add(widget.connection);
-      }
+      savedConnections.add(connection);
     };
   }
-
-  String get buttonText {
-    return isActive ? 'Merke Verbindung' : 'Verbindung gemerkt';
-  }
-
-  bool setIsActive(BuildContext context) {
-    Iterable<Connection>? connections = savedConnections(context)?.connections;
-    if (connections == null) return false;
-    return !connections.stringContains(widget.connection);
-  }
-
-  SavedConnections? savedConnections(BuildContext context) =>
-      context.watch<SavedConnections?>();
 }

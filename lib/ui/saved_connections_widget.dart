@@ -11,14 +11,9 @@ import 'package:sbb/ui/routes.dart';
 import '../db/app_database.dart';
 import 'date_badge.dart';
 
-class SavedConnectionsWidget extends StatefulWidget {
+class SavedConnectionsWidget extends StatelessWidget {
   const SavedConnectionsWidget({super.key});
 
-  @override
-  State<SavedConnectionsWidget> createState() => _SavedConnectionsWidgetState();
-}
-
-class _SavedConnectionsWidgetState extends State<SavedConnectionsWidget> {
   @override
   Widget build(BuildContext context) {
     SavedConnections? savedConnections = context.watch<SavedConnections?>();
@@ -54,7 +49,6 @@ class _SavedConnectionsWidgetState extends State<SavedConnectionsWidget> {
             child: ElevatedButton(
               onPressed: () {
                 savedConnections.remove(savedConnection);
-                setState(() {});
               },
               child: const Text('Reise nicht mehr speichern'),
             ),
