@@ -11,12 +11,15 @@ import 'package:sbb/ui/custom_page.dart';
 import 'package:sbb/ui/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'db/app_database.dart';
 import 'ui/home.dart';
 
 late SharedPreferences sharedPreferences;
+late AppDatabase database;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  database = AppDatabase();
   await getSharedPrefs();
   runApp(const MyApp());
 }
@@ -33,7 +36,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<SavedConnections>(
-            create: (_) => SavedConnections(sharedPrefs: sharedPreferences),
+            create: (_) => SavedConnections(database: database),
           ),
           ChangeNotifierProvider<CachedLocations>(
               create: (_) => CachedLocations())

@@ -8,6 +8,7 @@ import 'package:sbb/ui/connection_representation.dart';
 import 'package:sbb/ui/from_to_text.dart';
 import 'package:sbb/ui/routes.dart';
 
+import '../db/app_database.dart';
 import 'date_badge.dart';
 
 class SavedConnectionsWidget extends StatefulWidget {
@@ -22,7 +23,7 @@ class _SavedConnectionsWidgetState extends State<SavedConnectionsWidget> {
   Widget build(BuildContext context) {
     SavedConnections? savedConnections = context.watch<SavedConnections?>();
 
-    if (savedConnections == null || savedConnections.list.isEmpty) {
+    if (savedConnections == null || savedConnections.savedConnections.isEmpty) {
       return const Center(child: Text("Keine gespeicherten Reisen vorhanden"));
     }
     return Center(
@@ -31,7 +32,8 @@ class _SavedConnectionsWidgetState extends State<SavedConnectionsWidget> {
   }
 
   PaddedClickableCard clickableConnectionSneakPeek(BuildContext context,
-      Connection connection, SavedConnections savedConnections) {
+      SavedConnection savedConnection, SavedConnections savedConnections) {
+    Connection connection = savedConnection.connection;
     return PaddedClickableCard(
       onTap: () =>
           context.pushSubRoute(Routes.connection.string, extra: connection),
@@ -51,7 +53,7 @@ class _SavedConnectionsWidgetState extends State<SavedConnectionsWidget> {
             alignment: Alignment.centerRight,
             child: ElevatedButton(
               onPressed: () {
-                savedConnections.remove(connection);
+                savedConnections.remove(savedConnection);
                 setState(() {});
               },
               child: const Text('Reise nicht mehr speichern'),
@@ -64,20 +66,20 @@ class _SavedConnectionsWidgetState extends State<SavedConnectionsWidget> {
 
   List<Widget> listElements(
       BuildContext context, SavedConnections savedConnections) {
-    List<Connection> connections = savedConnections.list;
-    connections.sort((a, b) => a.compareTo(b));
+    List<SavedConnection> connections = savedConnections.savedConnections;
 
     List<Widget> list = [];
 
     Connection? previousConnection;
 
-    for (Connection connection in connections) {
+    for (SavedConnection savedConnection in connections) {
+      final Connection connection = savedConnection.connection;
       if (previousConnection == null ||
           !connection.isSameDate(previousConnection)) {
         list.add(DateBadge(connection: connection));
       }
-      list.add(
-          clickableConnectionSneakPeek(context, connection, savedConnections));
+      list.add(clickableConnectionSneakPeek(
+          context, savedConnection, savedConnections));
       previousConnection = connection;
     }
     return list;

@@ -9,3 +9,8 @@ targets:
           # The default value for each is listed.
           disallow_unrecognized_keys: true
           explicit_to_json: true
+      drift_dev:
+        options:
+          databases:
+            # Required: A name for the database and its path
+            my_database: lib/db/app_database.dart

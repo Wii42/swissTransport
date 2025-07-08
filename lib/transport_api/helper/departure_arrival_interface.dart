@@ -1,6 +1,6 @@
 import 'package:sbb/transport_api/helper/date_time_to_string_extension.dart';
 
-abstract class DepartureArrival implements Comparable {
+abstract class DepartureArrival implements Comparable<DepartureArrival> {
   static const String platformKey = 'platform', sectionKey = 'platformSection';
 
   String? get departurePlatformData;
@@ -44,8 +44,8 @@ abstract class DepartureArrival implements Comparable {
     if (platform == null) {
       return map;
     }
-    if(hasDeparturePlatformChanged()){
-      platform = platform.substring(0, platform.length-1);
+    if (hasDeparturePlatformChanged()) {
+      platform = platform.substring(0, platform.length - 1);
     }
 
     RegExp pattern = RegExp(r'^[0-9]+[a-zA-Z]');
@@ -62,12 +62,12 @@ abstract class DepartureArrival implements Comparable {
   }
 
   @override
-  int compareTo(other) {
+  int compareTo(DepartureArrival other) {
     DateTime? thisTime = departureTime;
     DateTime? otherTime = other.departureTime;
 
     if (thisTime != null && otherTime != null) {
-      return thisTime.compareTo(other.departureTime);
+      return thisTime.compareTo(otherTime);
     }
     if (thisTime != null) {
       return 1;

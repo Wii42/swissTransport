@@ -1,51 +1,66 @@
-import 'dart:convert';
+import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:sbb/db/app_database.dart';
 import 'package:sbb/transport_api/transport_objects/connection.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SavedConnections extends ChangeNotifier {
   static const String savedConnectionsKey = 'savedConnections';
 
-  late final List<Connection> _savedConnections;
-  final SharedPreferences sharedPrefs;
+  final SplayTreeSet<SavedConnection> _savedConnections =
+      SplayTreeSet((a, b) => a.connection.compareTo(b.connection));
+  final AppDatabase database;
 
-  SavedConnections({required this.sharedPrefs}) {
-    _savedConnections = _loadFromSharedPreferencesIfPossible();
-  }
+  bool _isInitialized = false;
 
-  List<Connection> _loadFromSharedPreferencesIfPossible() {
-    if (sharedPrefs.containsKey(savedConnectionsKey)) {
-      return sharedPrefs
-          .getStringList(savedConnectionsKey)!
-          .map<Connection>(
-              (String string) => Connection.fromJson(jsonDecode(string)))
-          .toList();
-    }
-    return [];
-  }
-
-  void _saveToSharedPreferences() {
-    sharedPrefs.setStringList(
-        savedConnectionsKey,
-        _savedConnections
-            .map<String>(
-                (Connection connection) => jsonEncode(connection.toJson()))
-            .toList());
-  }
+  SavedConnections({required this.database});
 
   /// Returns a copy of the list of saved Connections.
   /// Changing this list will have no effect on SavedConnections
-  List<Connection> get list => _savedConnections.toList();
-
-  void add(Connection connection) {
-    _savedConnections.add(connection);
-    _saveToSharedPreferences();
+  List<SavedConnection> get savedConnections {
+    if (!_isInitialized) {
+      _loadAll();
+    }
+    return List.unmodifiable(_savedConnections);
   }
 
-  bool remove(Connection connection) {
+  /// Convenience getter to access the connections directly.
+  List<Connection> get connections =>
+      List.unmodifiable(savedConnections.map((e) => e.connection));
+
+  Future<void> add(Connection connection) async {
+    SavedConnection savedConnection = await _addToDatabase(connection);
+    _savedConnections.add(savedConnection);
+    notifyListeners();
+  }
+
+  bool remove(SavedConnection connection) {
     bool successful = _savedConnections.remove(connection);
-    _saveToSharedPreferences();
+    notifyListeners();
+    database.removeSavedConnection(connection);
     return successful;
+  }
+
+  Future<void> _loadAll() async {
+    if (_isInitialized) return;
+    List<SavedConnection> loadedConnections =
+        await database.getAllSavedConnections();
+    _savedConnections.addAll(loadedConnections);
+    _isInitialized = true;
+    notifyListeners();
+  }
+
+  Future<SavedConnection> _addToDatabase(Connection connection) async {
+    if (!_isInitialized) {
+      await _loadAll();
+    }
+    return database.addSavedConnection(connection);
+  }
+
+  Future<int> clear() async {
+    _savedConnections.clear();
+    int rowsAffected = await database.clearSavedConnections();
+    notifyListeners();
+    return rowsAffected;
   }
 }

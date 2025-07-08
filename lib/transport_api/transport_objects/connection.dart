@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 import 'package:sbb/transport_api/helper/date_time_helper.dart';
 import 'package:sbb/transport_api/helper/departure_arrival_interface.dart';
 import 'package:sbb/transport_api/transport_objects/json_converters/duration_parse_converter.dart';
@@ -7,7 +8,6 @@ import 'package:sbb/transport_api/transport_objects/section.dart';
 import 'package:sbb/transport_api/transport_objects/service.dart';
 import 'package:sbb/transport_api/transport_objects/stop.dart';
 import 'package:sbb/transport_api/transport_objects/walk.dart';
-import 'package:sbb/transport_api/enums/transport_vehicles.dart';
 
 part 'connection.g.dart';
 
@@ -163,7 +163,7 @@ class Connection extends DepartureArrival {
   }
 }
 
-extension StringContains on List<Connection> {
+extension StringContains on Iterable<Connection> {
   bool stringContains(Connection other) {
     for (Connection connection in this) {
       if (connection.stringCompare(other)) {

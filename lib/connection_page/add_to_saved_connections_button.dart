@@ -6,6 +6,7 @@ import '../transport_api/transport_objects/connection.dart';
 
 class AddToSavedConnectionsButton extends StatefulWidget {
   final Connection connection;
+
   const AddToSavedConnectionsButton({super.key, required this.connection});
 
   @override
@@ -39,7 +40,7 @@ class _AddToSavedConnectionsButtonState
         isActive = false;
       });
 
-      if (savedConnections.list.stringContains(widget.connection)) {
+      if (savedConnections.connections.stringContains(widget.connection)) {
         ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
         messenger.showSnackBar(
           const SnackBar(content: Text('Bereits Gemerkt')),
@@ -55,7 +56,7 @@ class _AddToSavedConnectionsButtonState
   }
 
   bool setIsActive(BuildContext context) {
-    List<Connection>? connections = savedConnections(context)?.list;
+    Iterable<Connection>? connections = savedConnections(context)?.connections;
     if (connections == null) return false;
     return !connections.stringContains(widget.connection);
   }

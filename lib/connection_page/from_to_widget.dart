@@ -42,10 +42,10 @@ class FromToWidget extends StatelessWidget {
     SavedConnections? savedConnections = context.watch<SavedConnections?>();
 
     if (savedConnections == null ||
-        savedConnections.list.stringContains(connection)) {
+        savedConnections.connections.stringContains(connection)) {
       return null;
     }
-    List<Connection> savedConnectionsList = savedConnections.list;
+    List<Connection> savedConnectionsList = savedConnections.connections;
     ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
     return () {
       if (savedConnectionsList.stringContains(connection)) {
