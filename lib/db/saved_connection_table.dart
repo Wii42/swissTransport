@@ -8,7 +8,8 @@ import '../transport_api/transport_objects/connection.dart';
 class SavedConnectionTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get connection => text().map(const ConnectionConverter())();
+  TextColumn get connection =>
+      text().map(const ConnectionConverter()).unique()();
 }
 
 class ConnectionConverter extends TypeConverter<Connection, String>

@@ -21,7 +21,9 @@ class $SavedConnectionTableTable extends SavedConnectionTable
   @override
   late final GeneratedColumnWithTypeConverter<Connection, String> connection =
       GeneratedColumn<String>('connection', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
+              type: DriftSqlType.string,
+              requiredDuringInsert: true,
+              defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'))
           .withConverter<Connection>(
               $SavedConnectionTableTable.$converterconnection);
   @override
