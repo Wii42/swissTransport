@@ -27,7 +27,7 @@ class ConnectionsPage extends StatelessWidget with WidgetWithTitle {
     );
   }
 
-  Widget display(Connections connections) {
+  Widget display(BuildContext context, Connections connections) {
     List<Connection>? connectionList = connections.connections;
     if ((connectionList == null || connectionList.isEmpty) &&
         connections.from == null &&

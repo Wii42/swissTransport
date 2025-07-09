@@ -9,6 +9,7 @@ import 'package:sbb/location.dart';
 import 'package:sbb/ui/routes.dart';
 
 import '../generic_ui_elements/widget_with_title.dart';
+import '../provider/location_history.dart';
 import '../transport_api/enums/location_type.dart';
 import '../transport_api/transport_api.dart';
 import '../transport_api/transport_objects/connections.dart';
@@ -137,6 +138,7 @@ class _TouchFahrplanPageState extends State<TouchFahrplanPage> {
 
   void showConnections(String from, String to) {
     Future<Connections> connections = createRequest(from: from, to: to);
+    LocationHistory.saveEndpointsOfConnectionsRequest(context, connections);
     context.pushSubRoute(Routes.connections.string, extra: connections);
     //pushRoute(routeName: Routes.connections.string, connections: connections);
   }

@@ -6,6 +6,7 @@ import 'package:sbb/ui/routes.dart';
 
 import '../generic_ui_elements/two_options_toggle_form_field.dart';
 import '../helper/time_format.dart';
+import '../provider/location_history.dart';
 import 'autocomplete_location_form_field.dart';
 
 abstract class ConnectionsFormSkeleton extends StatefulWidget {
@@ -224,6 +225,7 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
         couchette: couchette,
         bike: bike,
         limit: 10);
+    LocationHistory.saveEndpointsOfConnectionsRequest(context, connections);
     pushRoute(routeName: Routes.connections.string, connections: connections);
     //Navigator.of(context)
     //    .pushNamed(Routes.connections.string, arguments: connections);

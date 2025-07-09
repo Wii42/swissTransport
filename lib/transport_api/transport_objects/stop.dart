@@ -50,7 +50,7 @@ class Stop extends DepartureArrival {
 
   @override
   String toString() {
-    return "Station: $station, Arrival: $arrival, Departure: $departure, Delay: $delay, Plattform: $platform, Prognosis: $prognosis";
+    return "Station: $station, Arrival: $arrival, Departure: $departure, Delay: $delay, Plattform: $platform, Prognosis: $prognosis, ArrivalTimestamp: $arrivalTimestamp, DepartureTimestamp: $departureTimestamp, RealtimeAvailability: $realtimeAvailability, Location: $location";
   }
 
   @override

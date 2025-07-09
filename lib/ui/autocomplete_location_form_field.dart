@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../db/app_database.dart';
 import '../provider/cached_locations.dart';
+import '../provider/location_history.dart';
 import '../transport_api/enums/transport_vehicles.dart';
 import '../transport_api/transport_api.dart';
 import '../transport_api/transport_objects/location.dart';
@@ -53,19 +55,34 @@ class AutocompleteLocationFormField extends StatelessWidget {
 
   FutureOr<Iterable<LocationSuggestion>> Function(TextEditingValue)
       _optionsBuilder(BuildContext context) {
+    LocationHistory locationHistory = context.watch<LocationHistory>();
+    CachedLocations cachedStations = context.watch<CachedLocations>();
+
     return (TextEditingValue textEditingValue) async {
       final String nameQuery = textEditingValue.text.trim();
+
       if (nameQuery.isEmpty) {
-        return const Iterable<LocationSuggestion>.empty();
+        List<LocationHistoryData> history = await locationHistory.getAsync();
+        return toLocationSuggestionsFromHistory(history.take(10));
       }
-      CachedLocations cachedStations = context.read<CachedLocations>();
+      List<LocationSuggestion> suggestions = [];
+      List<LocationHistoryData> history = await locationHistory.getAsync();
+      suggestions.addAll(toLocationSuggestionsFromHistory(history.take(5).where(
+          (loc) =>
+              loc.location.name
+                  ?.toLowerCase()
+                  .contains(nameQuery.toLowerCase()) ??
+              false)));
+
       Stations? cached = cachedStations.getLocationByName(nameQuery);
       if (cached != null) {
-        return toLocationSuggestions(cached.stations);
+        suggestions.addAll(toLocationSuggestions(cached.stations));
+      } else {
+        Stations stations = await TransportApi().locations(query: nameQuery);
+        cachedStations.addLocationByName(nameQuery, stations);
+        suggestions.addAll(toLocationSuggestions(stations.stations));
       }
-      Stations stations = await TransportApi().locations(query: nameQuery);
-      cachedStations.addLocationByName(nameQuery, stations);
-      return toLocationSuggestions(stations.stations);
+      return suggestions;
     };
   }
 
@@ -110,5 +127,11 @@ class AutocompleteLocationFormField extends StatelessWidget {
       {isFromHistory = false}) {
     return locations
         .map((location) => (location: location, isFromHistory: isFromHistory));
+  }
+
+  Iterable<LocationSuggestion> toLocationSuggestionsFromHistory(
+      Iterable<LocationHistoryData> history) {
+    return history
+        .map((data) => (location: data.location, isFromHistory: true));
   }
 }

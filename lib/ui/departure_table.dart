@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/connections_page/time_and_stops_row.dart';
-import 'package:sbb/ui/api_user.dart';
 import 'package:sbb/generic_ui_elements/padded_card.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/journey.dart';
 import 'package:sbb/transport_api/transport_objects/station_board.dart';
+import 'package:sbb/ui/api_user.dart';
 
 import '../transport_api/transport_objects/stop.dart';
 
@@ -25,7 +25,7 @@ class DepartureTable extends StatelessWidget {
       child: ApiUser<StationBoard>(
         apiCall: api.stationBoard(station: station, limit: 10),
         onError: ApiUser.serverNotFound,
-        displayResponse: (board) {
+        displayResponse: (context, board) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

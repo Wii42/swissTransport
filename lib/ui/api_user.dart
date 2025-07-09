@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-class ApiUser<T extends Object> extends StatefulWidget {
+class ApiUser<T extends Object> extends StatelessWidget {
   final Future<T> apiCall;
-  final Widget Function(T data) displayResponse;
+  final Widget Function(BuildContext context, T data) displayResponse;
   final Widget progressIndicator;
   final Widget? Function(Object error)? onError;
 
@@ -21,7 +21,30 @@ class ApiUser<T extends Object> extends StatefulWidget {
       this.onError});
 
   @override
-  State<ApiUser<T>> createState() => _ApiUserState<T>();
+  Widget build(BuildContext context) {
+    return FutureBuilder<T>(
+      future: apiCall,
+      builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
+        if (snapshot.hasData) {
+          T response = snapshot.data as T;
+          return displayResponse(context, response);
+        } else if (snapshot.hasError) {
+          return errorHandling(snapshot.error!);
+        } else {
+          return Center(child: progressIndicator);
+        }
+      },
+    );
+  }
+
+  Widget errorHandling(Object error) {
+    Widget? errorMessage;
+    if (onError != null) {
+      errorMessage = onError!(error);
+    }
+    errorMessage = errorMessage ?? serverNotFound(error);
+    return errorMessage ?? Text(error.toString());
+  }
 
   static Widget? serverNotFound(Object error) {
     if (error is ClientException && error is SocketException) {
@@ -31,37 +54,5 @@ class ApiUser<T extends Object> extends StatefulWidget {
       );
     }
     return null; //Text(error.runtimeType.toString());
-  }
-}
-
-class _ApiUserState<T extends Object> extends State<ApiUser<T>> {
-  T? response;
-  @override
-  Widget build(BuildContext context) {
-    if (response == null) {
-      return FutureBuilder<T>(
-        future: widget.apiCall,
-        builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
-          if (snapshot.hasData) {
-            response = snapshot.data as T;
-            return widget.displayResponse(response!);
-          } else if (snapshot.hasError) {
-            return errorHandling(snapshot.error!);
-          } else {
-            return Center(child: widget.progressIndicator);
-          }
-        },
-      );
-    }
-    return widget.displayResponse(response!);
-  }
-
-  Widget errorHandling(Object error) {
-    Widget? errorMessage;
-    if (widget.onError != null) {
-      errorMessage = widget.onError!(error);
-    }
-    errorMessage = errorMessage ?? ApiUser.serverNotFound(error);
-    return errorMessage ?? Text(error.toString());
   }
 }

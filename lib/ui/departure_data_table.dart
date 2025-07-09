@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sbb/connections_page/time_and_stops_row.dart';
-import 'package:sbb/helper/go_subroute_extension.dart';
-import 'package:sbb/ui/api_user.dart';
 import 'package:sbb/generic_ui_elements/padded_card.dart';
+import 'package:sbb/helper/go_subroute_extension.dart';
 import 'package:sbb/transport_api/transport_api.dart';
 import 'package:sbb/transport_api/transport_objects/journey.dart';
 import 'package:sbb/transport_api/transport_objects/station_board.dart';
+import 'package:sbb/ui/api_user.dart';
 import 'package:sbb/ui/routes.dart';
 
 import '../transport_api/transport_objects/section.dart';
@@ -32,7 +32,7 @@ class DepartureDataTable extends StatelessWidget {
       child: ApiUser<StationBoard>(
         apiCall: api.stationBoard(station: station, limit: limit),
         onError: ApiUser.serverNotFound,
-        displayResponse: (board) {
+        displayResponse: (context, board) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -195,7 +195,6 @@ class DepartureDataTable extends StatelessWidget {
   bool isWideView(BoxConstraints constraints) =>
       constraints.maxWidth > widthConstraint;
 
-  void showDetails(Journey journey, BuildContext context) =>
-      context.pushSubRoute(Routes.journey.string,
-          extra: Section(journey: journey));
+  void showDetails(Journey journey, BuildContext context) => context
+      .pushSubRoute(Routes.journey.string, extra: Section(journey: journey));
 }

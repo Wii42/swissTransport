@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sbb/provider/cached_locations.dart';
+import 'package:sbb/provider/location_history.dart';
 import 'package:sbb/provider/saved_connections.dart';
-import 'package:sbb/transport_api/transport_api.dart';
-import 'package:sbb/transport_api/transport_objects/connections.dart';
-import 'package:sbb/ui/api_user.dart';
 import 'package:sbb/ui/app_view.dart';
-import 'package:sbb/ui/custom_page.dart';
 import 'package:sbb/ui/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,7 +36,9 @@ class MyApp extends StatelessWidget {
             create: (_) => SavedConnections(database: database),
           ),
           ChangeNotifierProvider<CachedLocations>(
-              create: (_) => CachedLocations())
+              create: (_) => CachedLocations()),
+          ChangeNotifierProvider<LocationHistory>(
+              create: (_) => LocationHistory(database: database)),
         ],
         child: MaterialApp.router(
             title: 'OpenTransport',
@@ -97,17 +96,7 @@ class MyApp extends StatelessWidget {
               StatefulShellBranch(routes: [
                 GoRoute(
                   path: '/apiTesting',
-                  builder: (context, state) => CustomPage(
-                    title: 'API Testing',
-                    icon: Icons.api_outlined,
-                    body: Center(
-                      child: ApiUser<Connections>(
-                        apiCall: TransportApi()
-                            .connections(from: "Wengen", to: "Lauterbrunnen"),
-                        displayResponse: Home.response,
-                      ),
-                    ),
-                  ),
+                  builder: (context, state) => Home.apiTestingPage(),
                 )
               ])
             ]),

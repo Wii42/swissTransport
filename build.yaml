@@ -14,3 +14,4 @@ targets:
           databases:
             # Required: A name for the database and its path
             my_database: lib/db/app_database.dart
+          store_date_time_values_as_text: true
