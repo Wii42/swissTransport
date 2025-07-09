@@ -18,6 +18,7 @@ class AutocompleteLocationFormField extends StatelessWidget {
   final InputDecoration? decoration;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
+  final void Function(LocationSuggestion)? onSelected;
 
   const AutocompleteLocationFormField({
     super.key,
@@ -25,6 +26,7 @@ class AutocompleteLocationFormField extends StatelessWidget {
     this.decoration,
     this.validator,
     this.onSaved,
+    this.onSelected,
   });
 
   @override
@@ -36,6 +38,7 @@ class AutocompleteLocationFormField extends StatelessWidget {
       optionsBuilder: _optionsBuilder(context),
       optionsViewBuilder: _optionsViewBuilder,
       displayStringForOption: _displayStringForOption,
+      onSelected: onSelected,
     );
   }
 

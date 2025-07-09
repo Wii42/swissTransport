@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sbb/db/app_database.dart';
@@ -25,8 +27,7 @@ class LocationHistory extends ChangeNotifier {
   List<LocationHistoryData> get locationHistory {
     ensureInitialized();
     _sortIfNeeded();
-    print(
-        'LocationHistory: Returning ${_locationHistory.map((f) => "${f.location.name}: score ${computeScore(f)}, count ${f.searchCount}")} items');
+    log('LocationHistory: Returning ${_locationHistory.map((f) => "${f.location.name}: score ${computeScore(f)}, count ${f.searchCount}")} items');
     return List.unmodifiable(_locationHistory);
   }
 
@@ -96,7 +97,7 @@ class LocationHistory extends ChangeNotifier {
             .inMicroseconds /
         Duration.microsecondsPerDay;
     if (recencyInDays == 0) return double.infinity;
-    double recencyScore = 1 / (recencyInDays + 0.00001);
+    double recencyScore = 1 / (recencyInDays + 1);
 
     // frequency Score: number of searches
     int frequencyScore = locationHistoryData.searchCount;
@@ -140,7 +141,6 @@ class LocationHistory extends ChangeNotifier {
     _locationHistory.sort((a, b) => computeScore(b)
         .compareTo(computeScore(a))); // Sort by score, descending
     _lastSorted = DateTime.timestamp();
-    print("sorted");
   }
 
   void _sortIfNeeded() {

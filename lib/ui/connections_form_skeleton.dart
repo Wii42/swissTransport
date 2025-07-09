@@ -117,7 +117,7 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
     );
   }
 
-  String? validateStationForm(String? value) {
+  static String? validateStationForm(String? value) {
     if (value == null || value.isEmpty) {
       return 'Bitte eine Station eingeben';
     }

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sbb/provider/cached_locations.dart';
 import 'package:sbb/provider/location_history.dart';
 import 'package:sbb/provider/saved_connections.dart';
+import 'package:sbb/provider/touch_fahrplan_tiles.dart';
 import 'package:sbb/ui/app_view.dart';
 import 'package:sbb/ui/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
               create: (_) => CachedLocations()),
           ChangeNotifierProvider<LocationHistory>(
               create: (_) => LocationHistory(database: database)),
+          ChangeNotifierProvider(
+            create: (_) => TouchFahrplanTiles(sharedPreferences),
+          )
         ],
         child: MaterialApp.router(
             title: 'OpenTransport',
