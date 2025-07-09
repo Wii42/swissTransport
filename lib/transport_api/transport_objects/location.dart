@@ -73,4 +73,13 @@ class Location {
   int get hashCode {
     return Object.hashAll([id, type, name, score, coordinates, distance, icon]);
   }
+
+  bool nameCompare(Location other) => isByName(other.name);
+
+  bool isByName(String? name) {
+    if (name == null || this.name == null) {
+      return false;
+    }
+    return this.name!.toLowerCase() == name.toLowerCase();
+  }
 }

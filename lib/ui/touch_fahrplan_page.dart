@@ -4,10 +4,12 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import 'package:sbb/helper/go_subroute_extension.dart';
 import 'package:sbb/location.dart';
 import 'package:sbb/ui/routes.dart';
 
+import '../db/app_database.dart';
 import '../generic_ui_elements/widget_with_title.dart';
 import '../provider/location_history.dart';
 import '../transport_api/enums/location_type.dart';
@@ -39,14 +41,32 @@ class _TouchFahrplanPageState extends State<TouchFahrplanPage> {
 
   @override
   Widget build(BuildContext context) {
+    LocationHistory locationHistory = context.watch<LocationHistory>();
     const double spacing = 5;
+    Iterable<StationTile> manuallyAddedLocations = [
+      StationTile(location: Location(name: 'Bern'), crossAxisCellCount: 2),
+      StationTile(location: Location(name: 'Wengen'), crossAxisCellCount: 1),
+    ];
+
+    Iterable<LocationHistoryData> historyLocations =
+        locationHistory.locationHistory.whereNot((h) =>
+            h.location.name == null ||
+            h.location.name!.isEmpty ||
+            manuallyAddedLocations
+                .any((m) => h.location.nameCompare(m.location)));
     return Padding(
       padding: const EdgeInsets.all(spacing),
       child: Column(
         children: [
           stationsGrid([
-            stationTile(stationName: 'Bern', crossAxisCellCount: 2),
-            stationTile(stationName: 'Wengen', crossAxisCellCount: 1)
+            ...historyLocations.take(2).map((h) => stationTile(
+                stationName: h.location.name ?? h.location.id ?? '?',
+                crossAxisCellCount: 2,
+                icon: Icons.history)),
+            ...manuallyAddedLocations.map((m) => stationTile(
+                stationName: m.location.name ?? '?',
+                crossAxisCellCount: m.crossAxisCellCount,
+                mainAxisCellCount: m.mainAxisCellCount)),
           ], spacing: spacing),
           SizedBox(height: spacing),
           stationsGrid([
@@ -117,10 +137,23 @@ class _TouchFahrplanPageState extends State<TouchFahrplanPage> {
   Container tileBody(String stationName, {IconData? icon}) {
     return Container(
         color: Colors.grey[800],
-        child: Stack(
+        child: Column(
           children: [
-            if (icon != null) Center(child: Icon(icon)),
-            Positioned(left: 5, bottom: 5, child: Text(stationName)),
+            Expanded(
+                child: (icon != null)
+                    ? Opacity(opacity: 0.5, child: Center(child: Icon(icon)))
+                    : Container()),
+            Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    stationName,
+                    softWrap: true,
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                )),
           ],
         ));
   }
@@ -190,4 +223,16 @@ class _TouchFahrplanPageState extends State<TouchFahrplanPage> {
         closeStations.stations.firstOrNull?.name ??
         '';
   }
+}
+
+class StationTile {
+  final Location location;
+  int crossAxisCellCount;
+  int mainAxisCellCount;
+
+  StationTile({
+    required this.location,
+    this.crossAxisCellCount = 1,
+    this.mainAxisCellCount = 1,
+  });
 }
