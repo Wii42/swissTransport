@@ -39,6 +39,9 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
     text: formatTime(widget.initialTime ?? TimeOfDay.now()),
   );
 
+  FocusNode fromFocusNode = FocusNode();
+  FocusNode toFocusNode = FocusNode();
+
   String? from;
   String? to;
   String? via;
@@ -65,8 +68,8 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
             Expanded(
               child: Column(
                 children: [
-                  fromField(fromController),
-                  toField(toController),
+                  fromField(),
+                  toField(),
                 ],
               ),
             ),
@@ -79,20 +82,21 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
         return Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(child: fromField(fromController, hasIcon: false)),
+            Expanded(child: fromField(hasIcon: false)),
             IconButton(
                 onPressed: () => swapTexts(fromController, toController),
                 icon: const Icon(Icons.swap_horiz)),
-            Expanded(child: toField(toController, hasIcon: false)),
+            Expanded(child: toField(hasIcon: false)),
           ],
         );
       }
     });
   }
 
-  Widget toField(TextEditingController controller, {bool hasIcon = true}) {
+  Widget toField({bool hasIcon = true}) {
     return AutocompleteLocationFormField(
-      controller: controller,
+      controller: toController,
+      focusNode: toFocusNode,
       decoration: InputDecoration(
           labelText: "Nach",
           icon: hasIcon ? const Icon(Icons.arrow_forward) : null),
@@ -103,9 +107,10 @@ abstract class ConnectionsFormSkeletonState<T extends ConnectionsFormSkeleton>
     );
   }
 
-  Widget fromField(TextEditingController controller, {bool hasIcon = true}) {
+  Widget fromField({bool hasIcon = true}) {
     return AutocompleteLocationFormField(
-      controller: controller,
+      controller: fromController,
+      focusNode: fromFocusNode,
       decoration: InputDecoration(
         labelText: "Von",
         icon: hasIcon ? const Icon(Icons.start) : null,

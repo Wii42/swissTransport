@@ -15,6 +15,7 @@ typedef LocationSuggestion = ({Location location, bool isFromHistory});
 
 class AutocompleteLocationFormField extends StatelessWidget {
   final TextEditingController? controller;
+  final FocusNode? focusNode;
   final InputDecoration? decoration;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
@@ -23,6 +24,7 @@ class AutocompleteLocationFormField extends StatelessWidget {
   const AutocompleteLocationFormField({
     super.key,
     this.controller,
+    this.focusNode,
     this.decoration,
     this.validator,
     this.onSaved,
@@ -33,7 +35,7 @@ class AutocompleteLocationFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawAutocomplete<LocationSuggestion>(
       textEditingController: controller,
-      focusNode: controller != null ? FocusNode() : null,
+      focusNode: focusNode,
       fieldViewBuilder: _fieldViewBuilder,
       optionsBuilder: _optionsBuilder(context),
       optionsViewBuilder: _optionsViewBuilder,
