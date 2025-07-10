@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sbb/provider/cached_locations.dart';
@@ -32,24 +33,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<SavedConnections>(
-            create: (_) => SavedConnections(database: database),
-          ),
-          ChangeNotifierProvider<CachedLocations>(
-              create: (_) => CachedLocations()),
-          ChangeNotifierProvider<LocationHistory>(
-              create: (_) => LocationHistory(database: database)),
-          ChangeNotifierProvider(
-            create: (_) => TouchFahrplanTiles(sharedPreferences),
-          )
+      providers: [
+        ChangeNotifierProvider<SavedConnections>(
+          create: (_) => SavedConnections(database: database),
+        ),
+        ChangeNotifierProvider<CachedLocations>(
+            create: (_) => CachedLocations()),
+        ChangeNotifierProvider<LocationHistory>(
+            create: (_) => LocationHistory(database: database)),
+        ChangeNotifierProvider(
+          create: (_) => TouchFahrplanTiles(sharedPreferences),
+        )
+      ],
+      child: MaterialApp.router(
+        title: 'OpenTransport',
+        themeMode: ThemeMode.system,
+        theme: theme(Brightness.light),
+        darkTheme: theme(Brightness.dark),
+        routerConfig: routerConfig(),
+        supportedLocales: const [Locale("de", "CH")],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
-        child: MaterialApp.router(
-            title: 'OpenTransport',
-            themeMode: ThemeMode.system,
-            theme: theme(Brightness.light),
-            darkTheme: theme(Brightness.dark),
-            routerConfig: routerConfig()));
+      ),
+    );
   }
 
   ThemeData theme(Brightness brightness) {
